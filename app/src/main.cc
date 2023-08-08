@@ -1,0 +1,92 @@
+/*
+This program is licensed under the GPLv2 License:
+Copyright 2023 Huanglin <hlqqlm@qq.com>
+
+
+This file is part of Split698.
+
+Split698 is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 2 of the License, or (at your option) any later
+version.
+
+Split698 is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+Split698. If not, see <https://www.gnu.org/licenses/>.
+
+
+20230730-----------------------------------------------------------------------
+Huanglin创建.
+*/
+
+#define PRINT_FILEID_TABLE_EN		(0)
+#define P2_PROCESS_EN				(1)
+
+#include <iostream>
+
+#include "qos/fileid.h"
+#include "qos/qcp.h"
+#include "qos/qstr.h"
+
+#if P2_PROCESS_EN > 0
+#include "dlt698/p2_process.h"
+#endif
+
+#include "main.xcp.h"
+
+
+
+
+static const FileidItem kFileidItems[] = {
+#include "id_filename_table_uniq.h"
+	    //#include "../libctlcomm/id_filename_table_uniq.h"
+	    //#include "../libctl698/id_filename_table_uniq.h"
+};
+static const int kFileidNum = sizeof(kFileidItems) / sizeof(kFileidItems[0]);
+static const FileidTable kFileidTable = {kFileidItems, kFileidNum};
+const FileidTable *MainFileidTable() { return &kFileidTable; }
+
+
+
+
+
+int main()
+{
+	cp_t cp = 0;
+
+	if (PRINT_FILEID_TABLE_EN) {
+		FileidTablePrint(kFileidItems, kFileidNum);
+	}
+
+#if P2_PROCESS_EN > 0
+	P2Process p2_process = kP2ProcessDef;
+	ifed(P2ProcessOpen(&p2_process));
+#endif
+	// std::string line = "683500430502000020114310f42b10001105020003001002002000020020040200000110087406efe4e8900cda5d3ec56df93d3a2b8b16";
+	std::string line;
+
+	while (std::getline(std::cin, line) && !line.empty()) {
+		const std::string mem = HexStr2Mem(line);
+		printf_hex_ex("rx: ", "\r\n", mem.data(), mem.size(), "");
+		
+#if P2_PROCESS_EN > 0
+		char tx_buf[4096];
+		const int tx_buf_size = sizeof(tx_buf);
+		cp = P2ProcessInput(&p2_process, mem.data(), mem.size(), tx_buf, tx_buf_size);
+#endif
+
+		//std::cout << "mem is: " << HexStr(mem) << std::endl;
+		// std::cout << line << std::endl;
+	}
+			  
+
+#if P2_PROCESS_EN > 0
+	ifed(P2ProcessClose(&p2_process));
+#endif
+
+	const int result = (0 == cp) ? 0 : -1;
+    return result;
+}

@@ -1,0 +1,104 @@
+Split698
+=======================
+
+
+Contents
+----------
+
+- Background
+- Install
+- Usage
+- Maintainers
+- Contributing
+- License
+
+
+
+Background
+----------
+	
+Split698 is a program that parses DLT698.45 frame, and prints it as spliting
+lines with explains. It runs under linux.
+
+  
+Install
+-------
+
+If you've obtained the template from Github (or any git repo) you need to
+generate all the necessary build scripts by running
+
+    autoreconf -ivf
+
+With these in place then
+
+	./configure
+	make
+
+Run the tests with
+	
+	make check
+
+
+Usage
+-----
+
+For an example
+
+	cd src; ./example.sh
+
+More examples
+
+	cd src; python frame_test.py | tee result.txt
+
+Split one frame
+
+	echo "frame" | ./split698
+
+Saves result into text file
+
+	echo "frame" | ./split698 | tee result.txt
+	cat result.txt
+
+Split multiplies frames, input frames one by one
+
+	./split698
+
+
+Split frames on net
+	Listener:
+
+		nc -l -p 12345 | ./split698
+
+	Sender:
+
+		telnet listener_ip_address 12345
+		input your frames
+
+
+Contributors
+------------
+
+
+License
+------------
+This program is licensed under the GPLv2 License:
+Copyright 2023 Huanglin <hlqqlm@qq.com>
+
+
+This file is part of Split698.
+
+Split698 is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 2 of the License, or (at your option) any later
+version.
+
+Split698 is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+Split698. If not, see <https://www.gnu.org/licenses/>.
+
+Author: Huanglin <hlqqlm@qq.com>
+Sun, 30 July 2023
+

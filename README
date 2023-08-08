@@ -1,0 +1,8 @@
+split698
+=======================
+
+This application parses DLT698.45 frame, and prints it as spliting lines with
+explains.
+
+Author: HuangLin <hlqqlm@qq.com>
+Mon, 6 Jun 2023

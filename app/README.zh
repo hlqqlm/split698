@@ -1,0 +1,97 @@
+Split698
+=======================
+
+
+目录
+----------
+
+- Background
+- Install
+- Usage
+- Maintainers
+- Contributing
+- License
+
+
+
+Background
+----------
+	
+Split698是一个将DLT698.45协议报文，进行解析、分解、打印的应用程序。运行在linux环境下。
+
+  
+Install
+-------
+
+生成构建脚本
+
+    autoreconf -ivf
+
+编译
+
+	./configure
+	make
+
+运行测试
+	
+	make check
+
+
+Usage
+-----
+
+运行例子
+
+	cd src; ./example.sh
+
+运行更多例子
+
+	cd src; python frame_test.py | tee result.txt
+
+一次解析一条命令
+
+	echo "报文" | ./split698
+
+将解析结果，保存到文件中
+
+	echo "报文" | ./split698 | tee result.txt
+	cat result.txt
+
+解析多条命令，手工输入
+
+	./split698
+
+
+通过网络收发报文
+	报文监听解析：
+
+		nc -l -p 12345 | ./split698
+
+	报文发送端：
+
+		telnet IP地址 12345
+		输入要解析的报文
+
+
+
+Contributors
+------------
+
+
+License
+------------
+This program is licensed under the GPLv2 License:
+Copyright 2023 Huanglin <hlqqlm@qq.com>
+
+本文件是 Split698 的一部分。
+
+Split698 是自由软件：你可以再分发之和/或依照由自由软件基金会发布的 GNU 通用公共许可证修改之，无论是版本 2 许可证，还是（按你的决定）任何以后版都可以。
+
+发布 Split698 是希望它能有用，但是并无保障;甚至连可销售和符合某个特定的目的都不保证。请参看 GNU 通用公共许可证，了解详情。
+
+你应该随程序获得一份 GNU 通用公共许可证的复本。如果没有，请看 <https://www.gnu.org/licenses/>。
+
+
+Author: 黄麟 <hlqqlm@qq.com>
+Sun, 30 July 2023
+
