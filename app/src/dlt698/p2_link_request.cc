@@ -149,8 +149,8 @@ static cp_t ExplainDatetime(Pcut *cut, int ix, const char *whole)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2LinkRequestPartNum] = {
-	// name len offset valid
-	{ kP2LinkRequestNamePiidAcd, LenPiidAcd, OffsetPiidAcd, ValidPiidAcd },
+	// name len offset valid explain
+	{ kP2LinkRequestNamePiidAcd, LenPiidAcd, OffsetPiidAcd, ValidPiidAcd, NULL },
 	{ kP2LinkRequestNameType, LenType, OffsetType, ValidType, ExplainType },
 	{ kP2LinkRequestNameHeartbeatInterval, LenHeartbeatInterval, OffsetHeartbeatInterval, ValidHeartbeatInterval, ExplainHeartbeatInterval },
 	{ kP2LinkRequestNameDatetime, LenDatetime, OffsetDatetime, ValidDatetime, ExplainDatetime },

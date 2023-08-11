@@ -34,6 +34,8 @@ DLT698_45报文解析
 
 #define TEST_EN					(0)
 #define PRINT_FILL_IN_TEST_EN	(0)
+#define kThisCutNum				(kP2LinkResponseCutNum)
+
 
 
 // {{{ piid_acd
@@ -143,8 +145,8 @@ static cp_t ExplainResponseDatetime(Pcut *part, int ix, const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2LinkResponsePartNum] = {
-	// name len offset valid
+static const PcutItemFix kCutFix[kThisCutNum] = {
+	// name len offset valid explain
 	{ kP2LinkResponseNamePiid, LenPiid, OffsetPiid, ValidPiid, NULL },
 	{ kP2LinkResponseNameResult, LenResult, OffsetResult, ValidResult, ExplainResult },
 	{ kP2LinkResponseNameRequestDatetime, LenRequestDatetime, OffsetRequestDatetime, ValidRequestDatetime, ExplainRequestDatetime },
@@ -153,22 +155,22 @@ static const PcutItemFix kPartFix[kP2LinkResponsePartNum] = {
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2LinkResponsePartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LinkResponsePartIxPiid]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LinkResponsePartIxResult]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LinkResponsePartIxRequestDatetime]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LinkResponsePartIxReceiveDatetime]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LinkResponsePartIxResponseDatetime]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2LinkResponseCutIxPiid]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2LinkResponseCutIxResult]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2LinkResponseCutIxRequestDatetime]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2LinkResponseCutIxReceiveDatetime]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2LinkResponseCutIxResponseDatetime]),
 };
-static void PcutItemsInit(PcutItem items[kP2LinkResponsePartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 cp_t P2LinkResponsePcutOpen(P2LinkResponsePcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2LinkResponsePartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	return 0;
 }
 cp_t P2LinkResponsePcutClose(P2LinkResponsePcut *m)

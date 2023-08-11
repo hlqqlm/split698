@@ -70,8 +70,8 @@ cp_t P2DatetimeExplainMain(Pcut *part, int ix, const char *whole)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2DatetimePartNum] = {
-	// name len offset valid
-	{ kP2DatetimeName, LenMain, OffsetMain, ValidMain },
+	// name len offset valid explain
+	{ kP2DatetimeName, LenMain, OffsetMain, ValidMain, NULL },
 };
 	
 

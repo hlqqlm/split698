@@ -41,6 +41,7 @@ double long
 
 #define TEST_EN					(1)
 #define kThisDatatype			(kDlt698DataTypeDoubleLong)
+#define kThisCutNum				(kP2DoubleLongCutNum)
 
 
 //{{{ main
@@ -66,25 +67,25 @@ int32_t P2DoubleLongToValue(const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2DoubleLongPartNum] = {
-	// name len offset valid
-	{ kP2DoubleLongName, LenMain, OffsetMain, ValidMain },
+static const PcutItemFix kCutFix[kThisCutNum] = {
+	// name len offset valid explain
+	{ kP2DoubleLongName, LenMain, OffsetMain, ValidMain, NULL },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2DoubleLongPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2DoubleLongPartIxMain]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2DoubleLongCutIxMain]),
 };
-static void PcutItemsInit(PcutItem items[kP2DoubleLongPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
 cp_t P2DoubleLongPcutOpen(P2DoubleLongPcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2DoubleLongPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	return 0;
 }
 cp_t P2DoubleLongPcutClose(P2DoubleLongPcut *m)

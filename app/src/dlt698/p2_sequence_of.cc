@@ -131,9 +131,9 @@ const char *P2SequenceOfContentIx(int one_size, const char *whole, int content_i
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2SequenceOfPartNum] = {
-	// name len offset valid
-	{ "num", LenNum, OffsetNum, ValidNum },
-	{ "content", LenContent, OffsetContent, ValidContent },
+	// name len offset valid explain
+	{ "num", LenNum, OffsetNum, ValidNum, NULL },
+	{ "content", LenContent, OffsetContent, ValidContent, NULL },
 };
 	
 

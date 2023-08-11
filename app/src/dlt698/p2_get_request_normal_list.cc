@@ -69,9 +69,9 @@ static int OffsetSequenceOfOad(Pcut *part, int ix, const char *whole) { return P
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2GetRequestNormalListPartNum] = {
-	// name len offset valid
-	{ "piid", LenPiid, OffsetPiid, ValidPiid },
-	{ "sequence_of_oad", LenSequenceOfOad, OffsetSequenceOfOad, ValidSequenceOfOad },
+	// name len offset valid explain
+	{ "piid", LenPiid, OffsetPiid, ValidPiid, NULL },
+	{ "sequence_of_oad", LenSequenceOfOad, OffsetSequenceOfOad, ValidSequenceOfOad, NULL },
 };
 	
 

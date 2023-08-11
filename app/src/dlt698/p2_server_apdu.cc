@@ -73,10 +73,10 @@ static int OffsetChoice(Pcut *part ,int ix, const char *whole) { return kP2Serve
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2ServerApduPartNum] = {
-	// name len offset valid
-	{ kP2ServerApduNameChoice, LenChoice, OffsetChoice, ValidChoice },
-	{ kP2ServerApduNameFollowReport, LenOptionalFollowReport, OffsetOptionalFollowReport, ValidOptionalFollowReport },
-	{ kP2ServerApduNameTimetag, LenOptionalTimetag, OffsetOptionalTimetag, ValidOptionalTimetag },
+	// name len offset valid explain
+	{ kP2ServerApduNameChoice, LenChoice, OffsetChoice, ValidChoice, NULL },
+	{ kP2ServerApduNameFollowReport, LenOptionalFollowReport, OffsetOptionalFollowReport, ValidOptionalFollowReport, NULL },
+	{ kP2ServerApduNameTimetag, LenOptionalTimetag, OffsetOptionalTimetag, ValidOptionalTimetag, NULL },
 };
 	
 

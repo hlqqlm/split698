@@ -118,8 +118,8 @@ static cp_t ValidEnum(Pcut *part, int ix, const char *whole)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2EnumPartNum] = {
-	// name len offset valid
-	{ kP2EnumName, LenEnum, OffsetEnum, ValidEnum },
+	// name len offset valid explain
+	{ kP2EnumName, LenEnum, OffsetEnum, ValidEnum, NULL },
 };
 	
 

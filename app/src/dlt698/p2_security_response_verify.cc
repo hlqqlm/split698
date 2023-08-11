@@ -68,8 +68,8 @@ cp_t P2SecurityResponseVerifyChoiceValid(uint8_t choice)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2SecurityResponseVerifyPartNum] = {
-	// name len offset valid
-	{ "optional_mac", LenOptionalMac, OffsetOptionalMac, ValidOptionalMac },
+	// name len offset valid explain
+	{ "optional_mac", LenOptionalMac, OffsetOptionalMac, ValidOptionalMac, NULL },
 };
 	
 

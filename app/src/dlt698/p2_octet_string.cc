@@ -151,10 +151,9 @@ int P2OctetStringCutSize(const char *whole)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {
-	// name len offset valid
-	//{ "datatype", LenDatatype, OffsetDatatype, ValidDatatype },
-	{ "varlen", LenVarlen, OffsetVarlen, ValidVarlen },
-	{ "content", LenContent, OffsetContent, ValidContent },
+	// name len offset valid explain
+	{ "varlen", LenVarlen, OffsetVarlen, ValidVarlen, NULL },
+	{ "content", LenContent, OffsetContent, ValidContent, NULL },
 };
 	
 

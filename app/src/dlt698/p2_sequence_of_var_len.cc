@@ -122,9 +122,9 @@ int P2SequenceOfVarLenContentOffset(const char *whole)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2SequenceOfVarLenPartNum] = {
-	// name len offset valid
-	{ "num", LenNum, OffsetNum, ValidNum },
-	{ "content", LenContent, OffsetContent, ValidContent },
+	// name len offset valid explain
+	{ "num", LenNum, OffsetNum, ValidNum, NULL },
+	{ "content", LenContent, OffsetContent, ValidContent, NULL },
 };
 	
 

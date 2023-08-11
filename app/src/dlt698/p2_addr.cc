@@ -245,7 +245,7 @@ const char *P2AddrCutIxStr(int ix)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kP2AddrCutNum] = {
-	// name len offset valid
+	// name len offset valid explain
 	{ kP2AddrNameFeature, LenFeature, OffsetFeature, ValidFeature, ExplainFeature },
 	{ kP2AddrNameExternLogic, LenExternLogic, OffsetExternLogic, ValidExternLogic, NULL },
 	{ kP2AddrNameSaNaked, LenSaNaked, OffsetSaNaked, ValidSaNaked, NULL },

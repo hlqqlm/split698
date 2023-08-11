@@ -80,7 +80,7 @@ static int OffsetContent(Pcut *part, int ix, const char *whole) { return kP2Data
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {
-	// name len offset valid
+	// name len offset valid explain
 	{ "datatype", LenDatatype, OffsetDatatype, ValidDatatype, ExplainDatatype },
 	{ "content", LenContent, OffsetContent, ValidContent, NULL },
 };

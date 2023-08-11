@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_DOUBLE_LONG_H_
-#define __DLT698_45_DOUBLE_LONG_H_
+#ifndef __P2_DOUBLE_LONG_H_
+#define __P2_DOUBLE_LONG_H_
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -26,16 +26,16 @@ int32_t P2DoubleLongToValue(const char *whole);
 // 各部分索引号
 typedef enum
 {
-	kP2DoubleLongPartIxMain,
-	kP2DoubleLongPartNum				
-} P2DoubleLongPartIxT;
+	kP2DoubleLongCutIxMain,
+	kP2DoubleLongCutNum				
+} P2DoubleLongCutIxT;
 
 
 // pcut
 typedef struct
 {
 	Pcut base;
-	PcutItem items[kP2DoubleLongPartNum];
+	PcutItem items[kP2DoubleLongCutNum];
 } P2DoubleLongPcut;
 #define kP2DoubleLongPcutDef { kPcutDef, { kPcutItemDef } }
 

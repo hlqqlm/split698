@@ -67,9 +67,9 @@ static cp_t ValidTi(Pcut *part, int ix, const char *whole)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2TimetagPartNum] = {
-	// name len offset valid
-	{ "datetimes", LenDatetimes, OffsetDatetimes, ValidDatetimes },
-	{ "ti", LenTi, OffsetTi, ValidTi },
+	// name len offset valid explain
+	{ "datetimes", LenDatetimes, OffsetDatetimes, ValidDatetimes, NULL },
+	{ "ti", LenTi, OffsetTi, ValidTi, NULL },
 };
 	
 

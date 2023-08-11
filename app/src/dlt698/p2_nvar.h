@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_NVAR_H_ 
-#define __DLT698_45_NVAR_H_ 
+#ifndef __P2_NVAR_H_ 
+#define __P2_NVAR_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -7,10 +7,10 @@
 #include "qdlt698.h"
 
 
-#define P2_NVAR_OFFSET	(0)
-#define P2_NVAR_SIZE(_size)	(_size)
+#define kP2NvarOffset	(0)
+#define kP2NvarSize(_size)	(_size)
 
-#define P2_NVAR_WHOLE_SIZE(_size)	(P2_NVAR_OFFSET + P2_NVAR_SIZE(_size))
+#define kP2NvarWholeSize(_size)	(kP2NvarOffset + kP2NvarSize(_size))
 
 
 //{{{ part

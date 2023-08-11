@@ -156,7 +156,7 @@ static int OffsetConnectMechanismInfo(Pcut *part, int ix, const char *whole) { r
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kThisCutNum] = {
-	// name len offset valid
+	// name len offset valid explain
 	{ "piid", LenPiid, OffsetPiid, ValidPiid }, // kP2ConnectRequestCutIxPiid,
 	{ "app_protocol_version", LenAppProtocolVersion, OffsetAppProtocolVersion, ValidAppProtocolVersion }, // kP2ConnectRequestCutIxAppProtocolVersion,
 	{ "protocol_conformance", LenProtocolConformance, OffsetProtocolConformance, ValidProtocolConformance },		// kP2ConnectRequestCutIxProtocolConformance,

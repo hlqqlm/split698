@@ -96,9 +96,9 @@ qos_printf("oad_out=%08x\r\n", oad);
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2GetRequestNormalCutNum] = {
-	// name len offset valid
-	{ "piid", LenPiid, OffsetPiid, ValidPiid },
-	{ "oad", LenOad, OffsetOad, ValidOad },
+	// name len offset valid explain
+	{ "piid", LenPiid, OffsetPiid, ValidPiid, NULL },
+	{ "oad", LenOad, OffsetOad, ValidOad, NULL },
 };
 	
 

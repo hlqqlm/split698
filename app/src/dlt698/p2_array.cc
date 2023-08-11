@@ -189,7 +189,7 @@ int P2ArrayNum(const char *whole)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2ArrayPartNum] = {
-	// name len offset valid
+	// name len offset valid explain
 	{ kP2ArrayNameDatatype, LenDatatype, OffsetDatatype, ValidDatatype, NULL },
 	{ kP2ArrayNameVarlen, LenVarlen, OffsetVarlen, ValidVarlen, ExplainVarlen },
 	{ kP2ArrayNameContent, LenContent, OffsetContent, ValidContent, NULL },

@@ -119,9 +119,9 @@ uint16_t P2LongUnsignedToValue(bool datatype_exist, const char *whole)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2LongUnsignedPartNum] = {
-	// name len offset valid
-	{ "datatype", LenDatatype, OffsetDatatype, ValidDatatype },
-	{ "content", LenContent, OffsetContent, ValidContent },
+	// name len offset valid explain
+	{ "datatype", LenDatatype, OffsetDatatype, ValidDatatype, NULL },
+	{ "content", LenContent, OffsetContent, ValidContent, NULL },
 };
 	
 

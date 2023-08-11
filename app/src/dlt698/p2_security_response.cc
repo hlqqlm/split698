@@ -55,9 +55,9 @@ static int OffsetData(Pcut *part, int ix, const char *whole) { return kP2Securit
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kP2SecurityResponseCutNum] = {
-	// name len offset valid
-	{ kP2SecurityResponseNameData, LenData, OffsetData, ValidData },
-	{ kP2SecurityResponseNameVerify, LenVerify, OffsetVerify, ValidVerify },
+	// name len offset valid explain
+	{ kP2SecurityResponseNameData, LenData, OffsetData, ValidData, NULL },
+	{ kP2SecurityResponseNameVerify, LenVerify, OffsetVerify, ValidVerify, NULL },
 };
 	
 

@@ -62,8 +62,8 @@ static cp_t ValidOne(Pcut *part, int ix, const char *whole)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFixOne = 
-	// name len offset valid
-	{ "one", LenOne, OffsetOne, ValidOne };
+	// name len offset valid explain
+	{ "one", LenOne, OffsetOne, ValidOne, NULL };
 	
 
 static const PcutItem kPartItemOnePattern = PCUT_ITEM_NO_SUB(&kPartFixOne);

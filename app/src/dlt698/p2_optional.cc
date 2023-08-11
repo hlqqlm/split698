@@ -98,9 +98,9 @@ static cp_t ValidVar(Pcut *part, int ix, const char *whole)
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2OptionalPartNum] = {
-	// name len offset valid
-	{ "optional", LenOptional, OffsetOptional, ValidOptional },
-	{ "var", LenVar, OffsetVar, ValidVar },
+	// name len offset valid explain
+	{ "optional", LenOptional, OffsetOptional, ValidOptional, NULL },
+	{ "var", LenVar, OffsetVar, ValidVar, NULL },
 };
 	
 

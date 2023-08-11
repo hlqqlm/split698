@@ -57,8 +57,8 @@ static int OffsetChoice(Pcut *part ,int ix, const char *whole) { return kP2LinkA
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2LinkApduPartNum] = {
-	// name len offset valid
-	{ "link_apdu", LenChoice, OffsetChoice, ValidChoice },
+	// name len offset valid explain
+	{ "link_apdu", LenChoice, OffsetChoice, ValidChoice, NULL },
 };
 	
 

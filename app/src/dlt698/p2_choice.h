@@ -39,15 +39,15 @@ uint8_t P2ChoiceValue(const char *whole);
 //{{{ part
 typedef enum
 {
-	kP2ChoicePartIxChoice,
-	kP2ChoicePartIxVar,				// choice对应的变化部分
-	kP2ChoicePartNum				
-} P2ChoicePartIxT;
+	kP2ChoiceCutIxChoice,
+	kP2ChoiceCutIxVar,				// choice对应的变化部分
+	kP2ChoiceCutNum				
+} P2ChoiceCutIxT;
 
 typedef struct
 {
 	Pcut base;		
-	PcutItem items[kP2ChoicePartNum];
+	PcutItem items[kP2ChoiceCutNum];
 	
 	const P2Choice *choice_list; 
 	int choice_num;

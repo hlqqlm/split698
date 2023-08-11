@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_LINK_RESPONSE_H_ 
-#define __DLT698_45_LINK_RESPONSE_H_ 
+#ifndef __P2_LINK_RESPONSE_H_ 
+#define __P2_LINK_RESPONSE_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -75,19 +75,19 @@ uint8_t P2LinkResponseResult(const char *whole);
 //{{{ part
 typedef enum
 {
-	kP2LinkResponsePartIxPiid,
-	kP2LinkResponsePartIxResult,
-	kP2LinkResponsePartIxRequestDatetime,
-	kP2LinkResponsePartIxReceiveDatetime,
-	kP2LinkResponsePartIxResponseDatetime,
-	kP2LinkResponsePartNum				
-} P2LinkResponsePartIxT;
+	kP2LinkResponseCutIxPiid,
+	kP2LinkResponseCutIxResult,
+	kP2LinkResponseCutIxRequestDatetime,
+	kP2LinkResponseCutIxReceiveDatetime,
+	kP2LinkResponseCutIxResponseDatetime,
+	kP2LinkResponseCutNum				
+} P2LinkResponseCutIxT;
 
 
 typedef struct 
 {
 	Pcut base;
-	PcutItem items[kP2LinkResponsePartNum];
+	PcutItem items[kP2LinkResponseCutNum];
 } P2LinkResponsePcut;
 #define kP2LinkResponsePcutDef {				\
 	kPcutDef, { kPcutItemDef }					\

@@ -67,7 +67,7 @@ static int OffsetChoice(Pcut *part ,int ix, const char *whole) { return kP2Clien
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kPartFix[kP2ClientApduPartNum] = {
-	// name len offset valid
+	// name len offset valid explain
 	{ "client_apdu", LenChoice, OffsetChoice, ValidChoice },
 	{ "optional_timetag", LenOptionalTimetag, OffsetOptionalTimetag, ValidOptionalTimetag },
 };
