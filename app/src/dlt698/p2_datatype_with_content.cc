@@ -30,6 +30,7 @@ DLT698_45报文解析
 
 
 #define TEST_EN					(1)
+#define kThisCutNum				(kP2DatatypeWithContentCutNum)
 
 
 //{{{ misc
@@ -78,27 +79,27 @@ static int OffsetContent(Pcut *part, int ix, const char *whole) { return kP2Data
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2DatatypeWithContentPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid
 	{ "datatype", LenDatatype, OffsetDatatype, ValidDatatype, ExplainDatatype },
 	{ "content", LenContent, OffsetContent, ValidContent, NULL },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2DatatypeWithContentPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2DatatypeWithContentPartIxDatatype]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2DatatypeWithContentPartIxContent]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2DatatypeWithContentCutIxDatatype]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2DatatypeWithContentCutIxContent]),
 };
-static void PcutItemsInit(PcutItem items[kP2DatatypeWithContentPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
 cp_t P2DatatypeWithContentPcutOpen(P2DatatypeWithContentPcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2DatatypeWithContentPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	return 0;
 }
 cp_t P2DatatypeWithContentPcutClose(P2DatatypeWithContentPcut *m)
@@ -116,7 +117,7 @@ cp_t P2DatatypeWithContentPcutValid(const P2DatatypeWithContentPcut *m)
 cp_t P2DatatypeWithContentPcutSetContent(P2DatatypeWithContentPcut *m, uint16_t datatype, Pcut *content, const char *content_name)
 {
 	m->datatype = datatype;
-	PcutSubSet(&m->base, kP2DatatypeWithContentPartIxContent, content, content_name);
+	PcutSubSet(&m->base, kP2DatatypeWithContentCutIxContent, content, content_name);
 	return 0;
 }
 

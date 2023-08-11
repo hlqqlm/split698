@@ -17,32 +17,27 @@ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 Split698. If not, see <https://www.gnu.org/licenses/>.
 
-20230512-----------------------------------------------------------------------
+20230811-----------------------------------------------------------------------
 huanglin 创建.
-DLT698_45报文解析
-
-dar
+DLT698_45 Null 报文解析
 */
-#include "p2_dar.h"
-#include "p2_dar.xcp.h"
-//#define this_file_id	0xdced282c  // echo -n dlt698_45_dar.c | rhash --simple -
+#include "p2_null.h"
+#include "p2_null.xcp.h"
 
 
 #define TEST_EN					(0)
 
-//{{{ dar
-static int LenDar(Pcut *part, int ix, const char *whole) 
+//{{{ null
+static int LenNull(Pcut *part, int ix, const char *whole) 
 { 
-	return kP2DarSize;
+	return kP2NullSize;
 }
-static int OffsetDar(Pcut *part, int ix, const char *whole) 
+static int OffsetNull(Pcut *part, int ix, const char *whole) 
 { 
-	return kP2DarOffset;
+	return kP2NullOffset;
 }
-static cp_t ValidDar(Pcut *part, int ix, const char *whole) 
+static cp_t ValidNull(Pcut *part, int ix, const char *whole) 
 { 
-	const uint8_t dar = whole[kP2DarOffset];
-	ifer(P2DarValid(dar));
 	return 0; 
 }
 //}}}
@@ -51,48 +46,48 @@ static cp_t ValidDar(Pcut *part, int ix, const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kCutFix[kP2DarCutNum] = {
+static const PcutItemFix kCutFix[kP2NullCutNum] = {
 	// name len offset valid explain
-	{ kP2DarName, LenDar, OffsetDar, ValidDar, NULL },
+	{ kP2NullName, LenNull, OffsetNull, ValidNull, NULL },
 };
 	
 
-static const PcutItem kCutItemsPattern[kP2DarCutNum] = {
-	PCUT_ITEM_NO_SUB(&kCutFix[kP2DarCutIxDar]),
+static const PcutItem kCutItemsPattern[kP2NullCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2NullCutIxNull]),
 };
-static void PcutItemsInit(PcutItem items[kP2DarCutNum])
+static void PcutItemsInit(PcutItem items[kP2NullCutNum])
 {
 	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
-cp_t P2DarPcutOpen(P2DarPcut *m)
+cp_t P2NullPcutOpen(P2NullPcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2DarCutNum));
+	ifer(PcutOpen(&m->base, m->items, kP2NullCutNum));
 	return 0;
 }
-cp_t P2DarPcutClose(P2DarPcut *m)
+cp_t P2NullPcutClose(P2NullPcut *m)
 {
-	dve(P2DarPcutValid(m));
+	dve(P2NullPcutValid(m));
 	ifer(PcutClose(&m->base));
 	return 0;
 }
-cp_t P2DarPcutValid(const P2DarPcut *m)
+cp_t P2NullPcutValid(const P2NullPcut *m)
 {
 	ifer(PcutValid(&m->base));
 	return 0;
 }
 
-cp_t P2DarPcutOpenBase(Pcut *base)
+cp_t P2NullPcutOpenBase(Pcut *base)
 {
-	P2DarPcut *m = (P2DarPcut*)base;
-	return P2DarPcutOpen(m);
+	P2NullPcut *m = (P2NullPcut*)base;
+	return P2NullPcutOpen(m);
 }
-cp_t P2DarPcutCloseBase(Pcut *base)
+cp_t P2NullPcutCloseBase(Pcut *base)
 {
-	P2DarPcut *m = (P2DarPcut*)base;
-	return P2DarPcutClose(m);
+	P2NullPcut *m = (P2NullPcut*)base;
+	return P2NullPcutClose(m);
 }
 //}}}
 
@@ -110,12 +105,12 @@ static const QtestItem kTestItem[] = {
 	TestPcut,
 };
 #define kTestItemNum	(sizeof(kTestItem)/sizeof(kTestItem[0]))
-cp_t P2DarTest(QTEST_ARG)
+cp_t P2NullTest(QTEST_ARG)
 {
 	return QtestTest(__FILE__, run_times, kTestItem, kTestItemNum, verbose);
 }
 #else
-cp_t P2DarTest(QTEST_ARG)
+cp_t P2NullTest(QTEST_ARG)
 {
 	return 0;
 }

@@ -95,18 +95,18 @@ qos_printf("oad_out=%08x\r\n", oad);
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2GetRequestNormalPartNum] = {
+static const PcutItemFix kPartFix[kP2GetRequestNormalCutNum] = {
 	// name len offset valid
 	{ "piid", LenPiid, OffsetPiid, ValidPiid },
 	{ "oad", LenOad, OffsetOad, ValidOad },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2GetRequestNormalPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2GetRequestNormalPartIxPiid]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2GetRequestNormalPartIxOad]),
+static const PcutItem kPartItemsPattern[kP2GetRequestNormalCutNum] = {
+	PCUT_ITEM_NO_SUB(&kPartFix[kP2GetRequestNormalCutIxPiid]),
+	PCUT_ITEM_NO_SUB(&kPartFix[kP2GetRequestNormalCutIxOad]),
 };
-static void PcutItemsInit(PcutItem items[kP2GetRequestNormalPartNum])
+static void PcutItemsInit(PcutItem items[kP2GetRequestNormalCutNum])
 {
 	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
 }
@@ -114,7 +114,7 @@ static void PcutItemsInit(PcutItem items[kP2GetRequestNormalPartNum])
 cp_t P2GetRequestNormalPcutOpen(P2GetRequestNormalPcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2GetRequestNormalPartNum));
+	ifer(PcutOpen(&m->base, m->items, kP2GetRequestNormalCutNum));
 	return 0;
 }
 cp_t P2GetRequestNormalPcutClose(P2GetRequestNormalPcut *m)

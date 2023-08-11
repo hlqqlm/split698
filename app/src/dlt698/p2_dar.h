@@ -15,21 +15,21 @@
 //#define kP2DarSize						(kP2DarSize)
 
 
-//{{{ part
+//{{{ cut
 // part_ix
 // 各部分索引号
 typedef enum
 {
-	kP2DarPartIxDar,
-	kP2DarPartNum				
-} P2DarPartIxT;
+	kP2DarCutIxDar,
+	kP2DarCutNum				
+} P2DarCutIxT;
 
 
 // pcut
 typedef struct
 {
 	Pcut base;
-	PcutItem items[kP2DarPartNum];
+	PcutItem items[kP2DarCutNum];
 } P2DarPcut;
 #define kP2DarPcutDef { kPcutDef, { kPcutItemDef } }
 

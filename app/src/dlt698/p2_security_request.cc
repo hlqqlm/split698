@@ -58,20 +58,20 @@ static int OffsetData(Pcut *part, int ix, const char *whole) { return kP2Securit
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2SecurityRequestPartNum] = {
+static const PcutItemFix kCutFix[kP2SecurityRequestCutNum] = {
 	// name len offset valid
 	{ kP2SecurityRequestNameData, LenData, OffsetData, ValidData },
 	{ kP2SecurityRequestNameVerify, LenVerify, OffsetVerify, ValidVerify },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2SecurityRequestPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2SecurityRequestPartIxData]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2SecurityRequestPartIxVerify]),
+static const PcutItem kCutItemsPattern[kP2SecurityRequestCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2SecurityRequestCutIxData]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2SecurityRequestCutIxVerify]),
 };
-static void PcutItemsInit(PcutItem items[kP2SecurityRequestPartNum])
+static void PcutItemsInit(PcutItem items[kP2SecurityRequestCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 cp_t P2SecurityRequestPcutOpen(P2SecurityRequestPcut *m)
@@ -80,18 +80,18 @@ cp_t P2SecurityRequestPcutOpen(P2SecurityRequestPcut *m)
 	ifer(P2SecurityRequestVerifyChoicePcutOpen(&m->verify));
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2SecurityRequestPartNum));
+	ifer(PcutOpen(&m->base, m->items, kP2SecurityRequestCutNum));
 
-	PcutSubSet(&m->base, kP2SecurityRequestPartIxData, &m->data.choice.base, NULL);
-	PcutSubSet(&m->base, kP2SecurityRequestPartIxVerify, &m->verify.choice.base, NULL);
+	PcutSubSet(&m->base, kP2SecurityRequestCutIxData, &m->data.choice.base, NULL);
+	PcutSubSet(&m->base, kP2SecurityRequestCutIxVerify, &m->verify.choice.base, NULL);
 	return 0;
 }
 cp_t P2SecurityRequestPcutClose(P2SecurityRequestPcut *m)
 {
 	dve(P2SecurityRequestPcutValid(m));
 
-	PcutSubSet(&m->base, kP2SecurityRequestPartIxData, NULL, NULL);
-	PcutSubSet(&m->base, kP2SecurityRequestPartIxVerify, NULL, NULL);
+	PcutSubSet(&m->base, kP2SecurityRequestCutIxData, NULL, NULL);
+	PcutSubSet(&m->base, kP2SecurityRequestCutIxVerify, NULL, NULL);
 
 	ifer(PcutClose(&m->base));
 

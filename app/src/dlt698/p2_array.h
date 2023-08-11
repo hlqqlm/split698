@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_ARRAY_H_
-#define __DLT698_45_ARRAY_H_
+#ifndef __P2_ARRAY_H_
+#define __P2_ARRAY_H_
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"

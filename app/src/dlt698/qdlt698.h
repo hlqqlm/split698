@@ -90,6 +90,7 @@ typedef uint8_t SwitchStatusT;	// 开关状态，0合1分
 typedef uint8_t RelaysSwitchStatusT;	// 所有继电器开关状态, 0合1分, TODO:更名为UnionSwitchStatus,联合开关状态，因为有时候表示的不是继电器的状态，例如led状态
 
 // int
+#define kDlt698UnsignedSize				(1)
 #define kDlt698LongUnsignedSize			(2)
 #define kDlt698DoubleLongUnsignedSize	(4)
 uint16_t Dlt698Uint16(const char *mem);
@@ -238,6 +239,17 @@ int Qdlt698OctetStringContentSize(const char *mem);
 int Qdlt698OctetStringLenContentSize(const char *mem);
 // type + len + content长度
 int Qdlt698OctetStringTypeLenContentSize(const char *memtype);
+
+// visible-string
+// 变长长度字节数
+int Qdlt698VisibleStringLenSize(const char *mem);
+// 内容长度
+int Qdlt698VisibleStringContentSize(const char *mem);
+// len + content长度
+int Qdlt698VisibleStringLenContentSize(const char *mem);
+// type + len + content长度
+int Qdlt698VisibleStringTypeLenContentSize(const char *memtype);
+
 
 
 /*

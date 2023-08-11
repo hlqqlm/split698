@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_DATATYPE_WITH_CONTENT_H_
-#define __DLT698_45_DATATYPE_WITH_CONTENT_H_
+#ifndef __P2_DATATYPE_WITH_CONTENT_H_
+#define __P2_DATATYPE_WITH_CONTENT_H_
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -34,17 +34,17 @@ const char *P2DatatypeWithContentContentMem(const char *whole);
 // 各部分索引号
 typedef enum
 {
-	kP2DatatypeWithContentPartIxDatatype,
-	kP2DatatypeWithContentPartIxContent,
-	kP2DatatypeWithContentPartNum				
-} P2DatatypeWithContentPartIxT;
+	kP2DatatypeWithContentCutIxDatatype,
+	kP2DatatypeWithContentCutIxContent,
+	kP2DatatypeWithContentCutNum				
+} P2DatatypeWithContentCutIxT;
 
 
 // pcut
 typedef struct
 {
 	Pcut base;
-	PcutItem items[kP2DatatypeWithContentPartNum];
+	PcutItem items[kP2DatatypeWithContentCutNum];
 	uint16_t datatype;
 } P2DatatypeWithContentPcut;
 #define kP2DatatypeWithContentPcutDef { kPcutDef, { kPcutItemDef }, kDlt698DatatypeInvalid }

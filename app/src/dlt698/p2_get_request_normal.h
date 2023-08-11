@@ -34,16 +34,16 @@ OadT P2GetRequestNormalOad(const char *whole);
 //{{{ part
 typedef enum
 {
-	kP2GetRequestNormalPartIxPiid,
-	kP2GetRequestNormalPartIxOad,
-	kP2GetRequestNormalPartNum				
-} P2GetRequestNormalPartIxT;
+	kP2GetRequestNormalCutIxPiid,
+	kP2GetRequestNormalCutIxOad,
+	kP2GetRequestNormalCutNum				
+} P2GetRequestNormalCutIxT;
 
 
 typedef struct 
 {
 	Pcut base;
-	PcutItem items[kP2GetRequestNormalPartNum];
+	PcutItem items[kP2GetRequestNormalCutNum];
 } P2GetRequestNormalPcut;
 #define kP2GetRequestNormalPcutDef { kPcutDef, { kPcutItemDef } }
 

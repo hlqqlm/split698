@@ -420,6 +420,28 @@ int Qdlt698OctetStringTypeLenContentSize(const char *memtype)
 //}}}
 
 
+//{{{ visible-string
+int Qdlt698VisibleStringLenSize(const char *mem)
+{
+	return VariableLenIntByteNum(*mem);
+	//return (VariableLenIntContentByteNum(*mem) + 1);
+}
+int Qdlt698VisibleStringContentSize(const char *mem)
+{
+	return VariableLenIntValue(mem);
+}
+int Qdlt698VisibleStringLenContentSize(const char *mem)
+{
+	return Qdlt698VisibleStringLenSize(mem) + Qdlt698VisibleStringContentSize(mem);
+}
+int Qdlt698VisibleStringTypeLenContentSize(const char *memtype)
+{
+	const char * const mem = memtype + kDlt698DatatypeSize;	// 第一个字节是类型
+	return kDlt698DatatypeSize + Qdlt698VisibleStringLenContentSize(mem);
+}
+//}}}
+
+
 //{{{ piid
 void P2PiidPart(P2Piid *dst, uint8_t piid)
 {

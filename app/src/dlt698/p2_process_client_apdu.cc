@@ -35,6 +35,7 @@ huanglin 创建.
 #include "p2_sequence_of_var_len.h"
 #include "p2_array.h"
 
+#include "p2_connect_request.h"
 #include "p2_get_request_normal.h"
 #include "p2_get_request_normal_list.h"
 #include "p2_get_request.h"
@@ -463,6 +464,38 @@ static cp_t PdoGetRequestNormalListProcess(struct PdoS *doa, Pcut *part, int ix,
 //}}}
 
 
+//{{{ do_connect_request
+// client_apdu_choice_connect_request
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoConnectRequest;
+static cp_t PdoConnectRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
+{
+	const int kPrintPartEn = 0;		// 打印解帧过程
+	dvb(ix == kP2ChoicePartIxVar);
+
+	PdoConnectRequest *derive = (PdoConnectRequest*)doa;
+
+	// 可以确定，当前处在client_apdu_choice中, connect_request是当前的choice
+	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)cut;
+	P2ConnectRequestPcut *cr = (P2ConnectRequestPcut*)P2ChoicePcutVar(&cac->choice);
+	dvb(cr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2ConnectRequestName));
+
+	const char * const connect_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
+	const int connect_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
+
+	if (kPrintPartEn)
+		printf_hex_ex("connect_request_mem: ", "\r\n", connect_request_mem, connect_request_mem_len, "");
+	// 再按connect_request来解析+执行connect_request_mem.
+
+	// todo: execute frame
+	return 0;
+}
+//}}}
+
+
+
 //{{{ client-apdu
 typedef struct {
 	Pdo doa;
@@ -480,12 +513,12 @@ static cp_t PdoGetRequestProcessFail(struct PdoS *doa, Pcut *part, int ix, const
 typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
-} PdoClientApduChoiceGetRequest;
-static cp_t PdoClientApduChoiceGetRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+} PdoGetRequest;
+static cp_t PdoGetRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 
-	PdoClientApduChoiceGetRequest *derive = (PdoClientApduChoiceGetRequest*)doa;
+	PdoGetRequest *derive = (PdoGetRequest*)doa;
 
 	// 可以确定，当前处在client_apdu_choice中, get_request是当前的choice
 	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)part;
@@ -540,10 +573,11 @@ cp_t P2ProcessClientApdu(PfillRepository *fill_repository_life, const char *apdu
 	printf_hex_ex("\r\nclient_apdu mem: ", "\r\n", apdu, apdu_size, "");
 	PcutAllPrint(&ca.base, 0, apdu);
 
-	PdoClientApduChoiceGetRequest do_get_request = { PDO_INIT(PdoClientApduChoiceGetRequestProcess), fill_repository_life };
+	PdoConnectRequest do_connect_request = { PDO_INIT(PdoConnectRequestProcess), fill_repository_life };
+	PdoGetRequest do_get_request = { PDO_INIT(PdoGetRequestProcess), fill_repository_life };
 	PdoClientApduFail do_fail = kPdoClientApduFailDef;
 	Pdo* const kDoTable[kP2ClientApduChoiceNum] = {
-		&do_fail.doa,	// kP2ClientApduChoiceConnectRequest = 2,	// 建立应用连接请求 [2] CONNECT-Request，
+		&do_connect_request.doa,	// kP2ClientApduChoiceConnectRequest = 2,	// 建立应用连接请求 [2] CONNECT-Request，
 		&do_fail.doa,	// kP2ClientApduChoiceReleaseRequest = 3,	// 断开应用连接请求 [3] RELEASE-Request，
 		&do_get_request.doa,	// kP2ClientApduChoiceGetRequest = 5,	// 读取请求 [5] GET-Request，
 		&do_fail.doa,	// kP2ClientApduChoiceSetRequest = 6,	// 设置请求 [6] SET-Request，

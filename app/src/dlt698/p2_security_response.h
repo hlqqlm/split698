@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_SECURITY_RESPONSE_H_ 
-#define __DLT698_45_SECURITY_RESPONSE_H_ 
+#ifndef __P2_SECURITY_RESPONSE_H_ 
+#define __P2_SECURITY_RESPONSE_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -74,19 +74,19 @@ cp_t P2SecurityResponseVerifyChoicePcutValid(const P2SecurityResponseVerifyChoic
 //}}}
 #endif
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
-	kP2SecurityResponsePartIxData,
-	kP2SecurityResponsePartIxVerify,
-	kP2SecurityResponsePartNum				
-} P2SecurityResponsePartIxT;
+	kP2SecurityResponseCutIxData,
+	kP2SecurityResponseCutIxVerify,
+	kP2SecurityResponseCutNum				
+} P2SecurityResponseCutIxT;
 
 
 typedef struct 
 {
 	Pcut base;
-	PcutItem items[kP2SecurityResponsePartNum];
+	PcutItem items[kP2SecurityResponseCutNum];
 
 	// 模仿P2ClientApduPcut初始化
 	P2SecurityResponseDataChoicePcut data;

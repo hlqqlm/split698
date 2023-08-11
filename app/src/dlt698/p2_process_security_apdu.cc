@@ -81,8 +81,8 @@ static cp_t PdoSecurityRequestDataPlainProcess(struct PdoS *doa, Pcut *part, int
 	const char * const octet_string_mem = PcutIxPtrConst(&srdc->choice.base, ix, whole);
 	//const int octet_string_len = PcutIxLen(&srdc->choice.base, ix, whole);
 
-	const char * const content = PcutIxPtrConst(&os->base, kP2OctetStringPartIxContent, octet_string_mem);
-	const int content_len = PcutIxLen(&os->base, kP2OctetStringPartIxContent, octet_string_mem);
+	const char * const content = PcutIxPtrConst(&os->base, kP2OctetStringCutIxContent, octet_string_mem);
+	const int content_len = PcutIxLen(&os->base, kP2OctetStringCutIxContent, octet_string_mem);
 
 	// printf_hex_ex("security request data plain content: ", "\r\n", content, content_len, "");
 	// 再按client_apdu来解析+执行content。

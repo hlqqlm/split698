@@ -50,19 +50,19 @@ typedef struct
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
-	kP2SecurityRequestPartIxData,
-	kP2SecurityRequestPartIxVerify,
-	kP2SecurityRequestPartNum				
-} P2SecurityRequestPartIxT;
+	kP2SecurityRequestCutIxData,
+	kP2SecurityRequestCutIxVerify,
+	kP2SecurityRequestCutNum				
+} P2SecurityRequestCutIxT;
 
 
 typedef struct 
 {
 	Pcut base;
-	PcutItem items[kP2SecurityRequestPartNum];
+	PcutItem items[kP2SecurityRequestCutNum];
 
 	// 模仿P2ClientApduPcut初始化
 	P2SecurityRequestDataChoicePcut data;

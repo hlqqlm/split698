@@ -17,7 +17,7 @@ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 Split698. If not, see <https://www.gnu.org/licenses/>.
 
-20230512-----------------------------------------------------------------------
+20230811-----------------------------------------------------------------------
 huanglin 创建.
 DLT698_45报文解析
 
@@ -26,7 +26,7 @@ DLT698_45报文解析
 1	DLT645_07		P1	(protocol 1#)
 2	DLT698_45		P2	(protocol 2#)
 
-octet-string
+visible-string
 */
 #include <math.h>
 #include <unistd.h>
@@ -38,19 +38,19 @@ octet-string
 #include "a_xdr.h"
 #include "p2_datatype_with_content.h"
 
-#include "p2_octet_string.h"
-#include "p2_octet_string.xcp.h"
-//#define this_file_id	0x53901944  // echo -n dlt698_45_octet_string.c | rhash --simple -
+#include "p2_visible_string.h"
+#include "p2_visible_string.xcp.h"
 
 
 #define TEST_EN					(1)
-#define kThisDatatype			(kDlt698DataTypeOctetString)
-#define kThisCutNum				(kP2OctetStringCutNum)
+#define kThisDatatype			(kDlt698DataTypeVisibleString)
+#define kThisCutNum				(kP2VisibleStringCutNum)
+
 
 //{{{ misc
-static const P2OctetStringPcut *ToDerive(const Pcut *part)
+static const P2VisibleStringPcut *ToDerive(const Pcut *part)
 {
-	return (P2OctetStringPcut*)(part);
+	return (P2VisibleStringPcut*)(part);
 }
 //}}}
 
@@ -59,11 +59,11 @@ static const P2OctetStringPcut *ToDerive(const Pcut *part)
 /*
 static int DatatypeSize(const Pcut *part, const char *whole) 
 {
-	const P2OctetStringPcut *derive = ToDerive(part);
+	const P2VisibleStringPcut *derive = ToDerive(part);
 	if (!derive->datatype_exist)
 		return 0;
 
-	dvb(kDlt698DataTypeOctetString == *whole);
+	dvb(kDlt698DataTypeVisibleString == *whole);
 	return kDlt698DatatypeSize;
 }
 */
@@ -74,14 +74,14 @@ static int LenDatatype(Pcut *part, int ix, const char *whole)
 }
 static int OffsetDatatype(Pcut *part, int ix, const char *whole) 
 { 
-	return kP2OctetStringDatatypeOffset; 
+	return kP2VisibleStringDatatypeOffset; 
 }
 static cp_t ValidDatatype(Pcut *part, int ix, const char *whole) 
 { 
-	const P2OctetStringPcut *derive = ToDerive(part);
+	const P2VisibleStringPcut *derive = ToDerive(part);
 	if (derive->datatype_exist)
 	{
-		ifbr(kDlt698DataTypeOctetString == *whole);
+		ifbr(kDlt698DataTypeVisibleString == *whole);
 		return 0;
 	}
 	return 0; 
@@ -94,7 +94,7 @@ static cp_t ValidDatatype(Pcut *part, int ix, const char *whole)
 static int VarlenOffset(const Pcut *part, const char *whole)
 {
 	//const int datatype_size = DatatypeSize(part, whole);
-	return kP2OctetStringVarlenOffset;
+	return kP2VisibleStringVarlenOffset;
 }
 static const char *VarlenMem(const Pcut *part, const char *whole)
 {
@@ -104,7 +104,7 @@ static const char *VarlenMem(const Pcut *part, const char *whole)
 static int VarlenSize(const Pcut *part, const char *whole)
 {
 	const char *mem = VarlenMem(part, whole);
-	return Qdlt698OctetStringLenSize(mem);
+	return Qdlt698VisibleStringLenSize(mem);
 }
 static int LenVarlen(Pcut *part, int ix, const char *whole) { return VarlenSize(part, whole); }
 static int OffsetVarlen(Pcut *part, int ix, const char *whole) { return VarlenOffset(part, whole); }
@@ -121,14 +121,14 @@ static cp_t ValidVarlen(Pcut *part, int ix, const char *whole)
 static int LenContent(Pcut *part, int ix, const char *whole) 
 { 
 	const char *mem = VarlenMem(part, whole);
-	const int content_size = Qdlt698OctetStringContentSize(mem);
+	const int content_size = Qdlt698VisibleStringContentSize(mem);
 	return content_size;
 }
 static int OffsetContent(Pcut *part, int ix, const char *whole) 
 { 
 	//const int datatype_size = DatatypeSize(part, whole);
 	const int varlen_size = VarlenSize(part, whole);
-	return kP2OctetStringContentOffset(varlen_size);
+	return kP2VisibleStringContentOffset(varlen_size);
 }
 static cp_t ValidContent(Pcut *part, int ix, const char *whole) 
 {
@@ -138,11 +138,11 @@ static cp_t ValidContent(Pcut *part, int ix, const char *whole)
 
 
 //{{{ all
-int P2OctetStringCutSize(const char *whole)
+int P2VisibleStringCutSize(const char *whole)
 {
 	//if (datatype_exist)
-	//	return Qdlt698OctetStringTypeLenContentSize(whole);
-	return Qdlt698OctetStringLenContentSize(whole);
+	//	return Qdlt698VisibleStringTypeLenContentSize(whole);
+	return Qdlt698VisibleStringLenContentSize(whole);
 }
 //}}}
 
@@ -159,9 +159,9 @@ static const PcutItemFix kCutFix[kThisCutNum] = {
 	
 
 static const PcutItem kCutItemsPattern[kThisCutNum] = {
-	// PCUT_ITEM_NO_SUB(&kCutFix[kP2OctetStringCutIxDatatype]),
-	PCUT_ITEM_NO_SUB(&kCutFix[kP2OctetStringCutIxVarlen]),
-	PCUT_ITEM_NO_SUB(&kCutFix[kP2OctetStringCutIxContent]),
+	// PCUT_ITEM_NO_SUB(&kCutFix[kP2VisibleStringCutIxDatatype]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2VisibleStringCutIxVarlen]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2VisibleStringCutIxContent]),
 };
 static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
@@ -169,41 +169,41 @@ static void PcutItemsInit(PcutItem items[kThisCutNum])
 }
 
 
-cp_t P2OctetStringPcutOpen(P2OctetStringPcut *m)
+cp_t P2VisibleStringPcutOpen(P2VisibleStringPcut *m)
 {
 	PcutItemsInit(m->items);
 	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	return 0;
 }
-cp_t P2OctetStringPcutClose(P2OctetStringPcut *m)
+cp_t P2VisibleStringPcutClose(P2VisibleStringPcut *m)
 {
-	dve(P2OctetStringPcutValid(m));
+	dve(P2VisibleStringPcutValid(m));
 	ifer(PcutClose(&m->base));
 	return 0;
 }
-cp_t P2OctetStringPcutValid(const P2OctetStringPcut *m)
+cp_t P2VisibleStringPcutValid(const P2VisibleStringPcut *m)
 {
 	ifer(PcutValid(&m->base));
 	return 0;
 }
 /*
-void P2OctetStringPcutConfigDatatypeExist(P2OctetStringPcut *m, bool exist)
+void P2VisibleStringPcutConfigDatatypeExist(P2VisibleStringPcut *m, bool exist)
 {
-	dve(P2OctetStringPcutValid(m));
+	dve(P2VisibleStringPcutValid(m));
 	m->datatype_exist = exist;
 	return;
 }
 */
 
-cp_t P2OctetStringPcutOpenBase(Pcut *base)
+cp_t P2VisibleStringPcutOpenBase(Pcut *base)
 {
-	P2OctetStringPcut *m = (P2OctetStringPcut*)base;
-	return P2OctetStringPcutOpen(m);
+	P2VisibleStringPcut *m = (P2VisibleStringPcut*)base;
+	return P2VisibleStringPcutOpen(m);
 }
-cp_t P2OctetStringPcutCloseBase(Pcut *base)
+cp_t P2VisibleStringPcutCloseBase(Pcut *base)
 {
-	P2OctetStringPcut *m = (P2OctetStringPcut*)base;
-	return P2OctetStringPcutClose(m);
+	P2VisibleStringPcut *m = (P2VisibleStringPcut*)base;
+	return P2VisibleStringPcutClose(m);
 }
 //}}}
 
@@ -211,20 +211,20 @@ cp_t P2OctetStringPcutCloseBase(Pcut *base)
 #if 0
 //{{{ pcut-datatype
 // 有数据类型的pcut
-cp_t P2OctetStringDatatypePcutOpen(P2OctetStringPcut *m)
+cp_t P2VisibleStringDatatypePcutOpen(P2VisibleStringPcut *m)
 {
-	ifer(P2OctetStringPcutOpen(m));
-	P2OctetStringPcutConfigDatatypeExist(m, true);
+	ifer(P2VisibleStringPcutOpen(m));
+	P2VisibleStringPcutConfigDatatypeExist(m, true);
 	return 0;
 }
-cp_t P2OctetStringDatatypePcutClose(P2OctetStringPcut *m)
+cp_t P2VisibleStringDatatypePcutClose(P2VisibleStringPcut *m)
 {
-	ifer(P2OctetStringPcutClose(m));
+	ifer(P2VisibleStringPcutClose(m));
 	return 0;
 }
-cp_t P2OctetStringDatatypePcutValid(const P2OctetStringPcut *m)
+cp_t P2VisibleStringDatatypePcutValid(const P2VisibleStringPcut *m)
 {
-	ifer(P2OctetStringPcutValid(m));
+	ifer(P2VisibleStringPcutValid(m));
 	ifbr(m->datatype_exist);
 	return 0;
 }
@@ -239,12 +239,12 @@ typedef struct
 } FillItemDataType;
 static cp_t FillItemProcessDataType(struct PfillS *fill, int level, int ix, char *mem, int mem_size, int offset, int *fill_size)
 {
-	mem[offset] = kDlt698DataTypeOctetString;
+	mem[offset] = kDlt698DataTypeVisibleString;
 	*fill_size = 1;
 	return 0;
 }
 #define kFillItemDataTypeDef {			\
-	PFILL_ITEM(kP2OctetStringNameDatatype, PfillItemOffsetFix, FillItemProcessDataType, kP2OctetStringDatatypeOffset, NULL)			\
+	PFILL_ITEM(kP2VisibleStringNameDatatype, PfillItemOffsetFix, FillItemProcessDataType, kP2VisibleStringDatatypeOffset, NULL)			\
 }
 */
 
@@ -264,7 +264,7 @@ static cp_t FillItemProcessVarLen(struct PfillS *fill, int level, int ix, char *
 	return 0;
 }
 #define kFillItemVarLenDef(_size) {			\
-	PFILL_ITEM(kP2OctetStringNameVarlen, PfillItemOffsetFollow, FillItemProcessVarLen, 0, NULL),			\
+	PFILL_ITEM(kP2VisibleStringNameVarlen, PfillItemOffsetFollow, FillItemProcessVarLen, 0, NULL),			\
 	(_size)					\
 }
 
@@ -286,11 +286,11 @@ static cp_t FillItemProcessContent(struct PfillS *fill, int level, int ix, char 
 	return 0;
 }
 #define kFillItemContentDef(_size) {			\
-	PFILL_ITEM(kP2OctetStringNameContent, PfillItemOffsetFollow, FillItemProcessContent, 0, NULL),			\
+	PFILL_ITEM(kP2VisibleStringNameContent, PfillItemOffsetFollow, FillItemProcessContent, 0, NULL),			\
 	(_size), {0},				\
 }
 
-cp_t P2OctetStringFillInitByMem(Pfill *m, bool datatype_exist, const char *string, int size)
+cp_t P2VisibleStringFillInitByMem(Pfill *m, bool datatype_exist, const char *string, int size)
 {
 	ifer(P2DatatypeWithContentFillInit(m, datatype_exist, kThisDatatype));
 	/*
@@ -329,13 +329,13 @@ static cp_t FillItemProcessVarLenByFill(struct PfillS *fill, int level, int ix, 
 	//const FillItemVarLen *derive = (FillItemVarLen*)fi;
 
 	// 得到content的信息，准备将content往后移动
-	// 内容所在的索引号，看P2OctetStringFillInitByFill()中注册FillItem的顺序
+	// 内容所在的索引号，看P2VisibleStringFillInitByFill()中注册FillItem的顺序
 	// 因为datatype可能存在，也可能不存在，所以ix_content不是固定的数。但一定是当前var_len的前一个
 	const int ix_content = ix - 1;		
 	const int content_size = PfillIxLen(fill, ix_content);
 	ifbr(0 <= content_size);
 	const int content_offset = PfillIxOffset(fill, ix_content, mem, mem_size);
-	// 在P2OctetStringFillInitByFill()中，content和var_len填写的位置一样，都是datatype后的位置
+	// 在P2VisibleStringFillInitByFill()中，content和var_len填写的位置一样，都是datatype后的位置
 	dvb(offset == content_offset);
 	ifbr(0 <= content_offset);
 	ifbr(content_offset < mem_size);
@@ -355,7 +355,7 @@ static cp_t FillItemProcessVarLenByFill(struct PfillS *fill, int level, int ix, 
 
 
 
-cp_t P2OctetStringFillInitByFill(Pfill *m, bool datatype_exist, Pfill *fill_string)
+cp_t P2VisibleStringFillInitByFill(Pfill *m, bool datatype_exist, Pfill *fill_string)
 {
 	/*
 	if (datatype_exist)
@@ -375,10 +375,10 @@ cp_t P2OctetStringFillInitByFill(Pfill *m, bool datatype_exist, Pfill *fill_stri
 	// 需要先填写fill_string，然后，计算var_len长度size，
 	// 将string内容往后移动size字节，然后再填写var_len内容
 	// 所以：下面两个fill_item的offset都是offset_after_datatype
-	const PfillItem kFiString = PFILL_ITEM(kP2OctetStringNameContent, PfillItemOffsetFix, PfillItemProcessBySub, offset_after_datatype, fill_string); 
+	const PfillItem kFiString = PFILL_ITEM(kP2VisibleStringNameContent, PfillItemOffsetFix, PfillItemProcessBySub, offset_after_datatype, fill_string); 
 	ifbr(NULL != PfillItemFactory(m, sizeof(kFiString), &kFiString));
 
-	const FillItemVarLenByFill kFiVl = PFILL_ITEM(kP2OctetStringNameVarlen, PfillItemOffsetFix, FillItemProcessVarLenByFill, offset_after_datatype, NULL); 
+	const FillItemVarLenByFill kFiVl = PFILL_ITEM(kP2VisibleStringNameVarlen, PfillItemOffsetFix, FillItemProcessVarLenByFill, offset_after_datatype, NULL); 
 	ifbr(NULL != PfillItemFactory(m, sizeof(kFiVl), &kFiVl));
 	return 0;
 }
@@ -389,31 +389,31 @@ cp_t P2OctetStringFillInitByFill(Pfill *m, bool datatype_exist, Pfill *fill_stri
 #if TEST_EN > 0
 static cp_t TestPcutDatatypeNotExist(void)
 {
-	P2OctetStringPcut pcut = kP2OctetStringPcutDef;
+	P2VisibleStringPcut pcut = kP2VisibleStringPcutDef;
 	Pcut * const m = &pcut.base;
-	ifer(P2OctetStringPcutOpen(&pcut));
-	ifer(P2OctetStringPcutValid(&pcut));
+	ifer(P2VisibleStringPcutOpen(&pcut));
+	ifer(P2VisibleStringPcutValid(&pcut));
 
 
 	// 15 05 02 00 04 20 00 02 00 20 01 02 00 20 04 02 00 00 10 02 00 00 
 	const char whole[] = "\x15\x05\x02\x00\x04\x20\x00\x02\x00\x20\x01\x02\x00\x20\x04\x02\x00\x00\x10\x02\x00\x00";
 
-	//ifbr(0 == PcutIxLen(m, kP2OctetStringCutIxDatatype, whole));
-	ifbr(1 == PcutIxLen(m, kP2OctetStringCutIxVarlen, whole));
-	ifbr(21 == PcutIxLen(m, kP2OctetStringCutIxContent, whole));
+	//ifbr(0 == PcutIxLen(m, kP2VisibleStringCutIxDatatype, whole));
+	ifbr(1 == PcutIxLen(m, kP2VisibleStringCutIxVarlen, whole));
+	ifbr(21 == PcutIxLen(m, kP2VisibleStringCutIxContent, whole));
 	ifbr(22 == PcutIxLen(m, kPcutIxAll, whole));
 
-	//ifbr(0 == PcutIxOffset(m, kP2OctetStringCutIxDatatype, whole));
-	//ifbr(0 == PcutIxOffset(m, kP2OctetStringCutIxVarlen, whole));
-	ifbr(1 == PcutIxOffset(m, kP2OctetStringCutIxContent, whole));
+	//ifbr(0 == PcutIxOffset(m, kP2VisibleStringCutIxDatatype, whole));
+	//ifbr(0 == PcutIxOffset(m, kP2VisibleStringCutIxVarlen, whole));
+	ifbr(1 == PcutIxOffset(m, kP2VisibleStringCutIxContent, whole));
 	ifbr(22 == PcutIxOffset(m, kPcutIxAll, whole));
 
-	//ifer(PcutIxValid(m, kP2OctetStringCutIxDatatype, whole));
-	ifer(PcutIxValid(m, kP2OctetStringCutIxVarlen, whole));
-	ifer(PcutIxValid(m, kP2OctetStringCutIxContent, whole));
+	//ifer(PcutIxValid(m, kP2VisibleStringCutIxDatatype, whole));
+	ifer(PcutIxValid(m, kP2VisibleStringCutIxVarlen, whole));
+	ifer(PcutIxValid(m, kP2VisibleStringCutIxContent, whole));
 	ifer(PcutIxValid(m, kPcutIxAll, whole));
 
-	ifer(P2OctetStringPcutClose(&pcut));
+	ifer(P2VisibleStringPcutClose(&pcut));
 	return 0;
 }
 static cp_t TestPcutDatatypeExist(void)
@@ -422,14 +422,14 @@ static cp_t TestPcutDatatypeExist(void)
 	ifer(P2DatatypeWithContentPcutOpen(&dwc));
 
 
-	P2OctetStringPcut pcut = kP2OctetStringPcutDef;
+	P2VisibleStringPcut pcut = kP2VisibleStringPcutDef;
 	//Pcut * const m = &pcut.base;
-	ifer(P2OctetStringPcutOpen(&pcut));
-	ifer(P2OctetStringPcutValid(&pcut));
+	ifer(P2VisibleStringPcutOpen(&pcut));
+	ifer(P2VisibleStringPcutValid(&pcut));
 
-	ifer(P2DatatypeWithContentPcutSetContent(&dwc, kThisDatatype, &pcut.base, kP2OctetStringName));
+	ifer(P2DatatypeWithContentPcutSetContent(&dwc, kThisDatatype, &pcut.base, kP2VisibleStringName));
 	Pcut *m = &dwc.base;
-	//P2OctetStringPcutConfigDatatypeExist(&pcut, true);
+	//P2VisibleStringPcutConfigDatatypeExist(&pcut, true);
 
 	// 09 06 10 00 00 00 22 21
 	const char whole[] = "\x09\x06\x10\x00\x00\x00\x22\x21";
@@ -437,8 +437,8 @@ static cp_t TestPcutDatatypeExist(void)
 	ifbr(1 == PcutIxLen(m, kP2DatatypeWithContentCutIxDatatype, whole));
 	ifbr(7 == PcutIxLen(m, kP2DatatypeWithContentCutIxContent, whole));
 	const char *os_mem = PcutIxPtrConst(m, kP2DatatypeWithContentCutIxContent, whole);		// const版本
-	ifbr(1 == PcutIxLen(&pcut.base, kP2OctetStringCutIxVarlen, os_mem));
-	ifbr(6 == PcutIxLen(&pcut.base, kP2OctetStringCutIxContent, os_mem));
+	ifbr(1 == PcutIxLen(&pcut.base, kP2VisibleStringCutIxVarlen, os_mem));
+	ifbr(6 == PcutIxLen(&pcut.base, kP2VisibleStringCutIxContent, os_mem));
 	ifbr(8 == PcutIxLen(m, kPcutIxAll, whole));
 
 	ifbr(0 == PcutIxOffset(m, kP2DatatypeWithContentCutIxDatatype, whole));
@@ -449,7 +449,7 @@ static cp_t TestPcutDatatypeExist(void)
 	ifer(PcutIxValid(m, kP2DatatypeWithContentCutIxContent, whole));
 	ifer(PcutIxValid(m, kPcutIxAll, whole));
 
-	ifer(P2OctetStringPcutClose(&pcut));
+	ifer(P2VisibleStringPcutClose(&pcut));
 	ifer(P2DatatypeWithContentPcutClose(&dwc));
 	return 0;
 }
@@ -461,12 +461,12 @@ static const QtestItem kTestItem[] = {
 	TestPcutDatatypeExist,
 };
 #define kTestItemNum	(sizeof(kTestItem)/sizeof(kTestItem[0]))
-cp_t P2OctetStringTest(QTEST_ARG)
+cp_t P2VisibleStringTest(QTEST_ARG)
 {
 	return QtestTest(__FILE__, run_times, kTestItem, kTestItemNum, verbose);
 }
 #else
-cp_t P2OctetStringTest(QTEST_ARG)
+cp_t P2VisibleStringTest(QTEST_ARG)
 {
 	return 0;
 }

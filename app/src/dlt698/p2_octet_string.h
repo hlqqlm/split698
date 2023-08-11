@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_OCTET_STRING_H_
-#define __DLT698_45_OCTET_STRING_H_
+#ifndef __P2_OCTET_STRING_H_
+#define __P2_OCTET_STRING_H_
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -14,7 +14,6 @@
 
 // name
 #define kP2OctetStringName				"octet_string"
-//#define kP2OctetStringNameDatatype		"data_type"
 #define kP2OctetStringNameVarlen		"var_len"
 #define kP2OctetStringNameContent		"content"
 
@@ -47,7 +46,7 @@
 // content
 
 // all
-int P2OctetStringPartSize(const char *whole);
+int P2OctetStringCutSize(const char *whole);
 
 typedef struct
 {
@@ -60,18 +59,18 @@ typedef struct
 // 各部分索引号
 typedef enum
 {
-	//kP2OctetStringPartIxDatatype,
-	kP2OctetStringPartIxVarlen,
-	kP2OctetStringPartIxContent,
-	kP2OctetStringPartNum				
-} P2OctetStringPartIxT;
+	//kP2OctetStringCutIxDatatype,
+	kP2OctetStringCutIxVarlen,
+	kP2OctetStringCutIxContent,
+	kP2OctetStringCutNum				
+} P2OctetStringCutIxT;
 
 
 // pcut
 typedef struct
 {
 	Pcut base;
-	PcutItem items[kP2OctetStringPartNum];
+	PcutItem items[kP2OctetStringCutNum];
 	//bool datatype_exist;
 } P2OctetStringPcut;
 // 缺省的是没有datatype的，不能改，dlt698_45_data_choice.c中用了缺省定义
