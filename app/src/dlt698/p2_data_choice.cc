@@ -35,10 +35,11 @@ DLT698_45 data choice 变化部分报文解析
 #include "p2_long_unsigned.h"
 #include "p2_octet_string.h"
 #include "p2_struct.h"
+#include "p2_datetime.h"
+#include "p2_tsa.h"
 
 #include "p2_data_choice.h"
 #include "p2_data_choice.xcp.h"
-//#define this_file_id	0xadf985a6	// echo -n dlt698_45_data_choice.c | rhash --simple -
 
 
 #define TEST_EN					(1)
@@ -113,7 +114,9 @@ Q/GDW XXXXX—XXXX
 类型描述 标记 定义 数值范围
 OMD 83 见 0
 TI 84 见 0
-TSA 85 见 0
+*/
+	{ kDlt698DataTypeTsa, "tsa" },	// TSA 85 见 0
+	/*
 MAC 86 见 0
 RN 87 见 0
 Region 88 见 0
@@ -155,6 +158,8 @@ static const P2DoubleLongPcut kP2DoubleLongPcutVar = kP2DoubleLongPcutDef;
 static const P2DoubleLongUnsignedPcut kP2DoubleLongUnsignedPcutVar = kP2DoubleLongUnsignedPcutDef;
 static const P2LongUnsignedPcut kP2LongUnsignedPcutVar = kP2LongUnsignedPcutDef;
 static const P2OctetStringPcut kP2OctetStringPcutVar = kP2OctetStringPcutDef;
+static const P2DatetimePcut kP2DatetimePcutVar = kP2DatetimePcutDef;
+static const P2TsaPcut kP2TsaPcutVar = kP2TsaPcutDef;
 
 static const PcutFactoryInfo kVarFactoryInfoList[kP2DataTypeNum] = {
 	// name		size	init	derive_open		derive_close
@@ -186,7 +191,9 @@ long64-unsigned 21 64 位正整数 0…2^64-1
 enum 22 枚举的元素在对象属性或方法的描述中定义 0…255
 float32 23 32 位浮点数
 float64 24 64 位浮点数
-date_time 25 octet-string（SIZE（10））
+*/
+	{ "datetime", sizeof(kP2DatetimePcutVar), &kP2DatetimePcutVar, P2DatetimePcutOpenBase, P2DatetimePcutCloseBase },	// date_time 25 octet-string（SIZE（10））
+/*
 date 26 octet-string（SIZE（5））
 time 27 octet-string（SIZE（3））
 */
@@ -201,7 +208,9 @@ Q/GDW XXXXX—XXXX
 类型描述 标记 定义 数值范围
 OMD 83 见 0
 TI 84 见 0
-TSA 85 见 0
+*/
+	{ "tsa", sizeof(kP2TsaPcutVar), &kP2TsaPcutVar, P2TsaPcutOpenBase, P2TsaPcutCloseBase },	// TSA 85 见 0
+/*
 MAC 86 见 0
 RN 87 见 0
 Region 88 见 0

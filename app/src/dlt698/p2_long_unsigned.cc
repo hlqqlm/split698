@@ -36,6 +36,7 @@ long unsigned
 
 
 #define TEST_EN					(1)
+#define kThisCutNum				(kP2LongUnsignedCutNum)
 
 
 //{{{ misc
@@ -49,7 +50,7 @@ static int GetDatatypeSize(bool datatype_exist)
 }
 //}}}
 
-
+#if 0
 //{{{ datatype
 static int DatatypeSize(const Pcut *part, const char *whole) 
 {
@@ -79,7 +80,7 @@ static cp_t ValidDatatype(Pcut *part, int ix, const char *whole)
 	return 0; 
 }
 //}}}
-
+#endif
 
 //{{{ content
 static int LenContent(Pcut *part, int ix, const char *whole) 
@@ -88,26 +89,36 @@ static int LenContent(Pcut *part, int ix, const char *whole)
 }
 static int OffsetContent(Pcut *part, int ix, const char *whole) 
 { 
-	const int datatype_size = DatatypeSize(part, whole);
-	const int content_offset = kP2LongUnsignedContentOffset(datatype_size);
-	return content_offset;
+	//const int datatype_size = DatatypeSize(part, whole);
+	// const int content_offset = kP2LongUnsignedContentOffset(datatype_size);
+	// return content_offset;
+	return kP2LongUnsignedContentOffset;
 }
 static cp_t ValidContent(Pcut *part, int ix, const char *whole) 
 {
+	return 0;
+}
+static cp_t ExplainContent(Pcut *part, int ix, const char *whole) 
+{
+	const uint16_t value = P2LongUnsignedToValue(whole);
+	qos_printf("%uD", value);
 	return 0;
 }
 //}}}
 
 
 //{{{ all
-int P2LongUnsignedPartSize(bool datatype_exist)
+/*
+int P2LongUnsignedCutSize(bool datatype_exist)
 {
 	const int datatype_size = GetDatatypeSize(datatype_exist);
 	return kP2LongUnsignedWholeSize(datatype_size);
 }
-uint16_t P2LongUnsignedToValue(bool datatype_exist, const char *whole)
+*/
+uint16_t P2LongUnsignedToValue(const char *whole)
 {
-	const int content_offset = kP2LongUnsignedContentOffset(GetDatatypeSize(datatype_exist));
+	// const int content_offset = kP2LongUnsignedContentOffset(GetDatatypeSize(datatype_exist));
+	const int content_offset = kP2LongUnsignedContentOffset; // kP2LongUnsignedContentOffset(GetDatatypeSize(datatype_exist));
 	const char *src = whole + content_offset;
 	const char value[kP2LongUnsignedContentSize] = { src[1], src[0] };
 	return *((uint16_t*)value);
@@ -118,27 +129,27 @@ uint16_t P2LongUnsignedToValue(bool datatype_exist, const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2LongUnsignedPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
-	{ "datatype", LenDatatype, OffsetDatatype, ValidDatatype, NULL },
-	{ "content", LenContent, OffsetContent, ValidContent, NULL },
+	//{ "datatype", LenDatatype, OffsetDatatype, ValidDatatype, NULL },
+	{ "content", LenContent, OffsetContent, ValidContent, ExplainContent },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2LongUnsignedPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LongUnsignedPartIxDatatype]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LongUnsignedPartIxContent]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	// PCUT_ITEM_NO_SUB(&kCutFix[kP2LongUnsignedCutIxDatatype]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2LongUnsignedCutIxContent]),
 };
-static void PcutItemsInit(PcutItem items[kP2LongUnsignedPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
 cp_t P2LongUnsignedPcutOpen(P2LongUnsignedPcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2LongUnsignedPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	return 0;
 }
 cp_t P2LongUnsignedPcutClose(P2LongUnsignedPcut *m)
@@ -152,12 +163,14 @@ cp_t P2LongUnsignedPcutValid(const P2LongUnsignedPcut *m)
 	ifer(PcutValid(&m->base));
 	return 0;
 }
+/*
 void P2LongUnsignedPcutConfigDatatypeExist(P2LongUnsignedPcut *m, bool exist)
 {
 	dve(P2LongUnsignedPcutValid(m));
 	m->datatype_exist = exist;
 	return;
 }
+*/
 
 cp_t P2LongUnsignedPcutOpenBase(Pcut *base)
 {
@@ -171,7 +184,7 @@ cp_t P2LongUnsignedPcutCloseBase(Pcut *base)
 }
 //}}}
 
-
+#if 0
 //{{{ pcut-datatype
 // 有数据类型的pcut
 cp_t P2LongUnsignedDatatypePcutOpen(P2LongUnsignedPcut *m)
@@ -192,7 +205,7 @@ cp_t P2LongUnsignedDatatypePcutValid(const P2LongUnsignedPcut *m)
 	return 0;
 }
 //}}}
-
+#endif
 
 //{{{ fill_by_string
 typedef struct 
@@ -206,7 +219,7 @@ static cp_t FillItemProcessDataType(struct PfillS *fill, int level, int ix, char
 	return 0;
 }
 #define kFillItemDataTypeDef {			\
-	PFILL_ITEM(kP2LongUnsignedNameDatatype, PfillItemOffsetFix, FillItemProcessDataType, kP2LongUnsignedDatatypeOffset, NULL)			\
+	PFILL_ITEM(kP2LongUnsignedNameDatatype, PfillItemOffsetFix, FillItemProcessDataType, 0, NULL)			\
 }
 
 
@@ -231,7 +244,6 @@ static cp_t FillItemProcessContent(struct PfillS *fill, int level, int ix, char 
 	(_value)					\
 }
 
-
 cp_t P2LongUnsignedFillInit(Pfill *m, bool datatype_exist, uint16_t value)
 {
 	if (datatype_exist)
@@ -252,13 +264,14 @@ cp_t P2LongUnsignedFillInit(Pfill *m, bool datatype_exist, uint16_t value)
 static cp_t TestPcut(void)
 {
 	//		|-Data: long-unsigned, u16	12 08 CE	类型:18,值:2254 	
-	const char whole[] = "\x12\x08\xce";
+	//const char whole[] = "\x12\x08\xce";
+	const char whole[] = "\x08\xce";
 	const int whole_size = sizeof(whole) - 1;
 	//const uint16_t value = 2254;
 
 	P2LongUnsignedPcut lu = kP2LongUnsignedPcutDef;
 	ifer(P2LongUnsignedPcutOpen(&lu));
-	P2LongUnsignedPcutConfigDatatypeExist(&lu, true);	
+	//P2LongUnsignedPcutConfigDatatypeExist(&lu, true);	
 	Pcut *m = &lu.base;
 
 	ifbr(3 == whole_size);
@@ -272,11 +285,12 @@ static cp_t TestPcut(void)
 static cp_t TestValue(void)
 {
 	//		|-Data: long-unsigned, u16	12 08 CE	类型:18,值:2254 	
-	const char whole[] = "\x12\x08\xce";
+	//const char whole[] = "\x12\x08\xce";
+	const char whole[] = "\x08\xce";
 	//const int whole_size = sizeof(whole) - 1;
 	const uint16_t value = 2254;
 
-	ifbr(value == P2LongUnsignedToValue(true, whole));
+	ifbr(value == P2LongUnsignedToValue(whole));
 	return 0;
 }
 static cp_t TestFill(void)

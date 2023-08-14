@@ -54,8 +54,8 @@ typedef struct
 } P2OctetStringValue;
 #define kP2OctetStringValueDef { 0 }
 
-//{{{ part
-// part_ix
+//{{{ cut
+// cut_ix
 // 各部分索引号
 typedef enum
 {

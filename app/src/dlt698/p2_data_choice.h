@@ -6,6 +6,7 @@
 #include "protocol/pcut.h"
 #include "protocol/pfill.h"
 #include "p2_choice.h"
+#include "qdlt698.h"
 
 
 // name
@@ -74,7 +75,9 @@ Q/GDW XXXXX—XXXX
 类型描述 标记 定义 数值范围
 OMD 83 见 0
 TI 84 见 0
-TSA 85 见 0
+*/
+	kDlt698DataTypeIxTsa,		// TSA 85 见 0
+	/*
 MAC 86 见 0
 RN 87 见 0
 Region 88 见 0

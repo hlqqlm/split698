@@ -130,8 +130,8 @@ static int LenVar(Pcut *part, int ix, const char *whole)
 { 
 	P2ChoicePcut * const p2cp = (P2ChoicePcut*)part;
 	const uint8_t choice = P2ChoiceValue(whole);
-	//qos_printf("choice=%02xH ix=%d\r\n", choice, ix);
-	//printf_hex(whole, 10, " ");
+	// qos_printf("choice=%02xH ix=%d\r\n", choice, ix);
+	// printf_hex(whole, 10, " ");
 	if (0 != PcutChoiceValid(p2cp, choice))
 		return -1;
 
@@ -294,6 +294,7 @@ static cp_t CutFactoryVar(P2ChoicePcut *m, uint8_t choice)
 
 	const PcutFactoryInfo * const vfi = FactoryInfo(m, choice);
 	ifer(PcutFactoryInfoValid(vfi));
+	// std::cout << "name:" << vfi->name << std::endl;
 
 	Pcut *var = NULL;
 	ifer(PcutDeriveFactoryByInfo(&var, vfi));

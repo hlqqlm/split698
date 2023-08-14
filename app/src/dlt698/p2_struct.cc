@@ -35,11 +35,11 @@ struct
 
 #define TEST_EN					(0)
 #define PRINT_FILL_IN_TEST_EN	(0)
-#define kCutNum					(kP2StructCutNum)
+#define kThisCutNum				(kP2StructCutNum)
 
 
 
-//{{{ items
+//{{{ subs
 static cp_t SubsOpen(P2StructPcut *m, int num)
 {
 	ifbr(NULL == m->subs);
@@ -206,18 +206,18 @@ int P2StructNum(const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kCutFix[kCutNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ kP2StructNameVarlen, LenVarlen, OffsetVarlen, ValidVarlen, ExplainVarlen },
 	{ kP2StructNameContent, LenContent, OffsetContent, ValidContent, NULL },
 };
 	
 
-static const PcutItem kCutItemsPattern[kCutNum] = {
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2StructCutIxVarlen]),
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2StructCutIxContent]),
 };
-static void PcutItemsInit(PcutItem items[kCutNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
 	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
@@ -226,7 +226,7 @@ static void PcutItemsInit(PcutItem items[kCutNum])
 cp_t P2StructPcutOpen(P2StructPcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kCutNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	dvb(NULL == m->subs);
 	return 0;
 }

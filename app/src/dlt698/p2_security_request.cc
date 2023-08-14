@@ -38,7 +38,7 @@ DLT698_45报文解析
 
 #define TEST_EN					(0)
 #define PRINT_PACK_IN_TEST_EN	(0)
-#define kCutNum					(kP2SecurityRequestCutNum)
+#define kThisCutNum				(kP2SecurityRequestCutNum)
 
 
 
@@ -59,18 +59,18 @@ static int OffsetData(Pcut *part, int ix, const char *whole) { return kP2Securit
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kCutFix[kCutNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ kP2SecurityRequestNameData, LenData, OffsetData, ValidData, NULL },
 	{ kP2SecurityRequestNameVerify, LenVerify, OffsetVerify, ValidVerify, NULL },
 };
 	
 
-static const PcutItem kCutItemsPattern[kCutNum] = {
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2SecurityRequestCutIxData]),
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2SecurityRequestCutIxVerify]),
 };
-static void PcutItemsInit(PcutItem items[kCutNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
 	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
@@ -81,7 +81,7 @@ cp_t P2SecurityRequestPcutOpen(P2SecurityRequestPcut *m)
 	ifer(P2SecurityRequestVerifyChoicePcutOpen(&m->verify));
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kCutNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
 	PcutSubSet(&m->base, kP2SecurityRequestCutIxData, &m->data.choice.base, NULL);
 	PcutSubSet(&m->base, kP2SecurityRequestCutIxVerify, &m->verify.choice.base, NULL);

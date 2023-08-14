@@ -29,7 +29,7 @@ DLT698_45报文解析
 
 #define TEST_EN					(0)
 #define PRINT_PACK_IN_TEST_EN	(0)
-#define kCutNum					(kP2ActionRequestNormalCutNum)
+#define kThisCutNum				(kP2ActionRequestNormalCutNum)
 
 
 
@@ -63,7 +63,7 @@ static cp_t ValidOmd(Pcut *part, int ix, const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kCutFix[kCutNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ kP2ActionRequestNormalNamePiid, LenPiid, OffsetPiid, ValidPiid, NULL },
 	{ kP2ActionRequestNormalNameOmd, LenOmd, OffsetOmd, ValidOmd, NULL },
@@ -71,12 +71,12 @@ static const PcutItemFix kCutFix[kCutNum] = {
 };
 	
 
-static const PcutItem kCutItemsPattern[kCutNum] = {
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2ActionRequestNormalCutIxPiid]),
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2ActionRequestNormalCutIxOmd]),
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2ActionRequestNormalCutIxData]),
 };
-static void PcutItemsInit(PcutItem items[kCutNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
 	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
@@ -86,7 +86,7 @@ cp_t P2ActionRequestNormalPcutOpen(P2ActionRequestNormalPcut *m)
 	ifer(P2DataChoicePcutOpen(&m->data));
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kCutNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
 	PcutSubSet(&m->base, kP2ActionRequestNormalCutIxData, &m->data.choice.base, NULL);
 	return 0;
