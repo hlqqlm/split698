@@ -55,18 +55,32 @@ static void PcutItemsInit(PcutItem *items, int num)
 	for (int i = 0; i < num; ++i)
 		memcpy(&items[i], &kPartItemOnePattern, sizeof(kPartItemOnePattern));
 }
-static cp_t SetSub(P2NvarPcut *m, int num, Pcut *part_one, const char *name) 
+int P2NvarPcutNum(const P2NvarPcut *m)
+{
+	return m->num;
+}
+cp_t P2NvarPcutSetSub(P2NvarPcut *m, int ix, Pcut *sub_cut, const char *name) 
+{
+	dve(P2NvarPcutValid(m));
+
+	ifbr(0 <= ix);
+	ifbr(ix < m->num);
+
+	PcutSubSet(&m->base, ix, sub_cut, name);
+	return 0;
+}
+static cp_t SetSub(P2NvarPcut *m, int num, Pcut *sub_cut, const char *name) 
 {
 	for (int i = 0; i < num; ++i)
-		PcutSubSet(&m->base, i, part_one, name);
+		PcutSubSet(&m->base, i, sub_cut, name);
 	return 0;
 }
 
-cp_t P2NvarPcutOpen(P2NvarPcut *m, int num, Pcut *part_one, const char *name)
+cp_t P2NvarPcutOpen(P2NvarPcut *m, int num, Pcut *sub_cut, const char *name)
 {
 	dvb(0 <= num);
-	dvb(NULL != part_one);
-	dve(PcutValid(part_one));
+	dvb(NULL != sub_cut);
+	dve(PcutValid(sub_cut));
 
 	m->num = num;
 
@@ -76,7 +90,7 @@ cp_t P2NvarPcutOpen(P2NvarPcut *m, int num, Pcut *part_one, const char *name)
 
 	PcutItemsInit(m->items, num);
 	ifer(PcutOpen(&m->base, m->items, num));
-	ifer(SetSub(m, num, part_one, name));
+	ifer(SetSub(m, num, sub_cut, name));
 	return 0;
 }
 cp_t P2NvarPcutClose(P2NvarPcut *m)
@@ -93,6 +107,7 @@ cp_t P2NvarPcutValid(const P2NvarPcut *m)
 {
 	ifer(PcutValid(&m->base));
 	ifbr(NULL != m->items);
+	ifbr(0 <= m->num);
 	return 0;
 }
 //}}}

@@ -29,9 +29,13 @@ typedef struct
 // num			元素个数
 // part_one		用来解析一个元素
 // name			元素名称
-cp_t P2NvarPcutOpen(P2NvarPcut *m, int num, Pcut *part_one, const char *name);
+cp_t P2NvarPcutOpen(P2NvarPcut *m, int num, Pcut *sub_cut, const char *name);
 cp_t P2NvarPcutClose(P2NvarPcut *m);
 cp_t P2NvarPcutValid(const P2NvarPcut *m);
+
+// set one sub_cut
+cp_t P2NvarPcutSetSub(P2NvarPcut *m, int ix, Pcut *sub_cut, const char *name);
+int P2NvarPcutNum(const P2NvarPcut *m);
 //}}}
 
 

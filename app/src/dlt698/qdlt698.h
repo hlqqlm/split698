@@ -104,6 +104,8 @@ void Dlt698Uint32Mem(char *mem, uint32_t value);
 OadT Dlt698Mem2Oad(const char mem[]);
 void Dlt698Oad2Mem(char mem[OAD_MEM_SIZE], OadT oad);
 
+#define OMD_MEM_SIZE		(4)
+
 // ti
 #define DLT698_TI_SIZE		(3)
 cp_t Dlt698TiUnitValid(uint8_t unit);

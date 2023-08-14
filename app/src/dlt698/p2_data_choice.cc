@@ -34,6 +34,7 @@ DLT698_45 data choice 变化部分报文解析
 #include "p2_double_long_unsigned.h"
 #include "p2_long_unsigned.h"
 #include "p2_octet_string.h"
+#include "p2_struct.h"
 
 #include "p2_data_choice.h"
 #include "p2_data_choice.xcp.h"
@@ -149,6 +150,7 @@ cp_t P2DataChoiceValid(uint8_t choice)
 
 
 //{{{ var_factory_info
+static const P2StructPcut kP2StructPcutVar = kP2StructPcutDef;
 static const P2DoubleLongPcut kP2DoubleLongPcutVar = kP2DoubleLongPcutDef;
 static const P2DoubleLongUnsignedPcut kP2DoubleLongUnsignedPcutVar = kP2DoubleLongUnsignedPcutDef;
 static const P2LongUnsignedPcut kP2LongUnsignedPcutVar = kP2LongUnsignedPcutDef;
@@ -158,7 +160,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2DataTypeNum] = {
 	// name		size	init	derive_open		derive_close
 	kPcutFactoryInfoDef("null"),	// NULL 0 空
 	kPcutFactoryInfoDef("array"),	// array 1 SEQUENCE OF Data（见 7.3.1 ） 数组的元素在对象属性或方法的描述中定义
-	kPcutFactoryInfoDef("structure"),	//structure 2 SEQUENCE OF Data（见 7.3.1 ） 结构的元素在对象属性或方法的描述中定义
+	{ "structure", sizeof(kP2StructPcutVar), &kP2StructPcutVar, P2StructPcutOpenBase, P2StructPcutCloseBase },	// structure 2 SEQUENCE OF Data（见 7.3.1 ） 结构的元素在对象属性或方法的描述中定义
 	kPcutFactoryInfoDef("bool"),	// bool 3 布尔值 1 或 0
 	kPcutFactoryInfoDef("bit-string"),	// bit-string 4 位串
 	{ "double-long", sizeof(kP2DoubleLongPcutVar), &kP2DoubleLongPcutVar, P2DoubleLongPcutOpenBase, P2DoubleLongPcutCloseBase },	// double-long 5 32 位整数 -2^31…2^31-1

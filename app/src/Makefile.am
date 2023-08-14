@@ -27,11 +27,12 @@ split698_SOURCES = 	\
 	main.cc 		\
 	qos/fileid.cc qos/qcp.cc qos/qstr.cc qos/qtime.cc qos/time64.cc qos/qbit.cc qos/qtest.cc qos/qmem.cc qos/qarray.cc qos/qmemtable.cc qos/qtimeout.cc qos/qbuf.cc	\
 	dlt698/qdlt698.cc dlt698/p2_base.cc dlt698/a_xdr.cc dlt698/p2_dar.cc dlt698/fcs.cc  \
-	dlt698/p2_null.cc dlt698/p2_datatype_with_content.cc dlt698/p2_double_long_unsigned.cc dlt698/p2_array.cc dlt698/p2_choice.cc dlt698/p2_double_long.cc \
+	dlt698/p2_null.cc dlt698/p2_datatype_with_content.cc dlt698/p2_double_long_unsigned.cc dlt698/p2_array.cc dlt698/p2_struct.cc dlt698/p2_choice.cc dlt698/p2_double_long.cc \
 	dlt698/p2_a_result_normal.cc dlt698/p2_data_choice.cc dlt698/p2_follow_report.cc dlt698/p2_timetag.cc dlt698/p2_sequence_of_var_len.cc dlt698/p2_long_unsigned.cc dlt698/p2_datetime.cc dlt698/p2_nfix.cc dlt698/p2_nvar.cc dlt698/p2_octet_string.cc dlt698/p2_visible_string.cc dlt698/p2_optional.cc dlt698/p2_enum.cc	\
 	dlt698/p2_addr.cc 	\
 	dlt698/p2_link_apdu.cc dlt698/p2_link_apdu_choice.cc dlt698/p2_link_request.cc dlt698/p2_link_response.cc \
 	dlt698/p2_connect_request.cc dlt698/p2_connect_mechanism_info_choice.cc dlt698/p2_signature_security.cc dlt698/p2_symmetry_security.cc \
+	dlt698/p2_action_request_choice.cc dlt698/p2_action_request_normal.cc \
 	dlt698/p2_client_apdu.cc dlt698/p2_client_apdu_choice.cc   dlt698/p2_get_request.cc dlt698/p2_get_request_normal.cc dlt698/p2_get_request_normal_list.cc dlt698/p2_get_response.cc dlt698/p2_get_response_normal.cc dlt698/p2_get_response_normal_list.cc dlt698/p2_get_result.cc \
 	dlt698/p2_server_apdu.cc dlt698/p2_server_apdu_choice.cc 	\
 	dlt698/p2_process_security_apdu.cc dlt698/p2_security_apdu_choice.cc dlt698/p2_security_request.cc dlt698/p2_security_request_data_choice.cc dlt698/p2_security_request_verify_choice.cc dlt698/p2_security_response.cc dlt698/p2_security_response_data_choice.cc dlt698/p2_security_response_verify.cc dlt698/p2_sequence_of.cc \

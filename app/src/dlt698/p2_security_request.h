@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_SECURITY_REQUEST_H_ 
-#define __DLT698_45_SECURITY_REQUEST_H_ 
+#ifndef __P2_SECURITY_REQUEST_H_ 
+#define __P2_SECURITY_REQUEST_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -82,29 +82,6 @@ cp_t P2SecurityRequestPcutCloseBase(Pcut *base);
 //}}}
 
 
-#if 0
-//{{{ qpack
-typedef enum {
-	kP2SecurityRequestPackIxPiid,
-	kP2SecurityRequestPackIxOad,
-	kP2SecurityRequestPackNum
-} P2SecurityRequestPackIxT;
-typedef struct
-{
-	Qpack base;
-	QpackItem items[kP2SecurityRequestPackNum];
-
-	P2SecurityRequestValue value;
-} P2SecurityRequestQpack;
-#define kP2SecurityRequestQpackDef {									\
-	kQpackDef, { kQpackItemDef },		\
-	kP2SecurityRequestValueDef,		\
-}
-cp_t P2SecurityRequestQpackOpen(P2SecurityRequestQpack *m);
-cp_t P2SecurityRequestQpackClose(P2SecurityRequestQpack *m);
-cp_t P2SecurityRequestQpackValid(const P2SecurityRequestQpack *m);
-//}}}
-#endif
 
 // test
 cp_t P2SecurityRequestTest(QTEST_ARG);

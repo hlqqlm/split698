@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_NFIX_H_ 
-#define __DLT698_45_NFIX_H_ 
+#ifndef __P2_NFIX_H_ 
+#define __P2_NFIX_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -24,7 +24,7 @@ typedef struct
 	int one_size;
 } P2NfixPcut;
 #define kP2NfixPcutDef {		\
-	kPcutDef, NULL,			\
+	kPcutDef, NULL,				\
 	0, 0						\
 }
 

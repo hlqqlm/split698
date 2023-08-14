@@ -171,6 +171,23 @@ typedef struct
 cp_t PcutFactoryInfoValid(const PcutFactoryInfo *info);
 cp_t PcutDeriveFactoryByInfo(Pcut **m, const PcutFactoryInfo *info);
 cp_t PcutDeriveDestory(Pcut *m, const PcutFactoryInfo *info);
+
+
+// 声明用子类base来open/close父类的函数
+#define PCUT_DECLEAR_OPEN_BASE(_class_name) cp_t _class_name##OpenBase(Pcut *base)
+#define PCUT_DECLEAR_CLOSE_BASE(_class_name) cp_t _class_name##CloseBase(Pcut *base)
+
+// 定义用子类base来open/close父类的函数
+#define PCUT_DEFINE_OPEN_BASE(_class_name)	\
+cp_t _class_name##OpenBase(Pcut *base) {	\
+	_class_name *m = (_class_name*)base;	\
+	return _class_name##Open(m);			\
+}
+#define PCUT_DEFINE_CLOSE_BASE(_class_name)	\
+cp_t _class_name##CloseBase(Pcut *base) {	\
+	_class_name *m = (_class_name*)base;	\
+	return _class_name##Close(m);			\
+}
 //}}}
 
 
