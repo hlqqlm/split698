@@ -27,12 +27,11 @@ datetime
 
 #include "p2_datetime.h"
 #include "p2_datetime.xcp.h"
-// #define this_file_id	0x2a5cd78a  // echo -n dlt698_45_datetime.c | rhash --simple -
 
 
 #define TEST_EN					(1)
 #define kThisDatatype			(kDlt698DataTypeDatetime)
-
+#define kThisCutNum				(kP2DatetimeCutNum)
 
 //{{{ misc
 static const P2DatetimePcut *ToDerive(const Pcut *part)
@@ -47,7 +46,8 @@ cp_t P2DatetimeExplain(const char *whole)
 {
 	Dlt698Datetime dt = kDlt698DatetimeDef;
 	Dlt698DatetimeValue(&dt, whole);
-	std::cout << " \t" << dt;
+	//std::cout << " \t" << dt;
+	std::cout << dt;
 	return 0;
 }
 
@@ -57,7 +57,7 @@ static cp_t ValidMain(Pcut *part, int ix, const char *whole)
 {
 	return 0;
 }
-cp_t P2DatetimeExplainMain(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainMain(Pcut *part, int ix, const char *whole) 
 {
 	const char *mem = whole + kP2DatetimeOffset;
 	P2DatetimeExplain(mem);
@@ -69,25 +69,25 @@ cp_t P2DatetimeExplainMain(Pcut *part, int ix, const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2DatetimePartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
-	{ kP2DatetimeName, LenMain, OffsetMain, ValidMain, NULL },
+	{ kP2DatetimeName, LenMain, OffsetMain, ValidMain, ExplainMain },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2DatetimePartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2DatetimePartIxMain]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2DatetimeCutIxMain]),
 };
-static void PcutItemsInit(PcutItem items[kP2DatetimePartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
 cp_t P2DatetimePcutOpen(P2DatetimePcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2DatetimePartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	return 0;
 }
 cp_t P2DatetimePcutClose(P2DatetimePcut *m)

@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_DATETIME_H_
-#define __DLT698_45_DATETIME_H_
+#ifndef __P2_DATETIME_H_
+#define __P2_DATETIME_H_
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -26,27 +26,23 @@ cp_t P2DatetimeExplain(const char *whole);
 // 各部分索引号
 typedef enum
 {
-	kP2DatetimePartIxMain,
-	kP2DatetimePartNum				
-} P2DatetimePartIxT;
+	kP2DatetimeCutIxMain,
+	kP2DatetimeCutNum				
+} P2DatetimeCutIxT;
 
 
 // pcut
 typedef struct
 {
 	Pcut base;
-	PcutItem items[kP2DatetimePartNum];
-	bool datatype_exist;
+	PcutItem items[kP2DatetimeCutNum];
 } P2DatetimePcut;
 // 缺省的是没有datatype的
-#define kP2DatetimePcutDef { kPcutDef, { kPcutItemDef }, false }
+#define kP2DatetimePcutDef { kPcutDef, { kPcutItemDef } }
 
 cp_t P2DatetimePcutOpen(P2DatetimePcut *m);
 cp_t P2DatetimePcutClose(P2DatetimePcut *m);
 cp_t P2DatetimePcutValid(const P2DatetimePcut *m);
-
-// 配置数据类型字节是否存在
-void P2DatetimePcutConfigDatatypeExist(P2DatetimePcut *m, bool exist);
 
 cp_t P2DatetimePcutOpenBase(Pcut *base);
 cp_t P2DatetimePcutCloseBase(Pcut *base);

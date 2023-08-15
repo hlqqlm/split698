@@ -36,9 +36,14 @@ huanglin 创建.
 #include "p2_array.h"
 
 #include "p2_connect_request.h"
+
 #include "p2_get_request_normal.h"
 #include "p2_get_request_normal_list.h"
 #include "p2_get_request.h"
+
+#include "p2_set_request_normal.h"
+#include "p2_set_request_choice.h"
+
 #include "p2_action_request_normal.h"
 #include "p2_action_request_choice.h"
 #include "p2_client_apdu_choice.h"
@@ -557,6 +562,91 @@ static cp_t PdoGetRequestProcess(struct PdoS *doa, Pcut *part, int ix, const cha
 //}}}
 
 
+//{{{ set_request_normal
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoSetRequestNormal;
+static cp_t PdoSetRequestNormalProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+	const int kPrintPartEn = 0;		// 打印解帧过程
+	//const int PRINT_FILL_EN = 1;		// 是否打印填充帧过程
+	PdoSetRequestNormal *derive = (PdoSetRequestNormal*)doa;
+	PfillRepository * const fill_repository_life = derive->fill_repository_life;
+
+	// 可以确定，当前处在action_request_choice中, action_request_normal是当前的choice
+	P2SetRequestChoicePcut *sr = (P2SetRequestChoicePcut*)part;
+	P2SetRequestNormalPcut *srn = (P2SetRequestNormalPcut*)P2ChoicePcutVar(&sr->choice);
+	dvb(srn == (void*)PcutFindSubRecursionDepth(&sr->choice.base, kP2SetRequestNormalName));
+
+	const char * const srn_mem = PcutIxPtrConst(&sr->choice.base, ix, whole);
+	const int srn_mem_len = PcutIxLen(&sr->choice.base, ix, whole);
+
+	if (kPrintPartEn)
+		printf_hex_ex("set_request_normal_mem: ", "\r\n", srn_mem, srn_mem_len, "");
+
+	// 解帧，得到piid + omd + data
+	// todo: 解帧，执行
+	return 0;
+}
+//}}}
+
+
+//{{{ set_request
+typedef struct {
+	Pdo doa;
+} PdoSetRequestFail;
+static cp_t PdoSetRequestProcessFail(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	const uint8_t set_request_choice = (uint8_t)(*whole);
+	qos_printf("This set_request_choice is to be implemented. set_request_choice=%02xH\r\n", set_request_choice);
+	return cph;
+}
+#define kPdoSetRequestFailDef { PDO_INIT(PdoSetRequestProcessFail) }
+
+
+
+
+// client_apdu_choice_set_request
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoSetRequest;
+static cp_t PdoSetRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+
+	PdoSetRequest *derive = (PdoSetRequest*)doa;
+
+	// 可以确定，当前处在client_apdu_choice中, action_request是当前的choice
+	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)part;
+	P2SetRequestChoicePcut *sr = (P2SetRequestChoicePcut*)P2ChoicePcutVar(&cac->choice);
+	dvb(sr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2SetRequestName));
+
+	const char * const set_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
+	const int set_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
+
+	//printf_hex_ex("get_request_mem: ", "\r\n", get_request_mem, get_request_mem_len, "");
+	// 再按get_request来解析+执行get_request_mem.
+
+
+	PdoSetRequestNormal do_action_request_normal = { 
+		PDO_INIT(PdoSetRequestNormalProcess), derive->fill_repository_life };
+	PdoSetRequestFail do_fail = kPdoSetRequestFailDef;
+	Pdo* const kDoTable[kP2SetRequestChoiceNum] = {
+		&do_action_request_normal.doa,	// 请求操作一个对象方法 [1] SetRequestNormal
+		&do_fail.doa,	// 请求操作若干个对象方法 [2] SetRequestNormalList
+		&do_fail.doa,	// 请求操作若干个对象方法后读取若干个对象属性 [3] SetThenGetRequestNormalLi st
+	};
+	P2ChoiceVarDoTableSet(&sr->choice, kDoTable);
+	const cp_t cp = PcutIxDo(&sr->choice.base, 0, 0, kPcutIxAll, set_request_mem);
+	P2ChoiceVarDoTableSet(&sr->choice, NULL);
+	return cp;
+}
+//}}}
+
+
 //{{{ action_request_normal
 typedef struct {
 	Pdo doa;
@@ -664,13 +754,14 @@ cp_t P2ProcessClientApdu(PfillRepository *fill_repository_life, const char *apdu
 
 	PdoConnectRequest do_connect_request = { PDO_INIT(PdoConnectRequestProcess), fill_repository_life };
 	PdoGetRequest do_get_request = { PDO_INIT(PdoGetRequestProcess), fill_repository_life };
+	PdoSetRequest do_set_request = { PDO_INIT(PdoSetRequestProcess), fill_repository_life };
 	PdoActionRequest do_action_request = { PDO_INIT(PdoActionRequestProcess), fill_repository_life };
 	PdoClientApduFail do_fail = kPdoClientApduFailDef;
 	Pdo* const kDoTable[kP2ClientApduChoiceNum] = {
 		&do_connect_request.doa,	// kP2ClientApduChoiceConnectRequest = 2,	// 建立应用连接请求 [2] CONNECT-Request，
 		&do_fail.doa,	// kP2ClientApduChoiceReleaseRequest = 3,	// 断开应用连接请求 [3] RELEASE-Request，
 		&do_get_request.doa,	// kP2ClientApduChoiceGetRequest = 5,	// 读取请求 [5] GET-Request，
-		&do_fail.doa,	// kP2ClientApduChoiceSetRequest = 6,	// 设置请求 [6] SET-Request，
+		&do_set_request.doa,	// kP2ClientApduChoiceSetRequest = 6,	// 设置请求 [6] SET-Request，
 		&do_action_request.doa,	// kP2ClientApduChoiceActionRequest = 7,	// 操作请求 [7] ACTION-Request，
 		&do_fail.doa,	// kP2ClientApduChoiceReportResponse = 8,	// 上报应答 [8] REPORT-Response，
 		&do_fail.doa,	// kP2ClientApduChoiceProxyRequest = 9,	// 代理请求 [9] PROXY-Request，

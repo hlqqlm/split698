@@ -36,6 +36,7 @@ DLT698_45 data choice 变化部分报文解析
 #include "p2_octet_string.h"
 #include "p2_struct.h"
 #include "p2_datetime.h"
+#include "p2_datetimes.h"
 #include "p2_tsa.h"
 
 #include "p2_data_choice.h"
@@ -103,7 +104,7 @@ float64 24 64 位浮点数
 date 26 octet-string（SIZE（5））
 time 27 octet-string（SIZE（3））
 */
-	{ kDlt698DataTypeDatetimeS, "datetimes" },		// date_time_s 28 octet-string（SIZE（7））
+	{ kDlt698DataTypeDatetimeS, "date_time_s" },		// date_time_s 28 octet-string（SIZE（7））
 	/*
 保留 29-79
 OI 80 见 0
@@ -159,6 +160,7 @@ static const P2DoubleLongUnsignedPcut kP2DoubleLongUnsignedPcutVar = kP2DoubleLo
 static const P2LongUnsignedPcut kP2LongUnsignedPcutVar = kP2LongUnsignedPcutDef;
 static const P2OctetStringPcut kP2OctetStringPcutVar = kP2OctetStringPcutDef;
 static const P2DatetimePcut kP2DatetimePcutVar = kP2DatetimePcutDef;
+static const P2DatetimesPcut kP2DatetimesPcutVar = kP2DatetimesPcutDef;
 static const P2TsaPcut kP2TsaPcutVar = kP2TsaPcutDef;
 
 static const PcutFactoryInfo kVarFactoryInfoList[kP2DataTypeNum] = {
@@ -197,7 +199,7 @@ float64 24 64 位浮点数
 date 26 octet-string（SIZE（5））
 time 27 octet-string（SIZE（3））
 */
-	kPcutFactoryInfoDef("datetimes"),		// date_time_s 28 octet-string（SIZE（7））
+	{ "date_time_s", sizeof(kP2DatetimesPcutVar), &kP2DatetimesPcutVar, P2DatetimesPcutOpenBase, P2DatetimesPcutCloseBase },	// date_time_s 28 octet-string（SIZE（7））
 	/*
 保留 29-79
 OI 80 见 0

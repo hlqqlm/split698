@@ -35,6 +35,7 @@ DLT698_45 client apdu choice 变化部分报文解析
 // var
 #include "p2_connect_request.h"
 #include "p2_get_request.h"
+#include "p2_set_request_choice.h"
 #include "p2_action_request_choice.h"
 
 #include "p2_client_apdu_choice.h"
@@ -89,6 +90,7 @@ const char *P2ClientApduChoiceStr(uint8_t choice)
 //{{{ var_factory_info
 static const P2ConnectRequestPcut kP2ConnectRequestPcutDefVar = kP2ConnectRequestPcutDef;
 static const P2GetRequestPcut kP2GetRequestPcutDefVar = kP2GetRequestPcutDef;
+static const P2SetRequestChoicePcut kP2SetRequestChoicePcutDefVar = kP2SetRequestChoicePcutDef;
 static const P2ActionRequestChoicePcut kP2ActionRequestChoicePcutDefVar = kP2ActionRequestChoicePcutDef;
 
 static const PcutFactoryInfo kVarFactoryInfoList[kP2ClientApduChoiceNum] = {
@@ -97,7 +99,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2ClientApduChoiceNum] = {
 	{ kP2ConnectRequestName, sizeof(P2ConnectRequestPcut), &kP2ConnectRequestPcutDefVar, P2ConnectRequestPcutOpenBase, P2ConnectRequestPcutCloseBase },	 // 建立应用连接请求 [2] CONNECT-Request，
 	kPcutFactoryInfoDef("RELEASE-Request"),	// 断开应用连接请求 [3] RELEASE-Request，
 	{ kP2GetRequestName, sizeof(P2GetRequestPcut), &kP2GetRequestPcutDefVar, P2GetRequestPcutOpenBase, P2GetRequestPcutCloseBase },	// 读取请求 [5] GET-Request，
-	kPcutFactoryInfoDef("SET-Request"),	// 设置请求 [6] SET-Request，
+	{ kP2SetRequestName, sizeof(P2SetRequestChoicePcut), &kP2SetRequestChoicePcutDefVar, P2SetRequestChoicePcutOpenBase, P2SetRequestChoicePcutCloseBase },	// 设置请求 [6] SET-Request，
 	{ kP2ActionRequestName, sizeof(P2ActionRequestChoicePcut), &kP2ActionRequestChoicePcutDefVar, P2ActionRequestChoicePcutOpenBase, P2ActionRequestChoicePcutCloseBase },	// 操作请求 [7] ACTION-Request，
 	kPcutFactoryInfoDef("REPORT-Response"),	// 上报应答 [8] REPORT-Response，
 	kPcutFactoryInfoDef("PROXY-Request"),	// 代理请求 [9] PROXY-Request，
