@@ -67,8 +67,10 @@ cp_t P2ActionRequestChoicePcutValid(const P2ActionRequestChoicePcut *m);
 
 
 // 声明用子类base来open/close父类的函数
-PCUT_DECLEAR_OPEN_BASE(P2ActionRequestChoicePcut);
-PCUT_DECLEAR_CLOSE_BASE(P2ActionRequestChoicePcut);
+//PCUT_DECLEAR_OPEN_BASE(P2ActionRequestChoicePcut);
+//PCUT_DECLEAR_CLOSE_BASE(P2ActionRequestChoicePcut);
+cp_t P2ActionRequestChoicePcutOpenBase(Pcut *base);
+cp_t P2ActionRequestChoicePcutCloseBase(Pcut *base);
 //}}}
 
 

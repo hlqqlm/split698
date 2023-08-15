@@ -34,6 +34,7 @@ DLT698_45 sequence of 部分报文解析
 
 #define TEST_EN					(0)
 #define PRINT_PART_IN_TEST_EN	(0)
+#define kThisCutNum				(kP2SequenceOfCutNum)
 
 //{{{ nfix
 static cp_t NfixOpen(P2SequenceOfPcut *m, int num)
@@ -42,7 +43,7 @@ static cp_t NfixOpen(P2SequenceOfPcut *m, int num)
 	dvb(0 == m->nfix_open_cnt);
 	++m->nfix_open_cnt;
 	ifer(P2NfixPcutOpen(&m->nfix_part, num, m->one_size, m->content_name));
-	PcutSubSet(&m->base, kP2SequenceOfPartIxContent, &m->nfix_part.base, NULL);
+	PcutSubSet(&m->base, kP2SequenceOfCutIxContent, &m->nfix_part.base, NULL);
 	return 0;
 }
 static cp_t NfixClose(P2SequenceOfPcut *m)
@@ -53,7 +54,7 @@ static cp_t NfixClose(P2SequenceOfPcut *m)
 
 	dvb(1 == m->nfix_open_cnt);
 	--m->nfix_open_cnt;
-	PcutSubSet(&m->base, kP2SequenceOfPartIxContent, NULL, NULL);
+	PcutSubSet(&m->base, kP2SequenceOfCutIxContent, NULL, NULL);
 	ifer(P2NfixPcutClose(&m->nfix_part));
 	return 0;
 }
@@ -130,20 +131,20 @@ const char *P2SequenceOfContentIx(int one_size, const char *whole, int content_i
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2SequenceOfPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ "num", LenNum, OffsetNum, ValidNum, NULL },
 	{ "content", LenContent, OffsetContent, ValidContent, NULL },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2SequenceOfPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2SequenceOfPartIxNum]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2SequenceOfPartIxContent]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2SequenceOfCutIxNum]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2SequenceOfCutIxContent]),
 };
-static void PcutItemsInit(PcutItem items[kP2SequenceOfPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 cp_t P2SequenceOfPcutOpen(P2SequenceOfPcut *m, int one_size, const char *content_name)
@@ -152,7 +153,7 @@ cp_t P2SequenceOfPcutOpen(P2SequenceOfPcut *m, int one_size, const char *content
 	m->content_name = content_name;
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2SequenceOfPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	dvb(0 == m->nfix_open_cnt);
 	return 0;
 }
@@ -160,7 +161,7 @@ cp_t P2SequenceOfPcutClose(P2SequenceOfPcut *m)
 {
 	dve(P2SequenceOfPcutValid(m));
 
-	//PcutSubSet(&m->base, kP2SequenceOfPartIxContent, NULL, NULL);
+	//PcutSubSet(&m->base, kP2SequenceOfCutIxContent, NULL, NULL);
 	ifer(NfixClose(m));
 	ifer(PcutClose(&m->base));
 	return 0;
@@ -189,17 +190,17 @@ static cp_t TestPcutSequenceOfOad(void)
 	ifer(P2SequenceOfPcutOpen(&so, 4, "oad"));
 	Pcut * const m = &so.base;		
 
-	ifbr(1 == PcutIxLen(m, kP2SequenceOfPartIxNum, whole));
-	ifbr(12 == PcutIxLen(m, kP2SequenceOfPartIxContent, whole));
+	ifbr(1 == PcutIxLen(m, kP2SequenceOfCutIxNum, whole));
+	ifbr(12 == PcutIxLen(m, kP2SequenceOfCutIxContent, whole));
 	ifbr(whole_size == PcutIxLen(m, kPcutIxAll, whole));
 	ifbr(whole_size == 13);
 
-	ifbr(0 == PcutIxOffset(m, kP2SequenceOfPartIxNum, whole));
-	ifbr(1 == PcutIxOffset(m, kP2SequenceOfPartIxContent, whole));
+	ifbr(0 == PcutIxOffset(m, kP2SequenceOfCutIxNum, whole));
+	ifbr(1 == PcutIxOffset(m, kP2SequenceOfCutIxContent, whole));
 	ifbr(13 == PcutIxOffset(m, kPcutIxAll, whole));
 
-	ifer(PcutIxValid(m, kP2SequenceOfPartIxNum, whole));
-	ifer(PcutIxValid(m, kP2SequenceOfPartIxContent, whole));
+	ifer(PcutIxValid(m, kP2SequenceOfCutIxNum, whole));
+	ifer(PcutIxValid(m, kP2SequenceOfCutIxContent, whole));
 	ifer(PcutIxValid(m, kPcutIxAll, whole));
 
 	if (PRINT_PART_IN_TEST_EN)

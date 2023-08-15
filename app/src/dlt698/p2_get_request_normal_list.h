@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_GET_REQUEST_NORMAL_LIST_H_ 
-#define __DLT698_45_GET_REQUEST_NORMAL_LIST_H_ 
+#ifndef __P2_GET_REQUEST_NORMAL_LIST_H_ 
+#define __P2_GET_REQUEST_NORMAL_LIST_H_ 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
 #include "protocol/pcut.h"
@@ -34,16 +34,16 @@ uint8_t P2GetRequestNormalListPiid(const char *whole);
 //{{{ part
 typedef enum
 {
-	kP2GetRequestNormalListPartIxPiid,
-	kP2GetRequestNormalListPartIxSequenceOfOad,
-	kP2GetRequestNormalListPartNum				
-} P2GetRequestNormalListPartIxT;
+	kP2GetRequestNormalListCutIxPiid,
+	kP2GetRequestNormalListCutIxSequenceOfOad,
+	kP2GetRequestNormalListCutNum				
+} P2GetRequestNormalListCutIxT;
 
 
 typedef struct 
 {
 	Pcut base;
-	PcutItem items[kP2GetRequestNormalListPartNum];
+	PcutItem items[kP2GetRequestNormalListCutNum];
 	P2SequenceOfPcut sequence_of_oad;
 } P2GetRequestNormalListPcut;
 #define kP2GetRequestNormalListPcutDef { kPcutDef, { kPcutItemDef }, kP2SequenceOfPcutDef }

@@ -46,6 +46,10 @@ huanglin 创建.
 
 #include "p2_action_request_normal.h"
 #include "p2_action_request_choice.h"
+
+#include "p2_report_response_record_list.h"
+#include "p2_report_response_choice.h"
+
 #include "p2_client_apdu_choice.h"
 #include "p2_client_apdu.h"
 
@@ -732,6 +736,93 @@ static cp_t PdoActionRequestProcess(struct PdoS *doa, Pcut *part, int ix, const 
 //}}}
 
 
+//{{{ report_response_record_list
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoReportResponseRecordList;
+static cp_t PdoReportResponseRecordListProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+	const int kPrintPartEn = 0;		// 打印解帧过程
+	//const int PRINT_FILL_EN = 1;		// 是否打印填充帧过程
+	PdoReportResponseRecordList *derive = (PdoReportResponseRecordList*)doa;
+	PfillRepository * const fill_repository_life = derive->fill_repository_life;
+
+	// 可以确定，当前处在report_response_choice中, report_response.record_list是当前的choice
+	P2ReportResponseChoicePcut *rr = (P2ReportResponseChoicePcut*)part;
+	P2ReportResponseRecordListPcut *rrrl = (P2ReportResponseRecordListPcut*)P2ChoicePcutVar(&rr->choice);
+	dvb(rrrl == (void*)PcutFindSubRecursionDepth(&rr->choice.base, kP2ReportResponseRecordListName));
+
+	const char * const rrrl_mem = PcutIxPtrConst(&rr->choice.base, ix, whole);
+	const int rrrl_mem_len = PcutIxLen(&rr->choice.base, ix, whole);
+
+	if (kPrintPartEn)
+		printf_hex_ex("report_response.record_list mem: ", "\r\n", rrrl_mem, rrrl_mem_len, "");
+
+	// 解帧，得到piid + omd + data
+	// todo: 解帧，执行
+	return 0;
+}
+//}}}
+
+
+//{{{ report_response
+typedef struct {
+	Pdo doa;
+} PdoReportResponseFail;
+static cp_t PdoReportResponseProcessFail(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	const uint8_t report_response_choice = (uint8_t)(*whole);
+	qos_printf("This report_response_choice is to be implemented. report_response_choice=%02xH\r\n", report_response_choice);
+	return cph;
+}
+#define kPdoReportResponseFailDef { PDO_INIT(PdoReportResponseProcessFail) }
+
+
+
+
+// client_apdu_choice_report_response
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoReportResponse;
+static cp_t PdoReportResponseProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+
+	PdoReportResponse *derive = (PdoReportResponse*)doa;
+
+	// 可以确定，当前处在client_apdu_choice中, report_response是当前的choice
+	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)part;
+	P2ReportResponseChoicePcut *rr = (P2ReportResponseChoicePcut*)P2ChoicePcutVar(&cac->choice);
+	dvb(rr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2ReportResponseName));
+
+	const char * const report_response_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
+	const int report_response_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
+
+	//printf_hex_ex("get_request_mem: ", "\r\n", get_request_mem, get_request_mem_len, "");
+	// 再按get_request来解析+执行get_request_mem.
+
+
+	PdoReportResponseRecordList do_report_response_record_list = { 
+		PDO_INIT(PdoReportResponseRecordListProcess), derive->fill_repository_life };
+	PdoReportResponseFail do_fail = kPdoReportResponseFailDef;
+	Pdo* const kDoTable[kP2ReportResponseChoiceNum] = {
+		&do_fail.doa,	// 上报若干个对象属性的响应 [1] ReportResponseList
+		&do_report_response_record_list.doa,	// 上报若干个记录型对象属性的响应 [2] ReportResponseRecordList
+		&do_fail.doa,	// 上报透明数据的响应 [3] ReportResponseTransData
+		&do_fail.doa,	// 请求客户机服务的响应 [4] ReportResponseClientService
+		&do_fail.doa,	// 上报精简的记录型对象属性的响应 [6] ReportResponseSimplifyRecord
+	};
+	P2ChoiceVarDoTableSet(&rr->choice, kDoTable);
+	const cp_t cp = PcutIxDo(&rr->choice.base, 0, 0, kPcutIxAll, report_response_mem);
+	P2ChoiceVarDoTableSet(&rr->choice, NULL);
+	return cp;
+}
+//}}}
+
+
 //{{{ client-apdu
 // do-fail
 typedef struct {
@@ -756,6 +847,7 @@ cp_t P2ProcessClientApdu(PfillRepository *fill_repository_life, const char *apdu
 	PdoGetRequest do_get_request = { PDO_INIT(PdoGetRequestProcess), fill_repository_life };
 	PdoSetRequest do_set_request = { PDO_INIT(PdoSetRequestProcess), fill_repository_life };
 	PdoActionRequest do_action_request = { PDO_INIT(PdoActionRequestProcess), fill_repository_life };
+	PdoReportResponse do_report_response = { PDO_INIT(PdoReportResponseProcess), fill_repository_life };
 	PdoClientApduFail do_fail = kPdoClientApduFailDef;
 	Pdo* const kDoTable[kP2ClientApduChoiceNum] = {
 		&do_connect_request.doa,	// kP2ClientApduChoiceConnectRequest = 2,	// 建立应用连接请求 [2] CONNECT-Request，
@@ -763,7 +855,7 @@ cp_t P2ProcessClientApdu(PfillRepository *fill_repository_life, const char *apdu
 		&do_get_request.doa,	// kP2ClientApduChoiceGetRequest = 5,	// 读取请求 [5] GET-Request，
 		&do_set_request.doa,	// kP2ClientApduChoiceSetRequest = 6,	// 设置请求 [6] SET-Request，
 		&do_action_request.doa,	// kP2ClientApduChoiceActionRequest = 7,	// 操作请求 [7] ACTION-Request，
-		&do_fail.doa,	// kP2ClientApduChoiceReportResponse = 8,	// 上报应答 [8] REPORT-Response，
+		&do_report_response.doa,	// kP2ClientApduChoiceReportResponse = 8,	// 上报应答 [8] REPORT-Response，
 		&do_fail.doa,	// kP2ClientApduChoiceProxyRequest = 9,	// 代理请求 [9] PROXY-Request，
 		&do_fail.doa,	// kP2ClientApduChoiceCompactGetRequest = 69,	// 紧凑读取请求 [69] COMPACT-GET-Request，
 		&do_fail.doa,	// kP2ClientApduChoiceCompactSetRequest = 70,	// 紧凑设置请求 [70] COMPACT-SET-Request，

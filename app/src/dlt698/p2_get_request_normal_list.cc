@@ -39,7 +39,7 @@ DLT698_45报文解析
 
 #define TEST_EN					(0)
 #define PRINT_PART_IN_TEST_EN	(0)
-
+#define kThisCutNum				(kP2GetRequestNormalListCutNum)
 
 // {{{ piid
 static int LenPiid(Pcut *part, int ix, const char *whole) { return P2_GRNL_PIID_SIZE; }
@@ -68,36 +68,36 @@ static int OffsetSequenceOfOad(Pcut *part, int ix, const char *whole) { return P
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2GetRequestNormalListPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ "piid", LenPiid, OffsetPiid, ValidPiid, NULL },
 	{ "sequence_of_oad", LenSequenceOfOad, OffsetSequenceOfOad, ValidSequenceOfOad, NULL },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2GetRequestNormalListPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2GetRequestNormalListPartIxPiid]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2GetRequestNormalListPartIxSequenceOfOad]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2GetRequestNormalListCutIxPiid]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2GetRequestNormalListCutIxSequenceOfOad]),
 };
-static void PcutItemsInit(PcutItem items[kP2GetRequestNormalListPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 cp_t P2GetRequestNormalListPcutOpen(P2GetRequestNormalListPcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2GetRequestNormalListPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
 	ifer(P2SequenceOfPcutOpen(&m->sequence_of_oad, OAD_MEM_SIZE, "oad"));
-	PcutSubSet(&m->base, kP2GetRequestNormalListPartIxSequenceOfOad, &m->sequence_of_oad.base, "sequence_of_oad");
+	PcutSubSet(&m->base, kP2GetRequestNormalListCutIxSequenceOfOad, &m->sequence_of_oad.base, "sequence_of_oad");
 	return 0;
 }
 cp_t P2GetRequestNormalListPcutClose(P2GetRequestNormalListPcut *m)
 {
 	dve(P2GetRequestNormalListPcutValid(m));
 
-	PcutSubSet(&m->base, kP2GetRequestNormalListPartIxSequenceOfOad, NULL, NULL);
+	PcutSubSet(&m->base, kP2GetRequestNormalListCutIxSequenceOfOad, NULL, NULL);
 	ifer(P2SequenceOfPcutClose(&m->sequence_of_oad));
 	ifer(PcutClose(&m->base));
 	return 0;
@@ -150,9 +150,9 @@ static cp_t PdoProcessSequenceOfOad(struct PdoS *doa, Pcut *part, int ix, const 
 static cp_t ValueInOpen(Pcut *part, P2GetRequestNormalListValue *value, const char *whole)
 {
 	PdoSequenceOfOad do_soo = kPdoSequenceOfOadDef;
-	PcutDoSet(part, kP2GetRequestNormalListPartIxSequenceOfOad, &do_soo.doa);
+	PcutDoSet(part, kP2GetRequestNormalListCutIxSequenceOfOad, &do_soo.doa);
 	ifer(PcutIxDo(part, 0, 0, kPcutIxAll, whole));
-	PcutDoSet(part, kP2GetRequestNormalListPartIxSequenceOfOad, NULL);
+	PcutDoSet(part, kP2GetRequestNormalListCutIxSequenceOfOad, NULL);
 
 	value->piid = P2GetRequestNormalListPiid(whole);
 	value->oad = do_soo.oad;
@@ -196,11 +196,11 @@ static cp_t TestPcut(void)
 	ifer(P2GetRequestNormalListPcutOpen(&grnl));
 	Pcut * const m = &grnl.base;		
 
-	ifbr(13 == PcutIxLen(m, kP2GetRequestNormalListPartIxSequenceOfOad, whole));
+	ifbr(13 == PcutIxLen(m, kP2GetRequestNormalListCutIxSequenceOfOad, whole));
 	ifbr(whole_size == PcutIxLen(m, kPcutIxAll, whole));
 	ifbr(whole_size == 14);
 
-	ifbr(1 == PcutIxOffset(m, kP2GetRequestNormalListPartIxSequenceOfOad, whole));
+	ifbr(1 == PcutIxOffset(m, kP2GetRequestNormalListCutIxSequenceOfOad, whole));
 	ifbr(14 == PcutIxOffset(m, kPcutIxAll, whole));
 
 	ifer(PcutIxValid(m, kPcutIxAll, whole));

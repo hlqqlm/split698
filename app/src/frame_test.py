@@ -49,7 +49,7 @@ kFrame = (
     ("设置响应 [134] SET-Response", ""),
     ("操作响应 [135] ACTION-Response", ""),
     ("上报通知 [136] REPORT-Notification", ""),
-    ("代理响应 [137] PROXY-Response", ""),
+    ("代理响应 [137] PROXY-Response", "682a00c305330920390000005317890704f209020101106861010000000068910434394339b01600000c8e16"),
     ("紧凑读取响应 [197] COMPACT-GET-Response", ""),
     ("紧凑设置响应 [198] COMPACT-SET-Response", ""),
     ("紧凑代理响应 [201] COMPACT-PROXY-Response", ""),

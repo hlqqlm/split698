@@ -210,9 +210,6 @@ cp_t P2TsaPcutValid(const P2TsaPcut *m)
 }
 
 
-PCUT_DEFINE_OPEN_BASE(P2TsaPcut);
-PCUT_DEFINE_CLOSE_BASE(P2TsaPcut);
-/*
 cp_t P2TsaPcutOpenBase(Pcut *base)
 {
 	P2TsaPcut *m = (P2TsaPcut*)base;
@@ -223,7 +220,6 @@ cp_t P2TsaPcutCloseBase(Pcut *base)
 	P2TsaPcut *m = (P2TsaPcut*)base;
 	return P2TsaPcutClose(m);
 }
-*/
 //}}}
 
 

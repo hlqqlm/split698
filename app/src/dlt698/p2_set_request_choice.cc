@@ -90,39 +90,20 @@ cp_t P2SetRequestChoicePcutValid(const P2SetRequestChoicePcut *m)
 	return P2ChoicePcutValid(&m->choice);
 }
 
-#if 0
-#define PCUT_DECLEAR_OPEN_BASE(_class_name) cp_t _class_name##OpenBase(Pcut *base)
-#define PCUT_DECLEAR_CLOSE_BASE(_class_name) cp_t _class_name##CloseBase(Pcut *base)
-
-#define PCUT_DEFINE_OPEN_BASE(_class_name)	\
-cp_t _class_name##OpenBase(Pcut *base) {		\
-	_class_name *m = (_class_name*)base;	\
-	return _class_name##Open(m);			\
-}
-#define PCUT_DEFINE_CLOSE_BASE(_class_name)	\
-cp_t _class_name##CloseBase(Pcut *base) {		\
-	_class_name *m = (_class_name*)base;	\
-	return _class_name##Close(m);			\
-}
-#endif
 
 // 定义用子类base来open/close父类的函数
-PCUT_DEFINE_OPEN_BASE(P2SetRequestChoicePcut);
-PCUT_DEFINE_CLOSE_BASE(P2SetRequestChoicePcut);
-
-
-/*
+//PCUT_DEFINE_OPEN_BASE(P2SetRequestChoicePcut);
+//PCUT_DEFINE_CLOSE_BASE(P2SetRequestChoicePcut);
 cp_t P2SetRequestChoicePcutOpenBase(Pcut *base)
 {
 	P2SetRequestChoicePcut *m = (P2SetRequestChoicePcut*)base;
 	return P2SetRequestChoicePcutOpen(m);
 }
-cp_t P2GetRequestPcutCloseBase(Pcut *base)
+cp_t P2SetRequestChoicePcutCloseBase(Pcut *base)
 {
 	P2SetRequestChoicePcut *m = (P2SetRequestChoicePcut*)base;
-	return P2SetPequestChoicePcutClose(m);
+	return P2SetRequestChoicePcutClose(m);
 }
-*/
 //}}}
 
 

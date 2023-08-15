@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_SEQUENCE_OF_H_ 
-#define __DLT698_45_SEQUENCE_OF_H_ 
+#ifndef __P2_SEQUENCE_OF_H_ 
+#define __P2_SEQUENCE_OF_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -30,15 +30,15 @@ const char *P2SequenceOfContentIx(int one_size, const char *whole, int content_i
 //{{{ part
 typedef enum
 {
-	kP2SequenceOfPartIxNum,
-	kP2SequenceOfPartIxContent,				// num对应的变化部分
-	kP2SequenceOfPartNum				
-} P2SequenceOfPartIxT;
+	kP2SequenceOfCutIxNum,
+	kP2SequenceOfCutIxContent,				// num对应的变化部分
+	kP2SequenceOfCutNum				
+} P2SequenceOfCutIxT;
 
 typedef struct
 {
 	Pcut base;		
-	PcutItem items[kP2SequenceOfPartNum];
+	PcutItem items[kP2SequenceOfCutNum];
 
 	int one_size;					// 一个元素的大小
 	const char *content_name;		// 重复元素名称

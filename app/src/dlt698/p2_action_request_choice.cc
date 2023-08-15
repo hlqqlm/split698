@@ -31,11 +31,11 @@ DLT698_45 action request choice 变化部分报文解析
 
 #define TEST_EN					(0)
 #define PRINT_PART_IN_TEST_EN	(1)
+#define kChoiceNum				(kP2ActionRequestChoiceNum)
 
 
 // {{{ choice
 // 必须按大小顺序排
-#define kChoiceNum kP2ActionRequestChoiceNum
 static const P2Choice kChoiceList[kChoiceNum] = {
 	// choice	name
 	{ kP2ActionRequestChoiceNormal, "action_request_normal" },	// 请求操作一个对象方法 [1] ActionRequestNormal，
@@ -67,7 +67,7 @@ const char *P2ActionRequestChoiceStr(uint8_t choice)
 
 //{{{ var_factory_info
 static const P2ActionRequestNormalPcut kP2ActionRequestNormalPcutDefVar = kP2ActionRequestNormalPcutDef;
-static const PcutFactoryInfo kVarFactoryInfoList[kP2ActionRequestChoiceNum] = {
+static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
 	// name		size	init	derive_open		derive_close
 	{ kP2ActionRequestNormalName, sizeof(P2ActionRequestNormalPcut), &kP2ActionRequestNormalPcutDefVar, P2ActionRequestNormalPcutOpenBase, P2ActionRequestNormalPcutCloseBase },	// 请求操作一个对象方法 [1] ActionRequestNormal，
 	kPcutFactoryInfoDef("ActionRequestNormalList"),				// 请求操作若干个对象方法 [2] ActionRequestNormalList，
@@ -79,7 +79,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2ActionRequestChoiceNum] = {
 //{{{ pcut
 cp_t P2ActionRequestChoicePcutOpen(P2ActionRequestChoicePcut *m)
 {
-	return P2ChoicePcutOpen(&m->choice, kP2ActionRequestNameChoice, kChoiceList, kP2ActionRequestChoiceNum, kVarFactoryInfoList);
+	return P2ChoicePcutOpen(&m->choice, kP2ActionRequestNameChoice, kChoiceList, kChoiceNum, kVarFactoryInfoList);
 }
 cp_t P2ActionRequestChoicePcutClose(P2ActionRequestChoicePcut *m)
 {
@@ -90,39 +90,21 @@ cp_t P2ActionRequestChoicePcutValid(const P2ActionRequestChoicePcut *m)
 	return P2ChoicePcutValid(&m->choice);
 }
 
-#if 0
-#define PCUT_DECLEAR_OPEN_BASE(_class_name) cp_t _class_name##OpenBase(Pcut *base)
-#define PCUT_DECLEAR_CLOSE_BASE(_class_name) cp_t _class_name##CloseBase(Pcut *base)
-
-#define PCUT_DEFINE_OPEN_BASE(_class_name)	\
-cp_t _class_name##OpenBase(Pcut *base) {		\
-	_class_name *m = (_class_name*)base;	\
-	return _class_name##Open(m);			\
-}
-#define PCUT_DEFINE_CLOSE_BASE(_class_name)	\
-cp_t _class_name##CloseBase(Pcut *base) {		\
-	_class_name *m = (_class_name*)base;	\
-	return _class_name##Close(m);			\
-}
-#endif
 
 // 定义用子类base来open/close父类的函数
-PCUT_DEFINE_OPEN_BASE(P2ActionRequestChoicePcut);
-PCUT_DEFINE_CLOSE_BASE(P2ActionRequestChoicePcut);
+//PCUT_DEFINE_OPEN_BASE(P2ActionRequestChoicePcut);
+//PCUT_DEFINE_CLOSE_BASE(P2ActionRequestChoicePcut);
 
-
-/*
 cp_t P2ActionRequestChoicePcutOpenBase(Pcut *base)
 {
 	P2ActionRequestChoicePcut *m = (P2ActionRequestChoicePcut*)base;
 	return P2ActionRequestChoicePcutOpen(m);
 }
-cp_t P2GetRequestPcutCloseBase(Pcut *base)
+cp_t P2ActionRequestChoicePcutCloseBase(Pcut *base)
 {
 	P2ActionRequestChoicePcut *m = (P2ActionRequestChoicePcut*)base;
-	return P2ActionPequestChoicePcutClose(m);
+	return P2ActionRequestChoicePcutClose(m);
 }
-*/
 //}}}
 
 
