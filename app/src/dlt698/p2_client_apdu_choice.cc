@@ -40,11 +40,9 @@ DLT698_45 client apdu choice 变化部分报文解析
 
 #include "p2_client_apdu_choice.h"
 #include "p2_client_apdu_choice.xcp.h"
-//#define this_file_id	0xd4d83d8f	// echo -n dlt698_45_client_apdu_choice.c | rhash --simple -
 
 
 #define TEST_EN				(0)
-// #define TEST_RUN_TIMES		(10)	// 测试运行次数
 
 
 // {{{ choice
