@@ -23,6 +23,7 @@ huanglin 创建.
 */
 
 // var
+#include "p2_proxy_response_choice.h"
 
 #include "p2_server_apdu_choice.h"
 #include "p2_server_apdu_choice.xcp.h"
@@ -74,6 +75,7 @@ const char *P2ServerApduChoiceStr(uint8_t choice)
 
 
 //{{{ var_factory_info
+static const P2ProxyResponseChoicePcut kP2ProxyResponseChoicePcutDefVar = kP2ProxyResponseChoicePcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kP2ServerApduChoiceNum] = {
 	// name		size	init	derive_open		derive_close
 	kPcutFactoryInfoDef("CONNECT-Response"),	// 建立应用连接响应 [130] CONNECT-Response，
@@ -83,7 +85,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2ServerApduChoiceNum] = {
 	kPcutFactoryInfoDef("SET-Response"),	// 设置响应 [134] SET-Response，
 	kPcutFactoryInfoDef("ACTION-Response"),	// 操作响应 [135] ACTION-Response，
 	kPcutFactoryInfoDef("REPORT-Notification"),	// 上报通知 [136] REPORT-Notification，
-	kPcutFactoryInfoDef("PROXY-Response"),	// 代理响应 [137] PROXY-Response，
+	{ kP2ProxyResponseName, sizeof(P2ProxyResponseChoicePcut), &kP2ProxyResponseChoicePcutDefVar, P2ProxyResponseChoicePcutOpenBase, P2ProxyResponseChoicePcutCloseBase },	//  代理响应 [137] PROXY-Response，
 	kPcutFactoryInfoDef("COMPACT-GET-Response"),	// 紧凑读取响应 [197] COMPACT-GET-Response，
 	kPcutFactoryInfoDef("COMPACT-SET-Response"),	// 紧凑设置响应 [198] COMPACT-SET-Response，
 	kPcutFactoryInfoDef("COMPACT-PROXY-Response"),	// 紧凑代理响应 [201] COMPACT-PROXY-Response，
