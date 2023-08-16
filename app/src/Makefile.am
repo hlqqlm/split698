@@ -51,8 +51,8 @@ nobase_include_HEADERS = \
 	qos/qlibc.h qos/app.h qos/time64_config.h qos/time64_limits.h qos/fileid.h qos/qcp.h qos/qstr.h qos/qtime.h qos/time64.h qos/qbit.h qos/qtest.h qos/qmem.h qos/qarray.h qos/qmemtable.h qos/qtimeout.h qos/qbuf.h	\
 	protocol/pcut.h protocol/pdo.h protocol/pfill.h protocol/pfill_repository.h 			\
 	dlt698/p2_config.h dlt698/qdlt698.h dlt698/p2_base.h dlt698/a_xdr.h dlt698/p2_dar.h dlt698/fcs.h  \
-	dlt698/p2_datatype_with_content.h dlt698/p2_double_long_unsigned.h dlt698/p2_array.h dlt698/p2_choice.h dlt698/p2_double_long.h \
-	dlt698/p2_a_result_normal.h dlt698/p2_data_choice.h dlt698/p2_follow_report.h dlt698/p2_timetag.h dlt698/p2_sequence_of_var_len.h dlt698/p2_long_unsigned.h dlt698/p2_datetime.h dlt698/p2_datetimes.h dlt698/p2_nfix.h dlt698/p2_nvar.h dlt698/p2_octet_string.h dlt698/p2_optional.h dlt698/p2_enum.h	dlt698/p2_comdcb.h dlt698/p2_trans_result.h \
+	dlt698/p2_null.h dlt698/p2_datatype_with_content.h dlt698/p2_double_long_unsigned.h dlt698/p2_array.h dlt698/p2_struct.h dlt698/p2_choice.h dlt698/p2_double_long.h \
+	dlt698/p2_a_result_normal.h dlt698/p2_data_choice.h dlt698/p2_follow_report.h dlt698/p2_timetag.h dlt698/p2_sequence_of_var_len.h dlt698/p2_long_unsigned.h dlt698/p2_datetime.h dlt698/p2_datetimes.h dlt698/p2_nfix.h dlt698/p2_nvar.h dlt698/p2_octet_string.h dlt698/p2_visible_string.h dlt698/p2_tsa.h dlt698/p2_optional.h dlt698/p2_enum.h	dlt698/p2_comdcb.h dlt698/p2_trans_result.h \
 	dlt698/p2_addr.h 	\
 	dlt698/p2_link_apdu.h dlt698/p2_link_apdu_choice.h dlt698/p2_link_request.h dlt698/p2_link_response.h \
 	dlt698/p2_connect_request.h dlt698/p2_connect_mechanism_info_choice.h dlt698/p2_signature_security.h dlt698/p2_symmetry_security.h \
