@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_DOUBLE_LONG_UNSIGNED_H_
-#define __DLT698_45_DOUBLE_LONG_UNSIGNED_H_
+#ifndef __P2_DOUBLE_LONG_UNSIGNED_H_
+#define __P2_DOUBLE_LONG_UNSIGNED_H_
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"

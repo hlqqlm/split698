@@ -25,17 +25,16 @@ SymmetrySecurity∷=SEQUENCE
 #define kP2SymmetrySecurityNameSign1			"sign1"
 
 
-// basic information
+//{{{ basic information
 #define kP2SymmetrySecurityCiphertext1Offset					(0)
 #define kP2SymmetrySecurityCiphertext1Size(_ciphertext1_size)	(_ciphertext1_size)
 
 #define kP2SymmetrySecuritySign1Offset(_ciphertext1_size)		(kP2SymmetrySecurityCiphertext1Offset + kP2SymmetrySecurityCiphertext1Size(_ciphertext1_size))
 #define kP2SymmetrySecuritySign1Size(_sign1_size)				(_sign1_size)
+//}}}
 
 
-
-
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2SymmetrySecurityCutIxCiphertext1,

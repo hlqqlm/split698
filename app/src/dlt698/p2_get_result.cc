@@ -29,14 +29,91 @@ DLT698_45报文解析
 用来描述dlt698_45中的GetResult
 */
 #include "qdlt698.h"
+
+// choice
+#include "p2_dar.h"
+#include "p2_data_choice.h"
+
 #include "p2_get_result.h"
 #include "p2_get_result.xcp.h"
-//#define this_file_id	0xc766fbff // echo -n dlt698_45_get_result.c | rhash --simple -
 
 
 #define TEST_EN				(0)
+#define kChoiceNum			(kP2GetResultChoiceNum)
 
 
+// {{{ choice
+// 必须按大小顺序排
+static const P2Choice kChoiceList[kChoiceNum] = {
+	// choice	name
+	{ kP2GetResultChoiceDar, "dar" },		// 错误信息 [0] DAR，
+	{ kP2GetResultChoiceData, "data" },		// 数据 [1] Data
+};
+int P2GetResultChoice2Ix(uint8_t choice)
+{
+	return P2Choice2Ix(kChoiceList, kChoiceNum, choice);
+}
+uint8_t P2GetResultChoiceIx2Value(int choice_ix)
+{
+	return P2ChoiceIx2Value(kChoiceList, kChoiceNum, choice_ix);
+}
+cp_t P2GetResultChoiceIxValid(int choice_ix)
+{
+	return P2ChoiceIxValid(kChoiceNum, choice_ix);
+}
+cp_t P2GetResultChoiceValid(uint8_t choice)
+{
+	return P2ChoiceValid(kChoiceList, kChoiceNum, choice);
+}
+const char *P2GetResultChoiceStr(uint8_t choice)
+{
+	return P2ChoiceStr(kChoiceList, kChoiceNum, choice);
+}
+//}}}
+
+
+//{{{ var_factory_info
+static const P2DarPcut kP2DarPcutDefVar = kP2DarPcutDef;
+static const P2DataChoicePcut kP2DataChoicePcutDefVar = kP2DataChoicePcutDef;
+static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
+	// name		size	init	derive_open		derive_close
+	{ kP2GetResultChoiceNameDar, sizeof(P2DarPcut), &kP2DarPcutDefVar, P2DarPcutOpenBase, P2DarPcutCloseBase },	// 错误信息 [0] DAR，
+	{ kP2GetResultChoiceNameData, sizeof(P2DataChoicePcut), &kP2DataChoicePcutDefVar, P2DataChoicePcutOpenBase, P2DataChoicePcutCloseBase },	// 数据 [1] Data
+};
+//}}}
+
+
+//{{{ pcut
+cp_t P2GetResultPcutOpen(P2GetResultPcut *m)
+{
+	return P2ChoicePcutOpen(&m->choice, kP2GetResultNameChoice, kChoiceList, kChoiceNum, kVarFactoryInfoList);
+}
+cp_t P2GetResultPcutClose(P2GetResultPcut *m)
+{
+	return P2ChoicePcutClose(&m->choice);
+}
+cp_t P2GetResultPcutValid(const P2GetResultPcut *m)
+{
+	return P2ChoicePcutValid(&m->choice);
+}
+
+
+
+// 定义用子类base来open/close父类的函数
+cp_t P2GetResultPcutOpenBase(Pcut *base)
+{
+	P2GetResultPcut *m = (P2GetResultPcut*)base;
+	return P2GetResultPcutOpen(m);
+}
+cp_t P2GetResultPcutCloseBase(Pcut *base)
+{
+	P2GetResultPcut *m = (P2GetResultPcut*)base;
+	return P2GetResultPcutClose(m);
+}
+//}}}
+
+
+//{{{ fill
 cp_t P2GetResultFillItemProcessChoice(struct PfillS *fill, int level, int ix, char *mem, int mem_size, int offset, int *fill_size)
 {
 	const PfillItem *fi = PfillIxItemConst(fill, ix);
@@ -81,6 +158,8 @@ cp_t P2GetResultFillInit(Pfill *m, uint8_t dar, Pfill *sub_data)
 
 	return 0;
 }
+//}}}
+
 
 //{{{ test
 #if TEST_EN > 0

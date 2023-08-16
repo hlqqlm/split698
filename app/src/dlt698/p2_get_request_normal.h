@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_GET_REQUEST_NORMAL_H_ 
-#define __DLT698_45_GET_REQUEST_NORMAL_H_ 
+#ifndef __P2_GET_REQUEST_NORMAL_H_ 
+#define __P2_GET_REQUEST_NORMAL_H_ 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
 #include "protocol/pcut.h"

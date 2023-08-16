@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_GET_RESPONSE_NORMAL_H_ 
-#define __DLT698_45_GET_RESPONSE_NORMAL_H_ 
+#ifndef __P2_GET_RESPONSE_NORMAL_H_ 
+#define __P2_GET_RESPONSE_NORMAL_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -9,18 +9,15 @@
 #include "p2_a_result_normal.h"
 
 
-#define kP2GetResponseNormalName			"get_response_normal"
-#define kP2GetResponseNormalPiidAcd			"piid-acd"
-#define kP2GetResponseNormalAResultNormal	kP2AResultNormalName
+#define kP2GetResponseNormalName				"get_response_normal"
+#define kP2GetResponseNormalNamePiidAcd			"piid-acd"
+#define kP2GetResponseNormalNameAResultNormal	kP2AResultNormalName
 
 
-// basic information
-#define kP2GetResponseNormalPiidAcdOffset		(0)
-#define kP2GetResponseNormalPiidAcdSize			(1)
 
-#define kP2GetResponseNormalAResultNormalOffset	(kP2GetResponseNormalPiidAcdOffset + kP2GetResponseNormalPiidAcdSize)
-#define kP2GetResponseNormalAResultNormalSize(_a_result_normal_size)		(_a_result_normal_size)
 
+
+//{{{ base
 /*
 GetResponseNormal∷=SEQUENCE
 {
@@ -41,7 +38,44 @@ Get-Result∷=CHOICE
 }
 */
 
+// basic information
+#define kP2GetResponseNormalPiidAcdOffset		(0)
+#define kP2GetResponseNormalPiidAcdSize			(1)
 
+#define kP2GetResponseNormalAResultNormalOffset	(kP2GetResponseNormalPiidAcdOffset + kP2GetResponseNormalPiidAcdSize)
+#define kP2GetResponseNormalAResultNormalSize(_a_result_normal_size)		(_a_result_normal_size)
+//}}}
+
+
+//{{{ cut
+typedef enum
+{
+	kP2GetResponseNormalCutIxPiidAcd,
+	kP2GetResponseNormalCutIxAResultNormal,
+	kP2GetResponseNormalCutNum				
+} P2GetResponseNormalCutIxT;
+
+
+typedef struct 
+{
+	Pcut base;
+	PcutItem items[kP2GetResponseNormalCutNum];
+
+	// sub
+	P2AResultNormalPcut a_result_normal_cut;
+} P2GetResponseNormalPcut;
+#define kP2GetResponseNormalPcutDef {			\
+	kPcutDef, { kPcutItemDef }					\
+	, kP2AResultNormalPcutDef						\
+}
+
+cp_t P2GetResponseNormalPcutOpen(P2GetResponseNormalPcut *m);
+cp_t P2GetResponseNormalPcutClose(P2GetResponseNormalPcut *m);
+cp_t P2GetResponseNormalPcutValid(const P2GetResponseNormalPcut *m);
+
+cp_t P2GetResponseNormalPcutOpenBase(Pcut *base);
+cp_t P2GetResponseNormalPcutCloseBase(Pcut *base);
+//}}}
 
 
 

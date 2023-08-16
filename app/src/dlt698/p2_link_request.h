@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_LINK_REQUEST_H_ 
-#define __DLT698_45_LINK_REQUEST_H_ 
+#ifndef __P2_LINK_REQUEST_H_ 
+#define __P2_LINK_REQUEST_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -83,14 +83,14 @@ typedef enum
 	kP2LinkRequestCutIxType,
 	kP2LinkRequestCutIxHeartbeatInterval,
 	kP2LinkRequestCutIxDatetime,
-	kP2LinkRequestPartNum				
+	kP2LinkRequestCutNum				
 } P2LinkRequestCutIxT;
 
 
 typedef struct 
 {
 	Pcut base;
-	PcutItem items[kP2LinkRequestPartNum];
+	PcutItem items[kP2LinkRequestCutNum];
 
 	// 模仿P2ClientApduPcut初始化
 	P2EnumPcut enum_type;		// 因为要执行enum do table，所以必须要用sub来解析enum

@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_GET_RESULT_H_ 
-#define __DLT698_45_GET_RESULT_H_ 
+#ifndef __P2_GET_RESULT_H_ 
+#define __P2_GET_RESULT_H_ 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
 #include "protocol/pcut.h"
@@ -14,13 +14,7 @@
 #define kP2GetResultNameDar		"dar"
 #define kP2GetResultNameData	"data"
 
-// basic information
-#define kP2GetResultChoiceOffset		(0)
-#define kP2GetResultChoiceSize			(1)
-
-#define kP2GetResultVarOffset	(kP2GetResultChoiceOffset + kP2GetResultChoiceSize)
-#define kP2GetResultVarSize(_get_result_var_size)		(_get_result_var_size)
-
+//{{{ basic information
 /*
 Get-Result∷=CHOICE
 {
@@ -28,6 +22,59 @@ Get-Result∷=CHOICE
  数据 [1] Data
 }
 */
+#define kP2GetResultChoiceOffset		(0)
+#define kP2GetResultChoiceSize			(1)
+
+#define kP2GetResultVarOffset	(kP2GetResultChoiceOffset + kP2GetResultChoiceSize)
+#define kP2GetResultVarSize(_get_result_var_size)		(_get_result_var_size)
+//}}}
+
+
+//{{{ choice
+#define kP2GetResultChoiceNameDar		"dar"
+#define kP2GetResultChoiceNameData		"data"
+
+typedef enum 
+{
+	kP2GetResultChoiceDar = 0,		// 错误信息 [0] DAR，
+	kP2GetResultChoiceData = 1,		// 数据 [1] Data
+} P2GetResultChoiceT;
+
+typedef enum 
+{
+	kP2GetResultChoiceIxDar,			// 
+	kP2GetResultChoiceIxData,	// 
+	kP2GetResultChoiceNum
+} P2GetResultChoiceIxT;
+int P2GetResultChoice2Ix(uint8_t choice);
+uint8_t P2GetResultChoiceIx2Value(int choice_ix);
+cp_t P2GetResultChoiceIxValid(int choice_ix);
+cp_t P2GetResultChoiceValid(uint8_t choice);
+const char *P2GetResultChoiceStr(uint8_t choice);
+//}}}
+
+
+//{{{ cut
+typedef struct
+{
+	P2ChoicePcut choice;
+} P2GetResultPcut;
+#define kP2GetResultPcutDef {		\
+	kP2ChoicePcutDef,					\
+}
+
+cp_t P2GetResultPcutOpen(P2GetResultPcut *m);
+cp_t P2GetResultPcutClose(P2GetResultPcut *m);
+cp_t P2GetResultPcutValid(const P2GetResultPcut *m);
+
+
+// 声明用子类base来open/close父类的函数
+cp_t P2GetResultPcutOpenBase(Pcut *base);
+cp_t P2GetResultPcutCloseBase(Pcut *base);
+//}}}
+
+
+//{{{ fill
 typedef struct 
 {
 	PfillItem base;
@@ -63,6 +110,7 @@ typedef struct
 // if sub_octet_string=NULL, choice=[0] DAR
 // if sub_octet_string!=NULL, choice=[1] Data
 cp_t P2GetResultFillInit(Pfill *m, uint8_t dar, Pfill *sub_data);
+//}}}
 
 // test
 cp_t P2GetResultTest(QTEST_ARG);

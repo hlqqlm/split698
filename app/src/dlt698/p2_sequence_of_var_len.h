@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_SEQUENCE_OF_VAR_LEN_H_ 
-#define __DLT698_45_SEQUENCE_OF_VAR_LEN_H_ 
+#ifndef __P2_SEQUENCE_OF_VAR_LEN_H_ 
+#define __P2_SEQUENCE_OF_VAR_LEN_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"

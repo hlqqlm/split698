@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_TIMETAG_H_ 
-#define __DLT698_45_TIMETAG_H_ 
+#ifndef __P2_TIMETAG_H_ 
+#define __P2_TIMETAG_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -36,15 +36,15 @@ typedef struct
 //{{{ part
 typedef enum
 {
-	kP2TimetagPartIxDatetimes,
-	kP2TimetagPartIxTi,
-	kP2TimetagPartNum				
-} P2TimetagPartIxT;
+	kP2TimetagCutIxDatetimes,
+	kP2TimetagCutIxTi,
+	kP2TimetagCutNum				
+} P2TimetagCutIxT;
 
 typedef struct
 {
 	Pcut base;		
-	PcutItem items[kP2TimetagPartNum];
+	PcutItem items[kP2TimetagCutNum];
 } P2TimetagPcut;
 #define kP2TimetagPcutDef {		\
 	kPcutDef, { kPcutItemDef }		\

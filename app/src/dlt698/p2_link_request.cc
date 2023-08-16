@@ -39,7 +39,7 @@ DLT698_45报文解析
 
 #define TEST_EN					(0)
 #define PRINT_FILL_IN_TEST_EN	(0)
-
+#define kThisCutNum				(kP2LinkRequestCutNum)
 
 // {{{ piid_acd
 //#define LenPiidAcd	PcutItemLenBySub	
@@ -154,7 +154,7 @@ static cp_t ExplainDatetime(Pcut *cut, int ix, const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2LinkRequestPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ kP2LinkRequestNamePiidAcd, LenPiidAcd, OffsetPiidAcd, ValidPiidAcd, NULL },
 	{ kP2LinkRequestNameType, LenType, OffsetType, ValidType, NULL },
@@ -163,22 +163,22 @@ static const PcutItemFix kPartFix[kP2LinkRequestPartNum] = {
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2LinkRequestPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LinkRequestCutIxPiidAcd]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LinkRequestCutIxType]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LinkRequestCutIxHeartbeatInterval]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2LinkRequestCutIxDatetime]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2LinkRequestCutIxPiidAcd]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2LinkRequestCutIxType]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2LinkRequestCutIxHeartbeatInterval]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2LinkRequestCutIxDatetime]),
 };
-static void PcutItemsInit(PcutItem items[kP2LinkRequestPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 cp_t P2LinkRequestPcutOpen(P2LinkRequestPcut *m)
 {
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2LinkRequestPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
 	// 因为要执行enum do table，所以必须要用sub来解析enum
 	ifer(P2EnumPcutOpen(&m->enum_type, kP2EnumName, kEnumList, kP2LinkRequestTypeEnumNum));

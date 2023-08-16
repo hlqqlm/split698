@@ -52,7 +52,7 @@ const char *P2TransResultChoiceStr(uint8_t choice);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef struct
 {
 	P2ChoicePcut choice;

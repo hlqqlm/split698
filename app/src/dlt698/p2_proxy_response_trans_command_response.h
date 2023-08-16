@@ -44,7 +44,6 @@ TransResult∷=CHOICE
 //}}}
 
 
-
 //{{{ cut
 typedef enum
 {

@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_GET_RESPONSE_H_ 
-#define __DLT698_45_GET_RESPONSE_H_ 
+#ifndef __P2_GET_RESPONSE_H_ 
+#define __P2_GET_RESPONSE_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -63,7 +63,7 @@ uint8_t P2GetResponseChoice(const char *whole);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef struct 
 {
 	P2ChoicePcut choice;

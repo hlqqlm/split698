@@ -26,9 +26,11 @@ huanglin 创建.
 #include "qos/qcp.h"
 #include "qos/qtest.h"
 
+// var
+#include "p2_get_response_normal.h"
+
 #include "p2_get_response.h"
 #include "p2_get_response.xcp.h"
-//#define this_file_id	0xe4384356		// echo -n dlt698_45_get_response.c | rhash --simple -
 
 
 #define TEST_EN				(0)
@@ -71,8 +73,9 @@ uint8_t P2GetResponseChoice(const char *whole)
 
 
 //{{{ pcut
+static const P2GetResponseNormalPcut kP2GetResponseNormalPcutDefVar = kP2GetResponseNormalPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kP2GetResponseChoiceNum] = {
-	kPcutFactoryInfoDef("GetResponseNormal"),	// 读取一个对象属性的响应 [1] GetResponseNormal，
+	{ kP2GetResponseNormalName, sizeof(P2GetResponseNormalPcut), &kP2GetResponseNormalPcutDefVar, P2GetResponseNormalPcutOpenBase, P2GetResponseNormalPcutCloseBase },	// 读取一个对象属性的响应 [1] GetResponseNormal，
 	kPcutFactoryInfoDef("GetResponseNormalList"),	// 读取若干个对象属性的响应 [2] GetResponseNormalList，
 	kPcutFactoryInfoDef("GetResponseRecord"),	// 读取一个记录型对象属性的响应 [3] GetResponseRecord，
 	kPcutFactoryInfoDef("GetResponseRecordList"),	// 读取若干个记录型对象属性的响应 [4] GetResponseRecordList，

@@ -39,7 +39,7 @@ DLT698_45 timetag 部分报文解析
 
 #define TEST_EN				(0)
 #define TEST_RUN_TIMES		(10)	// 测试运行次数
-
+#define kThisCutNum			(kP2TimetagCutNum)
 
 // {{{ datetimes
 static int LenDatetimes(Pcut *part, int ix, const char *whole) { return P2_TIMETAG_DATETIMES_SIZE; }
@@ -66,27 +66,27 @@ static cp_t ValidTi(Pcut *part, int ix, const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2TimetagPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ "datetimes", LenDatetimes, OffsetDatetimes, ValidDatetimes, NULL },
 	{ "ti", LenTi, OffsetTi, ValidTi, NULL },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2TimetagPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2TimetagPartIxDatetimes]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2TimetagPartIxTi]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2TimetagCutIxDatetimes]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2TimetagCutIxTi]),
 };
-static void PcutItemsInit(PcutItem items[kP2TimetagPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
 cp_t P2TimetagPcutOpen(P2TimetagPcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2TimetagPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	return 0;
 }
 cp_t P2TimetagPcutClose(P2TimetagPcut *m)

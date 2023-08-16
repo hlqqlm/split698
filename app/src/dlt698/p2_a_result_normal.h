@@ -7,7 +7,13 @@
 #include "qdlt698.h"
 #include "p2_get_result.h"
 
+// name
+#define kP2AResultNormalName			"a_result_normal"
+#define kP2AResultNormalNameOad			"oad"
+#define kP2AResultNormalNameGetResult	kP2GetResultName
 
+
+//{{{ base
 /*
 A-ResultNormal∷=SEQUENCE
 {
@@ -22,23 +28,44 @@ Get-Result∷=CHOICE
 }
 */
 
-// name
-#define kP2AResultNormalName			"a_result_normal"
-#define kP2AResultNormalNameOad			"oad"
-#define kP2AResultNormalNameGetResult	kP2GetResultName
-
-// basic information
 #define kP2AResultNormalOadOffset		(0)
 #define kP2AResultNormalOadSize			(OAD_MEM_SIZE)
 
 #define kP2AResultNormalGetResultOffset	(kP2AResultNormalOadOffset + kP2AResultNormalOadSize)
 #define kP2AResultNormalGetResultSize(_get_result_size)		(_get_result_size)
+//}}}
 
 
+//{{{ cut
+typedef enum
+{
+	kP2AResultNormalCutIxOad,
+	kP2AResultNormalCutIxGetResult,
+	kP2AResultNormalCutNum				
+} P2AResultNormalCutIxT;
 
 
+typedef struct 
+{
+	Pcut base;
+	PcutItem items[kP2AResultNormalCutNum];
 
-// fill
+	P2GetResultPcut get_result_cut;
+} P2AResultNormalPcut;
+#define kP2AResultNormalPcutDef {					\
+	kPcutDef, { kPcutItemDef }, kP2GetResultPcutDef	\
+}
+
+cp_t P2AResultNormalPcutOpen(P2AResultNormalPcut *m);
+cp_t P2AResultNormalPcutClose(P2AResultNormalPcut *m);
+cp_t P2AResultNormalPcutValid(const P2AResultNormalPcut *m);
+
+cp_t P2AResultNormalPcutOpenBase(Pcut *base);
+cp_t P2AResultNormalPcutCloseBase(Pcut *base);
+//}}}
+
+
+//{{{ fill
 typedef struct 
 {
 	PfillItem base;
@@ -66,6 +93,7 @@ cp_t P2AResultNormalFillItemProcessGetResult(struct PfillS *fill, int level, int
 // if data=NULL, choice=[0] DAR
 // if data!=NULL, choice=[1] Data
 cp_t P2AResultNormalFillInit(Pfill *m, OadT oad, Pfill *sub_get_result);
+//}}}
 
 
 // test

@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_SECURITY_RESPONSE_VERIFY_H_ 
-#define __DLT698_45_SECURITY_RESPONSE_VERIFY_H_ 
+#ifndef __P2_SECURITY_RESPONSE_VERIFY_H_ 
+#define __P2_SECURITY_RESPONSE_VERIFY_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"

@@ -43,11 +43,83 @@ DLT698_45报文解析
 
 #include "p2_get_response_normal.h"
 #include "p2_get_response_normal.xcp.h"
-//#define this_file_id	0xa7692488 // echo -n dlt698_45_get_response_normal.c | rhash --simple -
 
 
 #define TEST_EN						(0)
 #define TEST_PRINT_FILL_EN			(0)
+#define kThisCutNum					(kP2GetResponseNormalCutNum)
+
+// {{{ piid_acd
+static int LenPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2GetResponseNormalPiidAcdSize; }
+static int OffsetPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2GetResponseNormalPiidAcdOffset; }
+static cp_t ValidPiidAcd(Pcut *cut, int ix, const char *whole) { return 0; }
+//}}}
+
+
+//{{{ a_result_normal
+#define LenAResultNormal		PcutItemLenBySub
+static int OffsetAResultNormal(Pcut *cut, int ix, const char *whole) { return kP2GetResponseNormalAResultNormalOffset; }
+#define ValidAResultNormal	PcutItemValidBySub
+//}}}
+ 
+
+//{{{ pcut
+// 为了节约内存，const部分集中在一起
+// 固定部分
+static const PcutItemFix kCutFix[kThisCutNum] = {
+	// name len offset valid explain
+	{ kP2GetResponseNormalNamePiidAcd, LenPiidAcd, OffsetPiidAcd, ValidPiidAcd, NULL },
+	{ kP2GetResponseNormalNameAResultNormal, LenAResultNormal, OffsetAResultNormal, ValidAResultNormal, NULL },
+};
+	
+
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2GetResponseNormalCutIxPiidAcd]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2GetResponseNormalCutIxAResultNormal]),
+};
+static void PcutItemsInit(PcutItem items[kThisCutNum])
+{
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
+}
+
+cp_t P2GetResponseNormalPcutOpen(P2GetResponseNormalPcut *m)
+{
+	PcutItemsInit(m->items);
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
+
+	ifer(P2AResultNormalPcutOpen(&m->a_result_normal_cut));
+	PcutSubSet(&m->base, kP2GetResponseNormalCutIxAResultNormal, &m->a_result_normal_cut.base, kP2GetResponseNormalNameAResultNormal);
+	return 0;
+}
+cp_t P2GetResponseNormalPcutClose(P2GetResponseNormalPcut *m)
+{
+	dve(P2GetResponseNormalPcutValid(m));
+
+	PcutSubSet(&m->base, kP2GetResponseNormalCutIxAResultNormal, NULL, NULL);
+	ifer(P2AResultNormalPcutClose(&m->a_result_normal_cut));
+
+	ifer(PcutClose(&m->base));
+	return 0;
+}
+cp_t P2GetResponseNormalPcutValid(const P2GetResponseNormalPcut *m)
+{
+	ifer(PcutValid(&m->base));
+	ifer(P2AResultNormalPcutValid(&m->a_result_normal_cut));
+	return 0;
+}
+
+
+cp_t P2GetResponseNormalPcutOpenBase(Pcut *base)
+{
+	P2GetResponseNormalPcut *m = (P2GetResponseNormalPcut*)base;
+	return P2GetResponseNormalPcutOpen(m);
+}
+cp_t P2GetResponseNormalPcutCloseBase(Pcut *base)
+{
+	P2GetResponseNormalPcut *m = (P2GetResponseNormalPcut*)base;
+	return P2GetResponseNormalPcutClose(m);
+}
+//}}}
 
 
 //{{{ fill
@@ -66,7 +138,7 @@ static cp_t FillItemProcessPiidAcd(struct PfillS *fill, int level, int ix, char 
 	return 0;
 }
 #define kFillItemPiidAcdDef {			\
-	PFILL_ITEM(kP2GetResponseNormalPiidAcd, PfillItemOffsetFix, FillItemProcessPiidAcd, kP2GetResponseNormalPiidAcdOffset, NULL),	\
+	PFILL_ITEM(kP2GetResponseNormalNamePiidAcd, PfillItemOffsetFix, FillItemProcessPiidAcd, kP2GetResponseNormalPiidAcdOffset, NULL),	\
 	kP2PiidAcdDef			\
 }
 
@@ -76,7 +148,7 @@ typedef struct
 	PfillItem base;
 } FillItemAResultNormal;
 #define kFillItemAResultNormalDef(_sub) {			\
-	PFILL_ITEM(kP2GetResponseNormalAResultNormal, PfillItemOffsetFix, PfillItemProcessBySub, kP2GetResponseNormalAResultNormalOffset, (_sub)),	\
+	PFILL_ITEM(kP2GetResponseNormalNameAResultNormal, PfillItemOffsetFix, PfillItemProcessBySub, kP2GetResponseNormalAResultNormalOffset, (_sub)),	\
 }
 
 
@@ -134,7 +206,7 @@ static cp_t TestPfill(void)
 	ifer(PfillOpen(&fill_get_response_normal));
 
 	P2Piid piid_split = kP2PiddDef;
-	P2PiidPart(&piid_split, grn_value.piid);
+	P2PiidCut(&piid_split, grn_value.piid);
 	const P2PiidAcd piid_acd_value = {piid_split.service_priority, 0, piid_split.service_code};
 	ifer(P2GetResponseNormalFillInit(&fill_get_response_normal, &piid_acd_value, &fill_a_result_normal));
 

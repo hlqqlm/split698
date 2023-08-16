@@ -244,6 +244,19 @@ cp_t P2DataChoicePcutValid(const P2DataChoicePcut *m)
 {
 	return P2ChoicePcutValid(&m->choice);
 }
+
+
+// 定义用子类base来open/close父类的函数
+cp_t P2DataChoicePcutOpenBase(Pcut *base)
+{
+	P2DataChoicePcut *m = (P2DataChoicePcut*)base;
+	return P2DataChoicePcutOpen(m);
+}
+cp_t P2DataChoicePcutCloseBase(Pcut *base)
+{
+	P2DataChoicePcut *m = (P2DataChoicePcut*)base;
+	return P2DataChoicePcutClose(m);
+}
 //}}}
 
 

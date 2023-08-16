@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_FOLLOW_REPORT_H_ 
-#define __DLT698_45_FOLLOW_REPORT_H_ 
+#ifndef __P2_FOLLOW_REPORT_H_ 
+#define __P2_FOLLOW_REPORT_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"

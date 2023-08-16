@@ -1,5 +1,5 @@
-#ifndef __DLT698_45_DATA_CHOICE_H_ 
-#define __DLT698_45_DATA_CHOICE_H_ 
+#ifndef __P2_DATA_CHOICE_H_ 
+#define __P2_DATA_CHOICE_H_ 
 
 #include "qos/qcp.h"
 #include "qos/qtest.h"
@@ -113,6 +113,10 @@ typedef struct
 cp_t P2DataChoicePcutOpen(P2DataChoicePcut *m);
 cp_t P2DataChoicePcutClose(P2DataChoicePcut *m);
 cp_t P2DataChoicePcutValid(const P2DataChoicePcut *m);
+
+// 声明用子类base来open/close父类的函数
+cp_t P2DataChoicePcutOpenBase(Pcut *base);
+cp_t P2DataChoicePcutCloseBase(Pcut *base);
 //}}}
 
 
