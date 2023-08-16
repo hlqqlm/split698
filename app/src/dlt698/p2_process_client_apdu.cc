@@ -50,6 +50,9 @@ huanglin 创建.
 #include "p2_report_response_record_list.h"
 #include "p2_report_response_choice.h"
 
+#include "p2_proxy_request_trans_command_request.h"
+#include "p2_proxy_request_choice.h"
+
 #include "p2_client_apdu_choice.h"
 #include "p2_client_apdu.h"
 
@@ -823,6 +826,95 @@ static cp_t PdoReportResponseProcess(struct PdoS *doa, Pcut *part, int ix, const
 //}}}
 
 
+//{{{ proxy_request_trans_command_request
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoProxyRequestTransCommandRequest;
+static cp_t PdoProxyRequestTransCommandRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+	const int kPrintPartEn = 0;		// 打印解帧过程
+	//const int PRINT_FILL_EN = 1;		// 是否打印填充帧过程
+	PdoProxyRequestTransCommandRequest *derive = (PdoProxyRequestTransCommandRequest*)doa;
+	PfillRepository * const fill_repository_life = derive->fill_repository_life;
+
+	// 可以确定，当前处在proxy_request_choice中, trans_command_request是当前的choice
+	P2ProxyRequestChoicePcut *pr = (P2ProxyRequestChoicePcut*)part;
+	P2ProxyRequestTransCommandRequestPcut *prtcr = (P2ProxyRequestTransCommandRequestPcut*)P2ChoicePcutVar(&pr->choice);
+	dvb(prtcr == (void*)PcutFindSubRecursionDepth(&pr->choice.base, kP2ProxyRequestTransCommandRequestName));
+
+	const char * const prtcr_mem = PcutIxPtrConst(&pr->choice.base, ix, whole);
+	const int prtcr_mem_len = PcutIxLen(&pr->choice.base, ix, whole);
+
+	if (kPrintPartEn)
+		printf_hex_ex("proxy_request.trans_command_request_mem: ", "\r\n", prtcr_mem, prtcr_mem_len, "");
+
+	// 解帧，得到piid + omd + data
+	// todo: 解帧，执行
+	return 0;
+}
+//}}}
+
+
+//{{{ proxy_request
+typedef struct {
+	Pdo doa;
+} PdoProxyRequestFail;
+static cp_t PdoProxyRequestProcessFail(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	const uint8_t proxy_request_choice = (uint8_t)(*whole);
+	qos_printf("This proxy_request_choice is to be implemented. proxy_request_choice=%02xH\r\n", proxy_request_choice);
+	return cph;
+}
+#define kPdoProxyRequestFailDef { PDO_INIT(PdoProxyRequestProcessFail) }
+
+
+
+
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoProxyRequest;
+static cp_t PdoProxyRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+
+	PdoProxyRequest *derive = (PdoProxyRequest*)doa;
+
+	// 可以确定，当前处在client_apdu_choice中, report_response是当前的choice
+	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)part;
+	P2ProxyRequestChoicePcut *pr = (P2ProxyRequestChoicePcut*)P2ChoicePcutVar(&cac->choice);
+	dvb(pr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2ProxyRequestName));
+
+	const char * const proxy_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
+	const int proxy_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
+
+	//printf_hex_ex("get_request_mem: ", "\r\n", get_request_mem, get_request_mem_len, "");
+	// 再按get_request来解析+执行get_request_mem.
+
+
+	PdoProxyRequestTransCommandRequest do_trans_command_request = { 
+		PDO_INIT(PdoProxyRequestTransCommandRequestProcess), derive->fill_repository_life };
+	PdoProxyRequestFail do_fail = kPdoProxyRequestFailDef;
+	Pdo* const kDoTable[kP2ProxyRequestChoiceNum] = {
+		&do_fail.doa,	// 请求代理读取若干个服务器的若干个对象属性 [1] ProxyGetRequestList
+		&do_fail.doa,	// 请求代理读取一个服务器的一个记录型对象属性 [2] ProxyGetRequestRecord
+		&do_fail.doa,	// 请求代理设置若干个服务器的若干个对象属性 [3] ProxySetRequestList
+		&do_fail.doa,	// 请求代理设置后读取若干个服务器的若干个对象属性 [4] ProxySetThenGetRequestList
+		&do_fail.doa,	// 请求代理操作若干个服务器的若干个对象方法 [5] ProxyActionRequestList
+		&do_fail.doa,	// 请求代理操作后读取若干个服务器的若干个对象方法和属性 [6] ProxyActionThenGetRequestList
+		&do_trans_command_request.doa,	// 请求代理透明转发 命令 [7] ProxyTransCommandRequest
+		&do_fail.doa,	// 请求代理终端内部转发命令 [8] ProxyInnerTransCommandRequest
+	};
+	P2ChoiceVarDoTableSet(&pr->choice, kDoTable);
+	const cp_t cp = PcutIxDo(&pr->choice.base, 0, 0, kPcutIxAll, proxy_request_mem);
+	P2ChoiceVarDoTableSet(&pr->choice, NULL);
+	return cp;
+}
+//}}}
+
+
 //{{{ client-apdu
 // do-fail
 typedef struct {
@@ -848,6 +940,7 @@ cp_t P2ProcessClientApdu(PfillRepository *fill_repository_life, const char *apdu
 	PdoSetRequest do_set_request = { PDO_INIT(PdoSetRequestProcess), fill_repository_life };
 	PdoActionRequest do_action_request = { PDO_INIT(PdoActionRequestProcess), fill_repository_life };
 	PdoReportResponse do_report_response = { PDO_INIT(PdoReportResponseProcess), fill_repository_life };
+	PdoProxyRequest do_proxy_request = { PDO_INIT(PdoProxyRequestProcess), fill_repository_life };
 	PdoClientApduFail do_fail = kPdoClientApduFailDef;
 	Pdo* const kDoTable[kP2ClientApduChoiceNum] = {
 		&do_connect_request.doa,	// kP2ClientApduChoiceConnectRequest = 2,	// 建立应用连接请求 [2] CONNECT-Request，
@@ -856,7 +949,7 @@ cp_t P2ProcessClientApdu(PfillRepository *fill_repository_life, const char *apdu
 		&do_set_request.doa,	// kP2ClientApduChoiceSetRequest = 6,	// 设置请求 [6] SET-Request，
 		&do_action_request.doa,	// kP2ClientApduChoiceActionRequest = 7,	// 操作请求 [7] ACTION-Request，
 		&do_report_response.doa,	// kP2ClientApduChoiceReportResponse = 8,	// 上报应答 [8] REPORT-Response，
-		&do_fail.doa,	// kP2ClientApduChoiceProxyRequest = 9,	// 代理请求 [9] PROXY-Request，
+		&do_proxy_request.doa,	// kP2ClientApduChoiceProxyRequest = 9,	// 代理请求 [9] PROXY-Request，
 		&do_fail.doa,	// kP2ClientApduChoiceCompactGetRequest = 69,	// 紧凑读取请求 [69] COMPACT-GET-Request，
 		&do_fail.doa,	// kP2ClientApduChoiceCompactSetRequest = 70,	// 紧凑设置请求 [70] COMPACT-SET-Request，
 		&do_fail.doa,	// kP2ClientApduChoiceCompactProxyRequest = 73,	// 紧凑代理请求 [73] COMPACT-PROXY-Request，

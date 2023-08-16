@@ -71,27 +71,16 @@ typedef struct
 {
 	Pcut base;
 	PcutItem items[kP2OctetStringCutNum];
-	//bool datatype_exist;
 } P2OctetStringPcut;
 // 缺省的是没有datatype的，不能改，dlt698_45_data_choice.c中用了缺省定义
-//#define kP2OctetStringPcutDef { kPcutDef, { kPcutItemDef }, false }
 #define kP2OctetStringPcutDef { kPcutDef, { kPcutItemDef } }
 
 cp_t P2OctetStringPcutOpen(P2OctetStringPcut *m);
 cp_t P2OctetStringPcutClose(P2OctetStringPcut *m);
 cp_t P2OctetStringPcutValid(const P2OctetStringPcut *m);
 
-// 配置数据类型字节是否存在
-//void P2OctetStringPcutConfigDatatypeExist(P2OctetStringPcut *m, bool exist);
-
 cp_t P2OctetStringPcutOpenBase(Pcut *base);
 cp_t P2OctetStringPcutCloseBase(Pcut *base);
-
-// 有数据类型的octet-string
-// 如果用在choice中，open/close函数接口必须是这个形式
-//cp_t P2OctetStringDatatypePcutOpen(P2OctetStringPcut *m);
-//cp_t P2OctetStringDatatypePcutClose(P2OctetStringPcut *m);
-//cp_t P2OctetStringDatatypePcutValid(const P2OctetStringPcut *m);
 //}}}
 
 

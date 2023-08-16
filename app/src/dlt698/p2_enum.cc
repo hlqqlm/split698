@@ -99,17 +99,27 @@ uint8_t P2EnumValue(const char *whole)
 {
 	return whole[kP2EnumOffset];
 }
-static int LenEnum(Pcut *part, int ix, const char *whole) { return kP2EnumSize; }
-static int OffsetEnum(Pcut *part, int ix, const char *whole) { return kP2EnumOffset; }
-static cp_t ValidEnum(Pcut *part, int ix, const char *whole) 
+static int LenEnum(Pcut *cut, int ix, const char *whole) { return kP2EnumSize; }
+static int OffsetEnum(Pcut *cut, int ix, const char *whole) { return kP2EnumOffset; }
+static cp_t ValidEnum(Pcut *cut, int ix, const char *whole) 
 { 
-	P2EnumPcut * const eq = (P2EnumPcut*)part;
+	P2EnumPcut * const eq = (P2EnumPcut*)cut;
 
 	const uint8_t enum_value = P2EnumValue(whole);
 	ifer(P2EnumValid(eq->enum_list, eq->enum_num, enum_value));
 	// 刷新enum对应的do_table等
 	ifer(PartUpdateEnum(eq, whole));
 	return 0; 
+}
+static cp_t ExplainEnum(Pcut *cut, int ix, const char *whole) 
+{
+	P2EnumPcut * const eq = (P2EnumPcut*)cut;
+
+	const uint8_t enum_value = P2EnumValue(whole);
+	const char *str = P2EnumStr(eq->enum_list, eq->enum_num, enum_value);
+	dvb(NULL != str);
+	qos_printf("%s", str);
+	return 0;
 }
 //}}}
 
@@ -119,7 +129,7 @@ static cp_t ValidEnum(Pcut *part, int ix, const char *whole)
 // 固定部分
 static const PcutItemFix kPartFix[kP2EnumPartNum] = {
 	// name len offset valid explain
-	{ kP2EnumName, LenEnum, OffsetEnum, ValidEnum, NULL },
+	{ kP2EnumName, LenEnum, OffsetEnum, ValidEnum, ExplainEnum },
 };
 	
 

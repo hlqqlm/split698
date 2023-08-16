@@ -93,12 +93,9 @@ typedef struct
 	PcutItem items[kP2LinkRequestPartNum];
 
 	// 模仿P2ClientApduPcut初始化
-	P2EnumPcut enum_type;
+	P2EnumPcut enum_type;		// 因为要执行enum do table，所以必须要用sub来解析enum
 } P2LinkRequestPcut;
-#define kP2LinkRequestPcutDef {				\
-	kPcutDef, { kPcutItemDef }					\
-	, kP2EnumPcutDef								\
-}
+#define kP2LinkRequestPcutDef { kPcutDef, { kPcutItemDef }, kP2EnumPcutDef }
 
 cp_t P2LinkRequestPcutOpen(P2LinkRequestPcut *m);
 cp_t P2LinkRequestPcutClose(P2LinkRequestPcut *m);

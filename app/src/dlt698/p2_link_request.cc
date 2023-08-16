@@ -93,7 +93,7 @@ const char *P2LinkRequestTypeMem(const char *whole)
 	return whole + kP2LinkRequestTypeOffset;
 }
 
-
+/*
 static int LenType(Pcut *cut, int ix, const char *whole) { return kP2LinkRequestTypeSize; }
 static int OffsetType(Pcut *cut, int ix, const char *whole) { return kP2LinkRequestTypeOffset; }
 static cp_t ValidType(Pcut *cut, int ix, const char *whole) 
@@ -107,6 +107,12 @@ static cp_t ExplainType(Pcut *cut, int ix, const char *whole)
 	qos_printf("%s", P2LinkRequestTypeEnumStr(type));
 	return 0;
 }
+*/
+
+#define LenType		PcutItemLenBySub
+//#define OffsetType	PcutItemOffsetDef
+static int OffsetType(Pcut *cut, int ix, const char *whole) { return kP2LinkRequestTypeOffset; }
+#define ValidType	PcutItemValidBySub
 //}}}
  
 
@@ -151,7 +157,7 @@ static cp_t ExplainDatetime(Pcut *cut, int ix, const char *whole)
 static const PcutItemFix kPartFix[kP2LinkRequestPartNum] = {
 	// name len offset valid explain
 	{ kP2LinkRequestNamePiidAcd, LenPiidAcd, OffsetPiidAcd, ValidPiidAcd, NULL },
-	{ kP2LinkRequestNameType, LenType, OffsetType, ValidType, ExplainType },
+	{ kP2LinkRequestNameType, LenType, OffsetType, ValidType, NULL },
 	{ kP2LinkRequestNameHeartbeatInterval, LenHeartbeatInterval, OffsetHeartbeatInterval, ValidHeartbeatInterval, ExplainHeartbeatInterval },
 	{ kP2LinkRequestNameDatetime, LenDatetime, OffsetDatetime, ValidDatetime, ExplainDatetime },
 };
@@ -170,11 +176,12 @@ static void PcutItemsInit(PcutItem items[kP2LinkRequestPartNum])
 
 cp_t P2LinkRequestPcutOpen(P2LinkRequestPcut *m)
 {
-	ifer(P2EnumPcutOpen(&m->enum_type, kP2EnumName, kEnumList, kP2LinkRequestTypeEnumNum));
 
 	PcutItemsInit(m->items);
 	ifer(PcutOpen(&m->base, m->items, kP2LinkRequestPartNum));
 
+	// 因为要执行enum do table，所以必须要用sub来解析enum
+	ifer(P2EnumPcutOpen(&m->enum_type, kP2EnumName, kEnumList, kP2LinkRequestTypeEnumNum));
 	PcutSubSet(&m->base, kP2LinkRequestCutIxType, &m->enum_type.base, kP2LinkRequestNameType);
 	return 0;
 }
@@ -183,10 +190,9 @@ cp_t P2LinkRequestPcutClose(P2LinkRequestPcut *m)
 	dve(P2LinkRequestPcutValid(m));
 
 	PcutSubSet(&m->base, kP2LinkRequestCutIxType, NULL, NULL);
+	ifer(P2EnumPcutClose(&m->enum_type));
 
 	ifer(PcutClose(&m->base));
-
-	ifer(P2EnumPcutClose(&m->enum_type));
 	return 0;
 }
 cp_t P2LinkRequestPcutValid(const P2LinkRequestPcut *m)
