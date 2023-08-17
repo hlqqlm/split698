@@ -36,7 +36,7 @@ array
 
 #define TEST_EN					(0)
 #define PRINT_FILL_IN_TEST_EN	(0)
-
+#define kThisCutNum				(kP2ArrayCutNum)
 
 //{{{ nvar
 static cp_t NvarOpen(P2ArrayPcut *m, int num)
@@ -53,7 +53,7 @@ static cp_t NvarOpen(P2ArrayPcut *m, int num)
 	++m->nvar_open_cnt;
 	ifer(P2DataChoicePcutOpen(&m->one_data_choice));
 	ifer(P2NvarPcutOpen(&m->nvar_part, num, &m->one_data_choice.choice.base, "content"));
-	PcutSubSet(&m->base, kP2ArrayPartIxContent, &m->nvar_part.base, NULL);
+	PcutSubSet(&m->base, kP2ArrayCutIxContent, &m->nvar_part.base, NULL);
 	return 0;
 }
 static cp_t NvarClose(P2ArrayPcut *m)
@@ -64,7 +64,7 @@ static cp_t NvarClose(P2ArrayPcut *m)
 
 	dvb(1 == m->nvar_open_cnt);
 	--m->nvar_open_cnt;
-	PcutSubSet(&m->base, kP2ArrayPartIxContent, NULL, NULL);
+	PcutSubSet(&m->base, kP2ArrayCutIxContent, NULL, NULL);
 	ifer(P2NvarPcutClose(&m->nvar_part));
 	ifer(P2DataChoicePcutClose(&m->one_data_choice));
 	return 0;
@@ -162,7 +162,7 @@ static cp_t ValidContent(Pcut *part, int ix, const char *whole)
 
 
 //{{{ all
-int P2ArrayPartSize(const char *whole)
+int P2ArrayCutSize(const char *whole)
 {
 	// 用P2DataChoice来解析每个元素大小
 	P2ArrayPcut array = kP2ArrayPcutDef;
@@ -188,7 +188,7 @@ int P2ArrayNum(const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2ArrayPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ kP2ArrayNameDatatype, LenDatatype, OffsetDatatype, ValidDatatype, NULL },
 	{ kP2ArrayNameVarlen, LenVarlen, OffsetVarlen, ValidVarlen, ExplainVarlen },
@@ -196,21 +196,21 @@ static const PcutItemFix kPartFix[kP2ArrayPartNum] = {
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2ArrayPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2ArrayPartIxDatatype]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2ArrayPartIxVarlen]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2ArrayPartIxContent]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2ArrayCutIxDatatype]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2ArrayCutIxVarlen]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2ArrayCutIxContent]),
 };
-static void PcutItemsInit(PcutItem items[kP2ArrayPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
 cp_t P2ArrayPcutOpen(P2ArrayPcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2ArrayPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	return 0;
 }
 cp_t P2ArrayPcutClose(P2ArrayPcut *m)
@@ -257,7 +257,7 @@ int P2ArrayPcutIxLen(P2ArrayPcut *m, int ix, const char *whole)
 {
 	dve(P2ArrayPcutArrayIxValid(ix, whole));
 	// const int content_offset = P2ArrayContentOffset(whole);
-	const char *content = PcutIxPtrConst(&m->base, kP2ArrayPartIxContent, whole);
+	const char *content = PcutIxPtrConst(&m->base, kP2ArrayCutIxContent, whole);
 	return PcutIxLen(&m->nvar_part.base, ix, content);
 }
 int P2ArrayPcutIxOffset(P2ArrayPcut *m, int ix, const char *whole)
@@ -265,13 +265,13 @@ int P2ArrayPcutIxOffset(P2ArrayPcut *m, int ix, const char *whole)
 	dve(P2ArrayPcutArrayIxValid(ix, whole));
 	// const int content_offset = kP2ArrayContentOffset(P2ArrayVarlenSize(whole));
 	const int content_offset = P2ArrayContentOffset(whole);
-	const char *content = PcutIxPtrConst(&m->base, kP2ArrayPartIxContent, whole);
+	const char *content = PcutIxPtrConst(&m->base, kP2ArrayCutIxContent, whole);
 	return content_offset + PcutIxOffset(&m->nvar_part.base, ix, content);
 }
 cp_t P2ArrayPcutIxValid(P2ArrayPcut *m, int ix, const char *whole)
 {
 	dve(P2ArrayPcutArrayIxValid(ix, whole));
-	const char *content = PcutIxPtrConst(&m->base, kP2ArrayPartIxContent, whole);
+	const char *content = PcutIxPtrConst(&m->base, kP2ArrayCutIxContent, whole);
 	return PcutIxValid(&m->nvar_part.base, ix, content);
 }
 //}}}
@@ -399,7 +399,7 @@ static cp_t TestAll(void)
 	const int whole_size = sizeof(whole) - 1;
 
 	ifbr(2 == P2ArrayContentOffset(whole));
-	ifbr(whole_size == P2ArrayPartSize(whole));
+	ifbr(whole_size == P2ArrayCutSize(whole));
 	ifbr(5 == P2ArrayNum(whole));
 	return 0;
 }

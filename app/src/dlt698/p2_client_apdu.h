@@ -65,19 +65,19 @@ int P2ClientApduVarSize(const char *whole);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
-	kP2ClientApduPartIxChoice,
-	kP2ClientApduPartIxOptionalTimetag,
-	kP2ClientApduPartNum				
-} P2ClientApduPartIxT;
+	kP2ClientApduCutIxChoice,
+	kP2ClientApduCutIxOptionalTimetag,
+	kP2ClientApduCutNum				
+} P2ClientApduCutIxT;
 
 
 typedef struct 
 {
 	Pcut base;
-	PcutItem items[kP2ClientApduPartNum];
+	PcutItem items[kP2ClientApduCutNum];
 
 	P2ClientApduChoicePcut choice_part;
 	P2OptionalPcut optional_part;

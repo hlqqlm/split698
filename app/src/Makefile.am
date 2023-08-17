@@ -36,7 +36,9 @@ split698_SOURCES = 	\
 	dlt698/p2_action_request_choice.cc dlt698/p2_action_request_normal.cc \
 	dlt698/p2_report_response_choice.cc dlt698/p2_report_response_record_list.cc \
 	dlt698/p2_proxy_request_choice.cc dlt698/p2_proxy_request_trans_command_request.cc \
-	dlt698/p2_client_apdu.cc dlt698/p2_client_apdu_choice.cc   dlt698/p2_get_request.cc dlt698/p2_get_request_normal.cc dlt698/p2_get_request_normal_list.cc dlt698/p2_get_response.cc dlt698/p2_get_response_normal.cc dlt698/p2_get_response_normal_list.cc dlt698/p2_get_result.cc \
+	dlt698/p2_client_apdu.cc dlt698/p2_client_apdu_choice.cc   dlt698/p2_get_request.cc dlt698/p2_get_request_normal.cc dlt698/p2_get_request_normal_list.cc \
+	dlt698/p2_get_response.cc dlt698/p2_get_response_normal.cc dlt698/p2_get_response_normal_list.cc dlt698/p2_get_result.cc \
+	dlt698/p2_set_response.cc dlt698/p2_set_response_normal.cc \
 	dlt698/p2_proxy_response_choice.cc dlt698/p2_proxy_response_trans_command_response.cc \
 	dlt698/p2_server_apdu.cc dlt698/p2_server_apdu_choice.cc 	\
 	dlt698/p2_process_security_apdu.cc dlt698/p2_security_apdu_choice.cc dlt698/p2_security_request.cc dlt698/p2_security_request_data_choice.cc dlt698/p2_security_request_verify_choice.cc dlt698/p2_security_response.cc dlt698/p2_security_response_data_choice.cc dlt698/p2_security_response_verify.cc dlt698/p2_sequence_of.cc \
@@ -60,7 +62,9 @@ nobase_include_HEADERS = \
 	dlt698/p2_action_request_choice.h dlt698/p2_action_request_normal.h \
 	dlt698/p2_report_response_choice.h dlt698/p2_report_response_record_list.h \
 	dlt698/p2_proxy_request_choice.h dlt698/p2_proxy_request_trans_command_request.h \
-	dlt698/p2_client_apdu.h dlt698/p2_client_apdu_choice.h   dlt698/p2_get_request.h dlt698/p2_get_request_normal.h dlt698/p2_get_request_normal_list.h dlt698/p2_get_response.h dlt698/p2_get_response_normal.h dlt698/p2_get_response_normal_list.h dlt698/p2_get_result.h \
+	dlt698/p2_client_apdu.h dlt698/p2_client_apdu_choice.h   dlt698/p2_get_request.h dlt698/p2_get_request_normal.h dlt698/p2_get_request_normal_list.h \
+	dlt698/p2_get_response.h dlt698/p2_get_response_normal.h dlt698/p2_get_response_normal_list.h dlt698/p2_get_result.h \
+	dlt698/p2_set_response.h dlt698/p2_set_response_normal.h \
 	dlt698/p2_proxy_response_choice.h dlt698/p2_proxy_response_trans_command_response.h \
 	dlt698/p2_server_apdu.h dlt698/p2_server_apdu_choice.h 	\
 	dlt698/p2_process_security_apdu.h dlt698/p2_security_apdu_choice.h dlt698/p2_security_request.h dlt698/p2_security_request_data_choice.h dlt698/p2_security_request_verify_choice.h dlt698/p2_security_response.h dlt698/p2_security_response_data_choice.h dlt698/p2_security_response_verify.h dlt698/p2_sequence_of.h \

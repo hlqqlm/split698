@@ -24,6 +24,7 @@ huanglin 创建.
 
 // var
 #include "p2_get_response.h"
+#include "p2_set_response.h"
 #include "p2_proxy_response_choice.h"
 
 #include "p2_server_apdu_choice.h"
@@ -77,6 +78,7 @@ const char *P2ServerApduChoiceStr(uint8_t choice)
 
 //{{{ var_factory_info
 static const P2GetResponsePcut kP2GetResponsePcutDefVar = kP2GetResponsePcutDef;
+static const P2SetResponsePcut kP2SetResponsePcutDefVar = kP2SetResponsePcutDef;
 static const P2ProxyResponseChoicePcut kP2ProxyResponseChoicePcutDefVar = kP2ProxyResponseChoicePcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kP2ServerApduChoiceNum] = {
 	// name		size	init	derive_open		derive_close
@@ -84,7 +86,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2ServerApduChoiceNum] = {
 	kPcutFactoryInfoDef("RELEASE-Response"),	// 断开应用连接响应 [131] RELEASE-Response，
 	kPcutFactoryInfoDef("RELEASE-Notification"),	// 断开应用连接通知 [132] RELEASE-Notification，
 	{ kP2GetResponseName, sizeof(P2GetResponsePcut), &kP2GetResponsePcutDefVar, P2GetResponsePcutOpenBase, P2GetResponsePcutCloseBase },	// 读取响应 [133] GET-Response，
-	kPcutFactoryInfoDef("SET-Response"),	// 设置响应 [134] SET-Response，
+	{ kP2SetResponseName, sizeof(P2SetResponsePcut), &kP2SetResponsePcutDefVar, P2SetResponsePcutOpenBase, P2SetResponsePcutCloseBase },	// 设置响应 [134] SET-Response，
 	kPcutFactoryInfoDef("ACTION-Response"),	// 操作响应 [135] ACTION-Response，
 	kPcutFactoryInfoDef("REPORT-Notification"),	// 上报通知 [136] REPORT-Notification，
 	{ kP2ProxyResponseName, sizeof(P2ProxyResponseChoicePcut), &kP2ProxyResponseChoicePcutDefVar, P2ProxyResponseChoicePcutOpenBase, P2ProxyResponseChoicePcutCloseBase },	//  代理响应 [137] PROXY-Response，

@@ -33,12 +33,12 @@ DLT698_45报文解析
 #include "qos/qmem.h"
 #include "p2_server_apdu.h"
 #include "p2_server_apdu.xcp.h"
-//#define this_file_id	0xfa8da1e6 // echo -n dlt698_45_server_apdu.c | rhash --simple -
 
 
 #define TEST_EN					(0)
 #define PRINT_PART_IN_TEST_EN	(0)
 #define PRINT_FILL_IN_TEST_EN	(0)
+#define kThisCutNum				(kP2ServerApduCutNum)
 
 
 // {{{ choice
@@ -72,7 +72,7 @@ static int OffsetChoice(Pcut *part ,int ix, const char *whole) { return kP2Serve
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2ServerApduPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ kP2ServerApduNameChoice, LenChoice, OffsetChoice, ValidChoice, NULL },
 	{ kP2ServerApduNameFollowReport, LenOptionalFollowReport, OffsetOptionalFollowReport, ValidOptionalFollowReport, NULL },
@@ -80,14 +80,14 @@ static const PcutItemFix kPartFix[kP2ServerApduPartNum] = {
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2ServerApduPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2ServerApduPartIxChoice]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2ServerApduPartIxOptionalFollowReport]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2ServerApduPartIxOptionalTimetag]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2ServerApduCutIxChoice]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2ServerApduCutIxOptionalFollowReport]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2ServerApduCutIxOptionalTimetag]),
 };
-static void PcutItemsInit(PcutItem items[kP2ServerApduPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
@@ -114,20 +114,20 @@ cp_t P2ServerApduPcutOpen(P2ServerApduPcut *m)
 	ifer(P2OptionalPcutOpen(&m->optional_timetag, &m->timetag_part.base, kP2ServerApduNameTimetag));
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2ServerApduPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
-	PcutSubSet(&m->base, kP2ServerApduPartIxChoice, &m->choice_part.choice.base, NULL);
-	PcutSubSet(&m->base, kP2ServerApduPartIxOptionalFollowReport, &m->optional_follow_report.base, NULL);
-	PcutSubSet(&m->base, kP2ServerApduPartIxOptionalTimetag, &m->optional_timetag.base, NULL);
+	PcutSubSet(&m->base, kP2ServerApduCutIxChoice, &m->choice_part.choice.base, NULL);
+	PcutSubSet(&m->base, kP2ServerApduCutIxOptionalFollowReport, &m->optional_follow_report.base, NULL);
+	PcutSubSet(&m->base, kP2ServerApduCutIxOptionalTimetag, &m->optional_timetag.base, NULL);
 	return 0;
 }
 cp_t P2ServerApduPcutClose(P2ServerApduPcut *m)
 {
 	dve(P2ServerApduPcutValid(m));
 
-	PcutSubSet(&m->base, kP2ServerApduPartIxChoice, NULL, NULL);
-	PcutSubSet(&m->base, kP2ServerApduPartIxOptionalFollowReport, NULL, NULL);
-	PcutSubSet(&m->base, kP2ServerApduPartIxOptionalTimetag, NULL, NULL);
+	PcutSubSet(&m->base, kP2ServerApduCutIxChoice, NULL, NULL);
+	PcutSubSet(&m->base, kP2ServerApduCutIxOptionalFollowReport, NULL, NULL);
+	PcutSubSet(&m->base, kP2ServerApduCutIxOptionalTimetag, NULL, NULL);
 
 	ifer(PcutClose(&m->base));
 	ifer(P2ServerApduChoicePcutClose(&m->choice_part));

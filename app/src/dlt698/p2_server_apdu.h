@@ -59,20 +59,20 @@ Server-APDU∷=SEQUENCE
 uint8_t P2ServerApduChoice(const char *whole);
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
-	kP2ServerApduPartIxChoice,
-	kP2ServerApduPartIxOptionalFollowReport,
-	kP2ServerApduPartIxOptionalTimetag,
-	kP2ServerApduPartNum				
-} P2ServerApduPartIxT;
+	kP2ServerApduCutIxChoice,
+	kP2ServerApduCutIxOptionalFollowReport,
+	kP2ServerApduCutIxOptionalTimetag,
+	kP2ServerApduCutNum				
+} P2ServerApduCutIxT;
 
 
 typedef struct 
 {
 	Pcut base;
-	PcutItem items[kP2ServerApduPartNum];
+	PcutItem items[kP2ServerApduCutNum];
 
 	P2ServerApduChoicePcut choice_part;
 

@@ -46,27 +46,27 @@ int P2ArrayVarlenSize(const char *whole);
 int P2ArrayContentOffset(const char *whole);
 
 // all
-int P2ArrayPartSize(const char *whole);
+int P2ArrayCutSize(const char *whole);
 int P2ArrayNum(const char *whole);
 
 
-//{{{ part
-// part_ix
+//{{{ cut
+// cut_ix
 // 各部分索引号
 typedef enum
 {
-	kP2ArrayPartIxDatatype,
-	kP2ArrayPartIxVarlen,
-	kP2ArrayPartIxContent,
-	kP2ArrayPartNum				
-} P2ArrayPartIxT;
+	kP2ArrayCutIxDatatype,
+	kP2ArrayCutIxVarlen,
+	kP2ArrayCutIxContent,
+	kP2ArrayCutNum				
+} P2ArrayCutIxT;
 
 
 // pcut
 typedef struct
 {
 	Pcut base;
-	PcutItem items[kP2ArrayPartNum];
+	PcutItem items[kP2ArrayCutNum];
 
 	P2NvarPcut nvar_part;
 	int nvar_open_cnt;				// nvar_part open计数

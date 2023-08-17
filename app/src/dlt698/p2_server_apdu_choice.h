@@ -11,6 +11,7 @@
 #define kP2ServerApduChoiceNameChoice	"server_apdu_choice"
 #define kP2ServerApduChoiceNameVar		"server_apdu_var"
 
+
 //{{{ choice
 /*
 Server-APDU∷=SEQUENCE
@@ -74,7 +75,7 @@ const char *P2ServerApduChoiceStr(uint8_t choice);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef struct
 {
 	P2ChoicePcut choice;

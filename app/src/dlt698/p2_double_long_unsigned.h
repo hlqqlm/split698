@@ -23,25 +23,25 @@
 #define kP2DoubleLongUnsignedWholeSize(_datatype_size)			(kP2DoubleLongUnsignedContentOffset(_datatype_size) + kP2DoubleLongUnsignedContentSize)
 
 // all
-int P2DoubleLongUnsignedPartSize(bool datatype_exist);
+int P2DoubleLongUnsignedCutSize(bool datatype_exist);
 uint32_t P2DoubleLongUnsignedToValue(bool datatype_exist, const char *whole);
 
-//{{{ part
-// part_ix
+//{{{ cut
+// cut_ix
 // 各部分索引号
 typedef enum
 {
-	kP2DoubleLongUnsignedPartIxDatatype,
-	kP2DoubleLongUnsignedPartIxContent,
-	kP2DoubleLongUnsignedPartNum				
-} P2DoubleLongUnsignedPartIxT;
+	kP2DoubleLongUnsignedCutIxDatatype,
+	kP2DoubleLongUnsignedCutIxContent,
+	kP2DoubleLongUnsignedCutNum				
+} P2DoubleLongUnsignedCutIxT;
 
 
 // pcut
 typedef struct
 {
 	Pcut base;
-	PcutItem items[kP2DoubleLongUnsignedPartNum];
+	PcutItem items[kP2DoubleLongUnsignedCutNum];
 	bool datatype_exist;
 } P2DoubleLongUnsignedPcut;
 // 缺省的是没有datatype的

@@ -41,7 +41,7 @@ DLT698_45报文解析
 #define TEST_EN					(0)
 #define PRINT_PART_IN_TEST_EN	(0)
 #define PRINT_FILL_IN_TEST_EN	(0)
-
+#define kThisCutNum				(kP2ClientApduCutNum)
 
 // {{{ choice
 uint8_t P2ClientApduChoice(const char *whole)
@@ -66,20 +66,20 @@ static int OffsetChoice(Pcut *part ,int ix, const char *whole) { return kP2Clien
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2ClientApduPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
-	{ "client_apdu", LenChoice, OffsetChoice, ValidChoice },
-	{ "optional_timetag", LenOptionalTimetag, OffsetOptionalTimetag, ValidOptionalTimetag },
+	{ "client_apdu", LenChoice, OffsetChoice, ValidChoice, NULL },
+	{ "optional_timetag", LenOptionalTimetag, OffsetOptionalTimetag, ValidOptionalTimetag, NULL },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2ClientApduPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2ClientApduPartIxChoice]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2ClientApduPartIxOptionalTimetag]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2ClientApduCutIxChoice]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2ClientApduCutIxOptionalTimetag]),
 };
-static void PcutItemsInit(PcutItem items[kP2ClientApduPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
@@ -98,18 +98,18 @@ cp_t P2ClientApduPcutOpen(P2ClientApduPcut *m)
 	ifer(P2OptionalPcutOpen(&m->optional_part, &m->timetag_part.base, "timetag"));
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2ClientApduPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
-	PcutSubSet(&m->base, kP2ClientApduPartIxChoice, &m->choice_part.choice.base, NULL);
-	PcutSubSet(&m->base, kP2ClientApduPartIxOptionalTimetag, &m->optional_part.base, NULL);
+	PcutSubSet(&m->base, kP2ClientApduCutIxChoice, &m->choice_part.choice.base, NULL);
+	PcutSubSet(&m->base, kP2ClientApduCutIxOptionalTimetag, &m->optional_part.base, NULL);
 	return 0;
 }
 cp_t P2ClientApduPcutClose(P2ClientApduPcut *m)
 {
 	dve(P2ClientApduPcutValid(m));
 
-	PcutSubSet(&m->base, kP2ClientApduPartIxChoice, NULL, NULL);
-	PcutSubSet(&m->base, kP2ClientApduPartIxOptionalTimetag, NULL, NULL);
+	PcutSubSet(&m->base, kP2ClientApduCutIxChoice, NULL, NULL);
+	PcutSubSet(&m->base, kP2ClientApduCutIxOptionalTimetag, NULL, NULL);
 
 	ifer(PcutClose(&m->base));
 	ifer(P2ClientApduChoicePcutClose(&m->choice_part));
@@ -135,8 +135,8 @@ static cp_t TestPcut(void)
 	ifer(P2ClientApduPcutOpen(&caq));
 	Pcut * const m = &caq.base;
 
-	ifbr(7 == PcutIxLen(m, kP2ClientApduPartIxChoice, whole));
-	ifbr(1 == PcutIxLen(m, kP2ClientApduPartIxOptionalTimetag, whole));
+	ifbr(7 == PcutIxLen(m, kP2ClientApduCutIxChoice, whole));
+	ifbr(1 == PcutIxLen(m, kP2ClientApduCutIxOptionalTimetag, whole));
 	ifbr(whole_size == PcutIxLen(m, kPcutIxAll, whole));
 	ifer(PcutIxValid(m, kPcutIxAll, whole));
 

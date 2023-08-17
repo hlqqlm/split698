@@ -35,7 +35,7 @@ double long unsigned
 
 
 #define TEST_EN					(0)
-
+#define kThisCutNum				(kP2DoubleLongUnsignedCutNum)
 
 //{{{ misc
 static const P2DoubleLongUnsignedPcut *ToDerive(const Pcut *part)
@@ -99,7 +99,7 @@ static cp_t ValidContent(Pcut *part, int ix, const char *whole)
 
 
 //{{{ all
-int P2DoubleLongUnsignedPartSize(bool datatype_exist)
+int P2DoubleLongUnsignedCutSize(bool datatype_exist)
 {
 	const int datatype_size = GetDatatypeSize(datatype_exist);
 	return kP2DoubleLongUnsignedWholeSize(datatype_size);
@@ -117,27 +117,27 @@ uint32_t P2DoubleLongUnsignedToValue(bool datatype_exist, const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2DoubleLongUnsignedPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ "datatype", LenDatatype, OffsetDatatype, ValidDatatype, NULL },
 	{ "content", LenContent, OffsetContent, ValidContent, NULL },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2DoubleLongUnsignedPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2DoubleLongUnsignedPartIxDatatype]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2DoubleLongUnsignedPartIxContent]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2DoubleLongUnsignedCutIxDatatype]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2DoubleLongUnsignedCutIxContent]),
 };
-static void PcutItemsInit(PcutItem items[kP2DoubleLongUnsignedPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
 cp_t P2DoubleLongUnsignedPcutOpen(P2DoubleLongUnsignedPcut *m)
 {
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2DoubleLongUnsignedPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	return 0;
 }
 cp_t P2DoubleLongUnsignedPcutClose(P2DoubleLongUnsignedPcut *m)
