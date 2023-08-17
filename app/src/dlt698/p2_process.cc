@@ -146,7 +146,6 @@ static cp_t ProcessApduCp(PfillRepository *fill_repository_life, uint8_t apdu_ch
 }
 static cp_t ProcessApdu(PfillRepository *fill_repository_life, uint8_t apdu_choice, const char *apdu, int apdu_size)
 {
-	
 	ifer(ProcessApduCp(fill_repository_life, apdu_choice, apdu, apdu_size));
 	const int num = PfillRepositoryNum(fill_repository_life);
 	if (0 == num)

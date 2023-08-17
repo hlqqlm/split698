@@ -41,6 +41,9 @@ huanglin 创建.
 #include "p2_set_response_normal.h"
 #include "p2_set_response.h"
 
+#include "p2_action_response_normal.h"
+#include "p2_action_response.h"
+
 #include "p2_proxy_response_trans_command_response.h"
 #include "p2_proxy_response_choice.h"
 
@@ -229,6 +232,91 @@ static cp_t PdoSetResponseProcess(struct PdoS *doa, Pcut *part, int ix, const ch
 //}}}
 
 
+//{{{ action_response_normal
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoActionResponseNormal;
+static cp_t PdoActionResponseNormalProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+	const int kPrintPartEn = 0;		// 打印解帧过程
+	//const int PRINT_FILL_EN = 1;		// 是否打印填充帧过程
+	PdoActionResponseNormal *derive = (PdoActionResponseNormal*)doa;
+	PfillRepository * const fill_repository_life = derive->fill_repository_life;
+
+	// 可以确定，当前处在set_response_choice中, set_response_normal是当前的choice
+	P2ActionResponsePcut *ar = (P2ActionResponsePcut*)part;
+	P2ActionResponseNormalPcut *arn = (P2ActionResponseNormalPcut*)P2ChoicePcutVar(&ar->choice);
+	dvb(arn == (void*)PcutFindSubRecursionDepth(&ar->choice.base, kP2ActionResponseNormalName));
+
+	const char * const arn_mem = PcutIxPtrConst(&ar->choice.base, ix, whole);
+	const int arn_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
+
+	if (kPrintPartEn)
+		printf_hex_ex("action_response_normal mem: ", "\r\n", arn_mem, arn_mem_len, "");
+
+	// 解帧，得到piid + omd + data
+	// todo: 解帧，执行
+	return 0;
+}
+//}}}
+
+
+//{{{ action_response
+typedef struct {
+	Pdo doa;
+} PdoActionResponseFail;
+static cp_t PdoActionResponseProcessFail(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	const uint8_t action_response_choice = (uint8_t)(*whole);
+	qos_printf("This action_response_choice is to be implemented. action_response_choice=%02xH\r\n", action_response_choice);
+	return cph;
+}
+#define kPdoActionResponseFailDef { PDO_INIT(PdoActionResponseProcessFail) }
+
+
+
+
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoActionResponse;
+static cp_t PdoActionResponseProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+
+	PdoActionResponse *derive = (PdoActionResponse*)doa;
+
+	// 可以确定，当前处在client_apdu_choice中, report_response是当前的choice
+	P2ServerApduChoicePcut *sac = (P2ServerApduChoicePcut*)part;
+	P2ActionResponsePcut *ar = (P2ActionResponsePcut*)P2ChoicePcutVar(&sac->choice);
+	dvb(pr == (void*)PcutFindSubRecursionDepth(&sac->choice.base, kP2ActionResponseName));
+
+	const char * const action_response_mem = PcutIxPtrConst(&sac->choice.base, ix, whole);
+	const int action_response_mem_len = PcutIxLen(&sac->choice.base, ix, whole);
+
+	//printf_hex_ex("get_response_mem: ", "\r\n", get_response_mem, get_response_mem_len, "");
+	// 再按get_response来解析+执行get_response_mem.
+
+
+	PdoActionResponseNormal do_action_response_normal = { 
+		PDO_INIT(PdoActionResponseNormalProcess), derive->fill_repository_life };
+	PdoActionResponseFail do_fail = kPdoActionResponseFailDef;
+	Pdo* const kDoTable[kP2ActionResponseChoiceNum] = {
+		&do_action_response_normal.doa,	// 操作一个对象方法的响应 [1] ActionResponseNormal，
+		&do_fail.doa,	// 操作若干个对象方法的响应 [2] ActionResponseNormalList，
+		&do_fail.doa,	// 操作若干个对象方法后读取若干个属性的响应 [3] ActionThenGetResponseNormalList
+	};
+	P2ChoiceVarDoTableSet(&ar->choice, kDoTable);
+	const cp_t cp = PcutIxDo(&ar->choice.base, 0, 0, kPcutIxAll, action_response_mem);
+	P2ChoiceVarDoTableSet(&ar->choice, NULL);
+	return cp;
+}
+//}}}
+
+
+
 //{{{ proxy_response_trans_command_response
 typedef struct {
 	Pdo doa;
@@ -342,6 +430,7 @@ cp_t P2ProcessServerApdu(PfillRepository *fill_repository_life, const char *apdu
 
 	PdoGetResponse do_get_response = { PDO_INIT(PdoGetResponseProcess), fill_repository_life };
 	PdoSetResponse do_set_response = { PDO_INIT(PdoSetResponseProcess), fill_repository_life };
+	PdoActionResponse do_action_response = { PDO_INIT(PdoActionResponseProcess), fill_repository_life };
 	PdoProxyResponse do_proxy_response = { PDO_INIT(PdoProxyResponseProcess), fill_repository_life };
 	PdoServerApduFail do_fail = kPdoServerApduFailDef;
 	Pdo* const kDoTable[kP2ServerApduChoiceNum] = {
@@ -350,7 +439,7 @@ cp_t P2ProcessServerApdu(PfillRepository *fill_repository_life, const char *apdu
 		&do_fail.doa,	// kP2ServerApduChoiceReleaseNotification = 132,	// 断开应用连接通知 [132] RELEASE-Notification，
 		&do_get_response.doa,	// kP2ServerApduChoiceGetResponse = 133,	// 读取响应 [133] GET-Response，
 		&do_set_response.doa,	// kP2ServerApduChoiceSetResponse = 134,	// 设置响应 [134] SET-Response，
-		&do_fail.doa,	// kP2ServerApduChoiceActionResponse = 135,	// 操作响应 [135] ACTION-Response，
+		&do_action_response.doa,	// kP2ServerApduChoiceActionResponse = 135,	// 操作响应 [135] ACTION-Response，
 		&do_fail.doa,	// kP2ServerApduChoiceReportNotification = 136,	// 上报通知 [136] REPORT-Notification，
 		&do_proxy_response.doa,	// kP2ServerApduChoiceProxyResponse = 137,	// 代理响应 [137] PROXY-Response，
 		&do_fail.doa,	// kP2ServerApduChoiceCompactGetResponse = 197,	// 紧凑读取响应 [197] COMPACT-GET-Response，
