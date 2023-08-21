@@ -46,6 +46,7 @@ huanglin 创建.
 
 #include "p2_action_request_normal.h"
 #include "p2_action_request_normal_list.h"
+#include "p2_action_then_get_request_normal_list.h"
 #include "p2_action_request_choice.h"
 
 #include "p2_report_response_record_list.h"
@@ -717,6 +718,37 @@ static cp_t PdoActionRequestNormalListProcess(struct PdoS *doa, Pcut *cut, int i
 //}}}
 
 
+//{{{ action_then_get_request_normal_list
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoActionThenGetRequestNormalList;
+static cp_t PdoActionThenGetRequestNormalListProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+	const int kPrintPartEn = 0;		// 打印解帧过程
+	//const int PRINT_FILL_EN = 1;		// 是否打印填充帧过程
+	PdoActionThenGetRequestNormalList *derive = (PdoActionThenGetRequestNormalList*)doa;
+	PfillRepository * const fill_repository_life = derive->fill_repository_life;
+
+	// 可以确定，当前处在action_request_choice中, action_then_get_request_normal_list是当前的choice
+	P2ActionRequestChoicePcut *ar = (P2ActionRequestChoicePcut*)cut;
+	P2ActionThenGetRequestNormalListPcut *atgrnl = (P2ActionThenGetRequestNormalListPcut*)P2ChoicePcutVar(&ar->choice);
+	dvb(atgrnl == (void*)PcutFindSubRecursionDepth(&ar->choice.base, kP2ActionThenGetRequestNormalListName));
+
+	const char * const atgrnl_mem = PcutIxPtrConst(&ar->choice.base, ix, whole);
+	const int atgrnl_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
+
+	if (kPrintPartEn)
+		printf_hex_ex("action_then_get_request_normal_list_mem: ", "\r\n", atgrnl_mem, atgrnl_mem_len, "");
+
+	// 解帧，得到piid + omd + data
+	// todo: 解帧，执行
+	return 0;
+}
+//}}}
+
+
 //{{{ action_request
 typedef struct {
 	Pdo doa;
@@ -759,11 +791,13 @@ static cp_t PdoActionRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const c
 		PDO_INIT(PdoActionRequestNormalProcess), derive->fill_repository_life };
 	PdoActionRequestNormalList do_action_request_normal_list = { 
 		PDO_INIT(PdoActionRequestNormalListProcess), derive->fill_repository_life };
-	PdoActionRequestFail do_fail = kPdoActionRequestFailDef;
+	PdoActionThenGetRequestNormalList do_action_then_get_request_normal_list = { 
+		PDO_INIT(PdoActionThenGetRequestNormalListProcess), derive->fill_repository_life };
+	// PdoActionRequestFail do_fail = kPdoActionRequestFailDef;
 	Pdo* const kDoTable[kP2ActionRequestChoiceNum] = {
 		&do_action_request_normal.doa,	// 请求操作一个对象方法 [1] ActionRequestNormal
 		&do_action_request_normal_list.doa,	// 请求操作若干个对象方法 [2] ActionRequestNormalList
-		&do_fail.doa,	// 请求操作若干个对象方法后读取若干个对象属性 [3] ActionThenGetRequestNormalLi st
+		&do_action_then_get_request_normal_list.doa,	// 请求操作若干个对象方法后读取若干个对象属性 [3] ActionThenGetRequestNormalLi st
 	};
 	P2ChoiceVarDoTableSet(&ar->choice, kDoTable);
 	const cp_t cp = PcutIxDo(&ar->choice.base, 0, 0, kPcutIxAll, action_request_mem);
