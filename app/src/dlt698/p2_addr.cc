@@ -104,13 +104,13 @@ int P2AddrSaNakedSize(const char *whole)
 	const int sa_naked_size = sa_len_value + 1 - extern_logic_size;
 	return sa_naked_size;
 }
-static int LenFeature(Pcut *part, int ix, const char *whole) { return P2_ADDR_FEATURE_SIZE; }
-static int OffsetFeature(Pcut *part, int ix, const char *whole) { return P2_ADDR_FEATURE_OFFSET; }
-static cp_t ValidFeature(Pcut *part, int ix, const char *whole) 
+static int LenFeature(Pcut *cut, int ix, const char *whole) { return P2_ADDR_FEATURE_SIZE; }
+static int OffsetFeature(Pcut *cut, int ix, const char *whole) { return P2_ADDR_FEATURE_OFFSET; }
+static cp_t ValidFeature(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
-static cp_t ExplainFeature(struct PcutS *part, int ix, const char *whole) { return 0; }
+static cp_t ExplainFeature(struct PcutS *cut, int ix, const char *whole) { return 0; }
 static bool ExternLogicExist(uint8_t extern_logic)
 {
 	const bool extern_logic_exist = (extern_logic >= kP2AddrExternLogicMin);
@@ -165,10 +165,10 @@ uint8_t P2AddrExternLogic(const char *whole)
 	const char *el = whole + P2_ADDR_EXTERN_LOGIC_OFFSET;
 	return *el;
 }
-static int LenExternLogic(Pcut *part, int ix, const char *whole) { return P2_ADDR_EXTERN_LOGIC_SIZE(P2AddrExternLogicSize(whole)); }
-static int OffsetExternLogic(Pcut *part, int ix, const char *whole) { return P2_ADDR_EXTERN_LOGIC_OFFSET; }
+static int LenExternLogic(Pcut *cut, int ix, const char *whole) { return P2_ADDR_EXTERN_LOGIC_SIZE(P2AddrExternLogicSize(whole)); }
+static int OffsetExternLogic(Pcut *cut, int ix, const char *whole) { return P2_ADDR_EXTERN_LOGIC_OFFSET; }
 // bit5=1 表示有扩展逻辑地址，bit4 备用；地址长度 N 包含 1 个字节的扩展逻辑地址，取值范围 2…255，表示逻辑地址 2…255；
-static cp_t ValidExternLogic(Pcut *part, int ix, const char *whole) 
+static cp_t ValidExternLogic(Pcut *cut, int ix, const char *whole) 
 {
 	if (!P2AddrExternLogicExist(whole))
 		return 0;
@@ -182,9 +182,9 @@ static cp_t ValidExternLogic(Pcut *part, int ix, const char *whole)
 
 
 //{{{ sa_naked
-static int LenSaNaked(Pcut *part, int ix, const char *whole) { return P2_ADDR_SA_NAKED_SIZE(P2AddrExternLogicSize(whole), P2AddrSaLenValue(whole)); }
-static int OffsetSaNaked(Pcut *part, int ix, const char *whole) { return P2_ADDR_SA_NAKED_OFFSET(P2AddrExternLogicSize(whole)); }
-static cp_t ValidSaNaked(Pcut *part, int ix, const char *whole) 
+static int LenSaNaked(Pcut *cut, int ix, const char *whole) { return P2_ADDR_SA_NAKED_SIZE(P2AddrExternLogicSize(whole), P2AddrSaLenValue(whole)); }
+static int OffsetSaNaked(Pcut *cut, int ix, const char *whole) { return P2_ADDR_SA_NAKED_OFFSET(P2AddrExternLogicSize(whole)); }
+static cp_t ValidSaNaked(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -192,16 +192,16 @@ static cp_t ValidSaNaked(Pcut *part, int ix, const char *whole)
 
 
 //{{{ ca
-static int LenCa(Pcut *part, int ix, const char *whole) { return P2_ADDR_CA_SIZE; }
-static int OffsetCa(Pcut *part, int ix, const char *whole) { return P2_ADDR_CA_OFFSET(P2AddrExternLogicSize(whole), P2AddrSaLenValue(whole)); }
-static cp_t ValidCa(Pcut *part, int ix, const char *whole) 
+static int LenCa(Pcut *cut, int ix, const char *whole) { return P2_ADDR_CA_SIZE; }
+static int OffsetCa(Pcut *cut, int ix, const char *whole) { return P2_ADDR_CA_OFFSET(P2AddrExternLogicSize(whole), P2AddrSaLenValue(whole)); }
+static cp_t ValidCa(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
 /*
 uint8_t P2AddrCa(const char *whole)
 {
-	const char *ca = P2AddrCutIxPtrConst(kP2AddrCutIxCa, part);		// const版本
+	const char *ca = P2AddrCutIxPtrConst(kP2AddrCutIxCa, cut);		// const版本
 	return *ca;
 }
 */
@@ -216,7 +216,7 @@ int P2AddrCutSize(const char *whole)
 //}}}
 
 
-//{{{ addr_part_ix
+//{{{ addr_cut_ix
 #if 0
 cp_t P2AddrCutIxValid(int ix)
 {
@@ -235,7 +235,7 @@ const char *P2AddrCutIxStr(int ix)
 {
 	if (0 == P2AddrCutIxValid(ix))
 		return kP2AddrCutIxStr[ix];
-	return "invalid_addr_part_ix";
+	return "invalid_addr_cut_ix";
 }
 #endif
 //}}}
@@ -325,7 +325,7 @@ static cp_t FillFeature(Qpack *pack, int ix, char *mem, int mem_size, int offset
 	else
 		feature += (1 << 5);
 
-	//char *dst = PcutIxPtrConst(&paq->part, kP2AddrCutIxFeature, mem);
+	//char *dst = PcutIxPtrConst(&paq->cut, kP2AddrCutIxFeature, mem);
 	//char * const dst = mem + offset;
 	//*dst = feature;
 	mem[offset] = feature;
@@ -344,7 +344,7 @@ static cp_t FillExternLogic(Qpack *pack, int ix, char *mem, int mem_size, int of
 		*fill_len = 0;
 		return 0;
 	}
-	//char *dst = PcutIxPtrConst(&paq->part, kP2AddrCutIxExternLogic, mem);
+	//char *dst = PcutIxPtrConst(&paq->cut, kP2AddrCutIxExternLogic, mem);
 	//char * const dst = mem + offset;
 	//*dst = paq->extern_logic;
 	mem[offset] = val->extern_logic;
@@ -357,7 +357,7 @@ static cp_t FillSaNaked(Qpack *pack, int ix, char *mem, int mem_size, int offset
 	dvb(sizeof(P2AddrValue) == value_size);
 	const P2AddrValue * const val = value;
 
-	//char *dst = PcutIxPtrConst(&paq->part, kP2AddrCutIxSaNaked, mem);
+	//char *dst = PcutIxPtrConst(&paq->cut, kP2AddrCutIxSaNaked, mem);
 	memcpy(mem + offset, val->sa_naked, val->sa_naked_size);
 	*fill_len = val->sa_naked_size;
 	return 0;
@@ -367,7 +367,7 @@ static cp_t FillCa(Qpack *pack, int ix, char *mem, int mem_size, int offset, voi
 	//P2AddrQpack * const paq = (P2AddrQpack*)pack;
 	dvb(sizeof(P2AddrValue) == value_size);
 	const P2AddrValue * const val = value;
-	// char *dst = PcutIxPtrConst(&paq->part, kP2AddrCutIxCa, mem);
+	// char *dst = PcutIxPtrConst(&paq->cut, kP2AddrCutIxCa, mem);
 	//*dst = paq->ca;
 	mem[offset] = val->ca;
 	*fill_len = P2_ADDR_CA_SIZE;
@@ -381,7 +381,7 @@ static cp_t FillCa(Qpack *pack, int ix, char *mem, int mem_size, int offset, voi
 // 固定部分
 // pack顺序，要保证前一部分填写完毕后，要能推算出后一部分的偏移量。即后填的可以依赖先填的，但不能先填的依赖后填的
 static const QpackItemFix kPackFix[kP2AddrPackNum] = {
-	// part_ix	fill
+	// cut_ix	fill
 	{ "feature", QpackItemOffsetFollow, FillFeature },
 	{ "extern_logic", QpackItemOffsetFollow, FillExternLogic },
 	{ "sa_naked", QpackItemOffsetFollow, FillSaNaked },
@@ -401,7 +401,7 @@ static void QpackItemsInit(QpackItem items[kP2AddrPackNum])
 
 cp_t P2AddrQpackOpen(P2AddrQpack *m)
 {
-	//ifer(P2AddrPcutOpen(&m->part));
+	//ifer(P2AddrPcutOpen(&m->cut));
 	QpackItemsInit(m->items);
 	ifer(QpackOpen(&m->base, m->items, kP2AddrPackNum, &m->value, sizeof(P2AddrValue)));
 	return 0;
@@ -410,7 +410,7 @@ cp_t P2AddrQpackClose(P2AddrQpack *m)
 {
 	dve(P2AddrQpackValid(m));
 	ifer(QpackClose(&m->base));
-	//ifer(P2AddrPcutClose(&m->part));
+	//ifer(P2AddrPcutClose(&m->cut));
 	return 0;
 }
 cp_t P2AddrQpackValid(const P2AddrQpack *m)
@@ -465,7 +465,7 @@ cp_t P2AddrFillItemProcessFeature(struct PfillS *fill, int level, int ix, char *
 	else
 		feature += (1 << 5);
 
-	//char *dst = PcutIxPtrConst(&paq->part, kP2AddrCutIxFeature, mem);
+	//char *dst = PcutIxPtrConst(&paq->cut, kP2AddrCutIxFeature, mem);
 	//char * const dst = mem + offset;
 	//*dst = feature;
 	mem[offset] = feature;
@@ -483,7 +483,7 @@ cp_t P2AddrFillItemProcessExternLogic(struct PfillS *fill, int level, int ix, ch
 		*fill_size = 0;
 		return 0;
 	}
-	//char *dst = PcutIxPtrConst(&paq->part, kP2AddrCutIxExternLogic, mem);
+	//char *dst = PcutIxPtrConst(&paq->cut, kP2AddrCutIxExternLogic, mem);
 	//char * const dst = mem + offset;
 	//*dst = paq->extern_logic;
 	mem[offset] = val->extern_logic;

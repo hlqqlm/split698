@@ -68,8 +68,8 @@ typedef struct
 	Pcut base;
 	PcutItem items[kP2ArrayCutNum];
 
-	P2NvarPcut nvar_part;
-	int nvar_open_cnt;				// nvar_part open计数
+	P2NvarPcut nvar_cut;
+	int nvar_open_cnt;				// nvar_cut open计数
 	P2DataChoicePcut one_data_choice;
 } P2ArrayPcut;
 #define kP2ArrayPcutDef { kPcutDef, { kPcutItemDef }, kP2NvarPcutDef, 0, kP2DataChoicePcutDef }

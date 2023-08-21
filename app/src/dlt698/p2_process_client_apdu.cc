@@ -45,6 +45,7 @@ huanglin 创建.
 #include "p2_set_request_choice.h"
 
 #include "p2_action_request_normal.h"
+#include "p2_action_request_normal_list.h"
 #include "p2_action_request_choice.h"
 
 #include "p2_report_response_record_list.h"
@@ -255,7 +256,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoGetRequestNormal;
-static cp_t PdoGetRequestNormalProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoGetRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 	const int kPrintPartEn = 0;		// 打印解帧过程
@@ -264,7 +265,7 @@ static cp_t PdoGetRequestNormalProcess(struct PdoS *doa, Pcut *part, int ix, con
 	PfillRepository * const fill_repository_life = derive->fill_repository_life;
 
 	// 可以确定，当前处在get_request_choice中, get_request_normal是当前的choice
-	P2GetRequestPcut *gr = (P2GetRequestPcut*)part;
+	P2GetRequestPcut *gr = (P2GetRequestPcut*)cut;
 	P2GetRequestNormalPcut *grn = (P2GetRequestNormalPcut*)P2ChoicePcutVar(&gr->choice);
 	dvb(grn == (void*)PcutFindSubRecursionDepth(&gr->choice.base, kP2GetRequestNormalName));
 
@@ -387,7 +388,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoGetRequestNormalList;
-static cp_t PdoGetRequestNormalListProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoGetRequestNormalListProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 	const int kPrintPartEn = 0;		// 打印解帧过程
@@ -401,7 +402,7 @@ static cp_t PdoGetRequestNormalListProcess(struct PdoS *doa, Pcut *part, int ix,
 	PfillRepository * const fill_repository_life = derive->fill_repository_life;
 
 	// 可以确定，当前处在get_request_choice中, get_request_normal是当前的choice
-	P2GetRequestPcut *gr = (P2GetRequestPcut*)part;
+	P2GetRequestPcut *gr = (P2GetRequestPcut*)cut;
 	P2GetRequestNormalListPcut *grnl = (P2GetRequestNormalListPcut*)P2ChoicePcutVar(&gr->choice);
 	dvb(grnl == (void*)PcutFindSubRecursionDepth(&gr->choice.base, kP2GetRequestNormalListName));
 
@@ -513,7 +514,7 @@ static cp_t PdoConnectRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const 
 typedef struct {
 	Pdo doa;
 } PdoGetRequestFail;
-static cp_t PdoGetRequestProcessFail(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoGetRequestProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t get_request_choice = (uint8_t)(*whole);
 	qos_printf("This get_request_choice is to be implemented. get_request_choice=%02xH\r\n", get_request_choice);
@@ -529,14 +530,14 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoGetRequest;
-static cp_t PdoGetRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoGetRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 
 	PdoGetRequest *derive = (PdoGetRequest*)doa;
 
 	// 可以确定，当前处在client_apdu_choice中, get_request是当前的choice
-	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)part;
+	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)cut;
 	P2GetRequestPcut *gr = (P2GetRequestPcut*)P2ChoicePcutVar(&cac->choice);
 	dvb(gr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2GetRequestName));
 
@@ -574,7 +575,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoSetRequestNormal;
-static cp_t PdoSetRequestNormalProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoSetRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 	const int kPrintPartEn = 0;		// 打印解帧过程
@@ -583,7 +584,7 @@ static cp_t PdoSetRequestNormalProcess(struct PdoS *doa, Pcut *part, int ix, con
 	PfillRepository * const fill_repository_life = derive->fill_repository_life;
 
 	// 可以确定，当前处在action_request_choice中, action_request_normal是当前的choice
-	P2SetRequestChoicePcut *sr = (P2SetRequestChoicePcut*)part;
+	P2SetRequestChoicePcut *sr = (P2SetRequestChoicePcut*)cut;
 	P2SetRequestNormalPcut *srn = (P2SetRequestNormalPcut*)P2ChoicePcutVar(&sr->choice);
 	dvb(srn == (void*)PcutFindSubRecursionDepth(&sr->choice.base, kP2SetRequestNormalName));
 
@@ -604,7 +605,7 @@ static cp_t PdoSetRequestNormalProcess(struct PdoS *doa, Pcut *part, int ix, con
 typedef struct {
 	Pdo doa;
 } PdoSetRequestFail;
-static cp_t PdoSetRequestProcessFail(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoSetRequestProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t set_request_choice = (uint8_t)(*whole);
 	qos_printf("This set_request_choice is to be implemented. set_request_choice=%02xH\r\n", set_request_choice);
@@ -620,14 +621,14 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoSetRequest;
-static cp_t PdoSetRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoSetRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 
 	PdoSetRequest *derive = (PdoSetRequest*)doa;
 
 	// 可以确定，当前处在client_apdu_choice中, action_request是当前的choice
-	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)part;
+	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)cut;
 	P2SetRequestChoicePcut *sr = (P2SetRequestChoicePcut*)P2ChoicePcutVar(&cac->choice);
 	dvb(sr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2SetRequestName));
 
@@ -659,7 +660,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoActionRequestNormal;
-static cp_t PdoActionRequestNormalProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoActionRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 	const int kPrintPartEn = 0;		// 打印解帧过程
@@ -668,7 +669,7 @@ static cp_t PdoActionRequestNormalProcess(struct PdoS *doa, Pcut *part, int ix, 
 	PfillRepository * const fill_repository_life = derive->fill_repository_life;
 
 	// 可以确定，当前处在action_request_choice中, action_request_normal是当前的choice
-	P2ActionRequestChoicePcut *ar = (P2ActionRequestChoicePcut*)part;
+	P2ActionRequestChoicePcut *ar = (P2ActionRequestChoicePcut*)cut;
 	P2ActionRequestNormalPcut *arn = (P2ActionRequestNormalPcut*)P2ChoicePcutVar(&ar->choice);
 	dvb(arn == (void*)PcutFindSubRecursionDepth(&ar->choice.base, kP2ActionRequestNormalName));
 
@@ -685,11 +686,42 @@ static cp_t PdoActionRequestNormalProcess(struct PdoS *doa, Pcut *part, int ix, 
 //}}}
 
 
+//{{{ action_request_normal_list
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoActionRequestNormalList;
+static cp_t PdoActionRequestNormalListProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+	const int kPrintPartEn = 0;		// 打印解帧过程
+	//const int PRINT_FILL_EN = 1;		// 是否打印填充帧过程
+	PdoActionRequestNormalList *derive = (PdoActionRequestNormalList*)doa;
+	PfillRepository * const fill_repository_life = derive->fill_repository_life;
+
+	// 可以确定，当前处在action_request_choice中, action_request_normal_list是当前的choice
+	P2ActionRequestChoicePcut *ar = (P2ActionRequestChoicePcut*)cut;
+	P2ActionRequestNormalListPcut *arnl = (P2ActionRequestNormalListPcut*)P2ChoicePcutVar(&ar->choice);
+	dvb(arnl == (void*)PcutFindSubRecursionDepth(&ar->choice.base, kP2ActionRequestNormalListName));
+
+	const char * const arnl_mem = PcutIxPtrConst(&ar->choice.base, ix, whole);
+	const int arnl_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
+
+	if (kPrintPartEn)
+		printf_hex_ex("action_request_normal_list_mem: ", "\r\n", arnl_mem, arnl_mem_len, "");
+
+	// 解帧，得到piid + omd + data
+	// todo: 解帧，执行
+	return 0;
+}
+//}}}
+
+
 //{{{ action_request
 typedef struct {
 	Pdo doa;
 } PdoActionRequestFail;
-static cp_t PdoActionRequestProcessFail(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoActionRequestProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t action_request_choice = (uint8_t)(*whole);
 	qos_printf("This action_request_choice is to be implemented. action_request_choice=%02xH\r\n", action_request_choice);
@@ -705,14 +737,14 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoActionRequest;
-static cp_t PdoActionRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoActionRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 
 	PdoActionRequest *derive = (PdoActionRequest*)doa;
 
 	// 可以确定，当前处在client_apdu_choice中, action_request是当前的choice
-	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)part;
+	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)cut;
 	P2ActionRequestChoicePcut *ar = (P2ActionRequestChoicePcut*)P2ChoicePcutVar(&cac->choice);
 	dvb(ar == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2ActionRequestName));
 
@@ -725,10 +757,12 @@ static cp_t PdoActionRequestProcess(struct PdoS *doa, Pcut *part, int ix, const 
 
 	PdoActionRequestNormal do_action_request_normal = { 
 		PDO_INIT(PdoActionRequestNormalProcess), derive->fill_repository_life };
+	PdoActionRequestNormalList do_action_request_normal_list = { 
+		PDO_INIT(PdoActionRequestNormalListProcess), derive->fill_repository_life };
 	PdoActionRequestFail do_fail = kPdoActionRequestFailDef;
 	Pdo* const kDoTable[kP2ActionRequestChoiceNum] = {
 		&do_action_request_normal.doa,	// 请求操作一个对象方法 [1] ActionRequestNormal
-		&do_fail.doa,	// 请求操作若干个对象方法 [2] ActionRequestNormalList
+		&do_action_request_normal_list.doa,	// 请求操作若干个对象方法 [2] ActionRequestNormalList
 		&do_fail.doa,	// 请求操作若干个对象方法后读取若干个对象属性 [3] ActionThenGetRequestNormalLi st
 	};
 	P2ChoiceVarDoTableSet(&ar->choice, kDoTable);
@@ -744,7 +778,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoReportResponseRecordList;
-static cp_t PdoReportResponseRecordListProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoReportResponseRecordListProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 	const int kPrintPartEn = 0;		// 打印解帧过程
@@ -753,7 +787,7 @@ static cp_t PdoReportResponseRecordListProcess(struct PdoS *doa, Pcut *part, int
 	PfillRepository * const fill_repository_life = derive->fill_repository_life;
 
 	// 可以确定，当前处在report_response_choice中, report_response.record_list是当前的choice
-	P2ReportResponseChoicePcut *rr = (P2ReportResponseChoicePcut*)part;
+	P2ReportResponseChoicePcut *rr = (P2ReportResponseChoicePcut*)cut;
 	P2ReportResponseRecordListPcut *rrrl = (P2ReportResponseRecordListPcut*)P2ChoicePcutVar(&rr->choice);
 	dvb(rrrl == (void*)PcutFindSubRecursionDepth(&rr->choice.base, kP2ReportResponseRecordListName));
 
@@ -774,7 +808,7 @@ static cp_t PdoReportResponseRecordListProcess(struct PdoS *doa, Pcut *part, int
 typedef struct {
 	Pdo doa;
 } PdoReportResponseFail;
-static cp_t PdoReportResponseProcessFail(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoReportResponseProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t report_response_choice = (uint8_t)(*whole);
 	qos_printf("This report_response_choice is to be implemented. report_response_choice=%02xH\r\n", report_response_choice);
@@ -790,14 +824,14 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoReportResponse;
-static cp_t PdoReportResponseProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoReportResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 
 	PdoReportResponse *derive = (PdoReportResponse*)doa;
 
 	// 可以确定，当前处在client_apdu_choice中, report_response是当前的choice
-	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)part;
+	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)cut;
 	P2ReportResponseChoicePcut *rr = (P2ReportResponseChoicePcut*)P2ChoicePcutVar(&cac->choice);
 	dvb(rr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2ReportResponseName));
 
@@ -831,7 +865,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoProxyRequestTransCommandRequest;
-static cp_t PdoProxyRequestTransCommandRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoProxyRequestTransCommandRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 	const int kPrintPartEn = 0;		// 打印解帧过程
@@ -840,7 +874,7 @@ static cp_t PdoProxyRequestTransCommandRequestProcess(struct PdoS *doa, Pcut *pa
 	PfillRepository * const fill_repository_life = derive->fill_repository_life;
 
 	// 可以确定，当前处在proxy_request_choice中, trans_command_request是当前的choice
-	P2ProxyRequestChoicePcut *pr = (P2ProxyRequestChoicePcut*)part;
+	P2ProxyRequestChoicePcut *pr = (P2ProxyRequestChoicePcut*)cut;
 	P2ProxyRequestTransCommandRequestPcut *prtcr = (P2ProxyRequestTransCommandRequestPcut*)P2ChoicePcutVar(&pr->choice);
 	dvb(prtcr == (void*)PcutFindSubRecursionDepth(&pr->choice.base, kP2ProxyRequestTransCommandRequestName));
 
@@ -861,7 +895,7 @@ static cp_t PdoProxyRequestTransCommandRequestProcess(struct PdoS *doa, Pcut *pa
 typedef struct {
 	Pdo doa;
 } PdoProxyRequestFail;
-static cp_t PdoProxyRequestProcessFail(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoProxyRequestProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t proxy_request_choice = (uint8_t)(*whole);
 	qos_printf("This proxy_request_choice is to be implemented. proxy_request_choice=%02xH\r\n", proxy_request_choice);
@@ -876,14 +910,14 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoProxyRequest;
-static cp_t PdoProxyRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoProxyRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 
 	PdoProxyRequest *derive = (PdoProxyRequest*)doa;
 
 	// 可以确定，当前处在client_apdu_choice中, report_response是当前的choice
-	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)part;
+	P2ClientApduChoicePcut *cac = (P2ClientApduChoicePcut*)cut;
 	P2ProxyRequestChoicePcut *pr = (P2ProxyRequestChoicePcut*)P2ChoicePcutVar(&cac->choice);
 	dvb(pr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2ProxyRequestName));
 
@@ -920,7 +954,7 @@ static cp_t PdoProxyRequestProcess(struct PdoS *doa, Pcut *part, int ix, const c
 typedef struct {
 	Pdo doa;
 } PdoClientApduFail;
-static cp_t PdoClientApduProcessFail(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoClientApduProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t client_apdu_choice = (uint8_t)(*whole);
 	qos_printf("This client_apdu_choice is to be implemented. client_apdu_choice=%02xH\r\n", client_apdu_choice);
@@ -955,9 +989,9 @@ cp_t P2ProcessClientApdu(PfillRepository *fill_repository_life, const char *apdu
 		&do_fail.doa,	// kP2ClientApduChoiceCompactProxyRequest = 73,	// 紧凑代理请求 [73] COMPACT-PROXY-Request，
 		&do_fail.doa,	// kP2ClientApduChoiceErrorResponse = 110	// 异常响应 [110] ERROR-Response
 	};
-	P2ChoiceVarDoTableSet(&ca.choice_part.choice, kDoTable);
+	P2ChoiceVarDoTableSet(&ca.choice_cut.choice, kDoTable);
 	const cp_t cp = PcutIxDo(&ca.base, 0, 0, kPcutIxAll, apdu);
-	P2ChoiceVarDoTableSet(&ca.choice_part.choice, NULL);
+	P2ChoiceVarDoTableSet(&ca.choice_cut.choice, NULL);
 
 	ifer(P2ClientApduPcutClose(&ca));
 	return cp;

@@ -28,12 +28,12 @@ split698_SOURCES = 	\
 	qos/fileid.cc qos/qcp.cc qos/qstr.cc qos/qtime.cc qos/time64.cc qos/qbit.cc qos/qtest.cc qos/qmem.cc qos/qarray.cc qos/qmemtable.cc qos/qtimeout.cc qos/qbuf.cc	\
 	dlt698/qdlt698.cc dlt698/p2_base.cc dlt698/a_xdr.cc dlt698/p2_dar.cc dlt698/fcs.cc  \
 	dlt698/p2_null.cc dlt698/p2_datatype_with_content.cc dlt698/p2_double_long_unsigned.cc dlt698/p2_array.cc dlt698/p2_struct.cc dlt698/p2_choice.cc dlt698/p2_double_long.cc \
-	dlt698/p2_a_result_normal.cc dlt698/p2_data_choice.cc dlt698/p2_follow_report.cc dlt698/p2_timetag.cc dlt698/p2_sequence_of_var_len.cc dlt698/p2_long_unsigned.cc dlt698/p2_datetime.cc dlt698/p2_datetimes.cc dlt698/p2_nfix.cc dlt698/p2_nvar.cc dlt698/p2_octet_string.cc dlt698/p2_visible_string.cc dlt698/p2_tsa.cc dlt698/p2_optional.cc dlt698/p2_enum.cc dlt698/p2_comdcb.cc dlt698/p2_trans_result.cc	\
+	dlt698/p2_a_result_normal.cc dlt698/p2_data_choice.cc dlt698/p2_follow_report.cc dlt698/p2_timetag.cc dlt698/p2_sequence_of_var_len.cc dlt698/p2_long_unsigned.cc dlt698/p2_datetime.cc dlt698/p2_datetimes.cc dlt698/p2_nfix.cc dlt698/p2_nvar.cc dlt698/p2_octet_string.cc dlt698/p2_visible_string.cc dlt698/p2_tsa.cc dlt698/p2_optional.cc dlt698/p2_enum.cc dlt698/p2_comdcb.cc dlt698/p2_trans_result.cc	dlt698/p2_omd_data.cc \
 	dlt698/p2_addr.cc 	\
 	dlt698/p2_link_apdu.cc dlt698/p2_link_apdu_choice.cc dlt698/p2_link_request.cc dlt698/p2_link_response.cc \
 	dlt698/p2_connect_request.cc dlt698/p2_connect_mechanism_info_choice.cc dlt698/p2_signature_security.cc dlt698/p2_symmetry_security.cc \
 	dlt698/p2_set_request_choice.cc dlt698/p2_set_request_normal.cc \
-	dlt698/p2_action_request_choice.cc dlt698/p2_action_request_normal.cc \
+	dlt698/p2_action_request_choice.cc dlt698/p2_action_request_normal.cc dlt698/p2_action_request_normal_list.cc \
 	dlt698/p2_report_response_choice.cc dlt698/p2_report_response_record_list.cc \
 	dlt698/p2_proxy_request_choice.cc dlt698/p2_proxy_request_trans_command_request.cc \
 	dlt698/p2_client_apdu.cc dlt698/p2_client_apdu_choice.cc   dlt698/p2_get_request.cc dlt698/p2_get_request_normal.cc dlt698/p2_get_request_normal_list.cc \
@@ -55,12 +55,12 @@ nobase_include_HEADERS = \
 	protocol/pcut.h protocol/pdo.h protocol/pfill.h protocol/pfill_repository.h 			\
 	dlt698/p2_config.h dlt698/qdlt698.h dlt698/p2_base.h dlt698/a_xdr.h dlt698/p2_dar.h dlt698/fcs.h  \
 	dlt698/p2_null.h dlt698/p2_datatype_with_content.h dlt698/p2_double_long_unsigned.h dlt698/p2_array.h dlt698/p2_struct.h dlt698/p2_choice.h dlt698/p2_double_long.h \
-	dlt698/p2_a_result_normal.h dlt698/p2_data_choice.h dlt698/p2_follow_report.h dlt698/p2_timetag.h dlt698/p2_sequence_of_var_len.h dlt698/p2_long_unsigned.h dlt698/p2_datetime.h dlt698/p2_datetimes.h dlt698/p2_nfix.h dlt698/p2_nvar.h dlt698/p2_octet_string.h dlt698/p2_visible_string.h dlt698/p2_tsa.h dlt698/p2_optional.h dlt698/p2_enum.h	dlt698/p2_comdcb.h dlt698/p2_trans_result.h \
+	dlt698/p2_a_result_normal.h dlt698/p2_data_choice.h dlt698/p2_follow_report.h dlt698/p2_timetag.h dlt698/p2_sequence_of_var_len.h dlt698/p2_long_unsigned.h dlt698/p2_datetime.h dlt698/p2_datetimes.h dlt698/p2_nfix.h dlt698/p2_nvar.h dlt698/p2_octet_string.h dlt698/p2_visible_string.h dlt698/p2_tsa.h dlt698/p2_optional.h dlt698/p2_enum.h	dlt698/p2_comdcb.h dlt698/p2_trans_result.h dlt698/p2_omd_data.h \
 	dlt698/p2_addr.h 	\
 	dlt698/p2_link_apdu.h dlt698/p2_link_apdu_choice.h dlt698/p2_link_request.h dlt698/p2_link_response.h \
 	dlt698/p2_connect_request.h dlt698/p2_connect_mechanism_info_choice.h dlt698/p2_signature_security.h dlt698/p2_symmetry_security.h \
 	dlt698/p2_set_request_choice.h dlt698/p2_set_request_normal.h \
-	dlt698/p2_action_request_choice.h dlt698/p2_action_request_normal.h \
+	dlt698/p2_action_request_choice.h dlt698/p2_action_request_normal.h dlt698/p2_action_request_normal_list.h \
 	dlt698/p2_report_response_choice.h dlt698/p2_report_response_record_list.h \
 	dlt698/p2_proxy_request_choice.h dlt698/p2_proxy_request_trans_command_request.h \
 	dlt698/p2_client_apdu.h dlt698/p2_client_apdu_choice.h   dlt698/p2_get_request.h dlt698/p2_get_request_normal.h dlt698/p2_get_request_normal_list.h \

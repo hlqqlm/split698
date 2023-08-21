@@ -31,11 +31,12 @@ DLT698_45报文解析
 
 #define TEST_EN					(0)
 #define PRINT_FILL_IN_TEST_EN	(0)
+#define kThisCutNum				(kP2SignatureSecurityCutNum)
 
 
 // {{{ ciphertext2
 #define LenCiphertext2		PcutItemLenBySub
-static int OffsetCiphertext2(Pcut *part, int ix, const char *whole) { return kP2SignatureSecurityCiphertext2Offset; }
+static int OffsetCiphertext2(Pcut *cut, int ix, const char *whole) { return kP2SignatureSecurityCiphertext2Offset; }
 #define ValidCiphertext2	PcutItemValidBySub
 //}}}
 
@@ -50,18 +51,18 @@ static int OffsetCiphertext2(Pcut *part, int ix, const char *whole) { return kP2
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kCutFix[kP2SignatureSecurityCutNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ kP2SignatureSecurityNameCiphertext2, LenCiphertext2, OffsetCiphertext2, ValidCiphertext2, NULL },
 	{ kP2SignatureSecurityNameSign2, LenSign2, OffsetSign2, ValidSign2, NULL },
 };
 	
 
-static const PcutItem kCutItemsPattern[kP2SignatureSecurityCutNum] = {
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2SignatureSecurityCutIxCiphertext2]),
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2SignatureSecurityCutIxSign2]),
 };
-static void PcutItemsInit(PcutItem items[kP2SignatureSecurityCutNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
 	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
@@ -72,7 +73,7 @@ cp_t P2SignatureSecurityPcutOpen(P2SignatureSecurityPcut *m)
 	ifer(P2OctetStringPcutOpen(&m->sign2));
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2SignatureSecurityCutNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
 	PcutSubSet(&m->base, kP2SignatureSecurityCutIxCiphertext2, &m->ciphertext2.base, NULL);
 	PcutSubSet(&m->base, kP2SignatureSecurityCutIxSign2, &m->sign2.base, NULL);

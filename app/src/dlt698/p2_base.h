@@ -114,9 +114,9 @@ int P2FrameFillLead(char *mem);
 // a) bit0…bit13：帧数据长度值，是传输帧中不包含起始字符和结束字符的数据长度；
 // b) bit14：帧数据长度单位，0 表示帧数据长度单位为字节，1 表示帧数据长度单位为千字节；
 // c) bit15：保留
-int P2LValueCut(const char l_part[P2_L_SIZE]);
+int P2LValueCut(const char l_cut[P2_L_SIZE]);
 int P2LValue(const char *frame);
-cp_t P2LValuePack(char l_part[P2_L_SIZE], int l_value);
+cp_t P2LValuePack(char l_cut[P2_L_SIZE], int l_value);
 
 
 // 功能码
@@ -217,7 +217,7 @@ void P2FcsPack(char *frame);
 // end
 uint8_t P2End(const char *frame);
 
-// part_ix
+// cut_ix
 // 协议各部分索引号
 typedef enum
 {
@@ -229,7 +229,7 @@ typedef enum
 	kP2CutIxLud,			// 链路用户数据
 	kP2CutIxFcs,
 	kP2CutIxEnd,
-	// kP2CutIxAll,			// 当part_ix=kP2CutAll，可以表示整个帧
+	// kP2CutIxAll,			// 当cut_ix=kP2CutAll，可以表示整个帧
 	kP2CutNum				
 } P2CutIx;
 
@@ -238,7 +238,7 @@ typedef enum
 typedef struct 
 {
 	Pcut base;
-	P2AddrPcut addr_part;
+	P2AddrPcut addr_cut;
 	PcutItem items[kP2CutNum];
 } P2Pcut;
 #define kP2PcutDef { kPcutDef, kP2AddrPcutDef, { kPcutItemDef } }
@@ -250,13 +250,13 @@ cp_t P2PcutValid(const P2Pcut *m);
 #if 0
 // qpack
 // 组帧用
-// 注：QPackItemT的个数可以不是kP2AddrCutNum(part num)，顺序也可以不是按照part_ix顺序填充
+// 注：QPackItemT的个数可以不是kP2AddrCutNum(cut num)，顺序也可以不是按照cut_ix顺序填充
 #define kP2PackNum		(kP2CutNum)
 typedef struct P2QpackS
 {
 	Qpack base;
 	QpackItem items[kP2PackNum];
-	P2Pcut part;
+	P2Pcut cut;
 
 	// sub
 	P2AddrQpack addr_pack;

@@ -52,8 +52,8 @@ static cp_t NvarOpen(P2ArrayPcut *m, int num)
 	dvb(0 == m->nvar_open_cnt);
 	++m->nvar_open_cnt;
 	ifer(P2DataChoicePcutOpen(&m->one_data_choice));
-	ifer(P2NvarPcutOpen(&m->nvar_part, num, &m->one_data_choice.choice.base, "content"));
-	PcutSubSet(&m->base, kP2ArrayCutIxContent, &m->nvar_part.base, NULL);
+	ifer(P2NvarPcutOpen(&m->nvar_cut, num, &m->one_data_choice.choice.base, "content"));
+	PcutSubSet(&m->base, kP2ArrayCutIxContent, &m->nvar_cut.base, NULL);
 	return 0;
 }
 static cp_t NvarClose(P2ArrayPcut *m)
@@ -65,7 +65,7 @@ static cp_t NvarClose(P2ArrayPcut *m)
 	dvb(1 == m->nvar_open_cnt);
 	--m->nvar_open_cnt;
 	PcutSubSet(&m->base, kP2ArrayCutIxContent, NULL, NULL);
-	ifer(P2NvarPcutClose(&m->nvar_part));
+	ifer(P2NvarPcutClose(&m->nvar_cut));
 	ifer(P2DataChoicePcutClose(&m->one_data_choice));
 	return 0;
 }
@@ -73,9 +73,9 @@ static cp_t NvarClose(P2ArrayPcut *m)
 
 
 //{{{ misc
-//static const P2ArrayPcut *ToDerive(const Pcut *part)
+//static const P2ArrayPcut *ToDerive(const Pcut *cut)
 //{
-//	return (P2ArrayPcut*)(part);
+//	return (P2ArrayPcut*)(cut);
 //}
 //}}}
 
@@ -86,15 +86,15 @@ static int DatatypeSize(const char *whole)
 	dvb(kDlt698DataTypeArray == *whole);
 	return kDlt698DatatypeSize;
 }
-static int LenDatatype(Pcut *part, int ix, const char *whole) 
+static int LenDatatype(Pcut *cut, int ix, const char *whole) 
 { 
 	return DatatypeSize(whole);
 }
-static int OffsetDatatype(Pcut *part, int ix, const char *whole) 
+static int OffsetDatatype(Pcut *cut, int ix, const char *whole) 
 { 
 	return kP2ArrayDatatypeOffset; 
 }
-static cp_t ValidDatatype(Pcut *part, int ix, const char *whole) 
+static cp_t ValidDatatype(Pcut *cut, int ix, const char *whole) 
 { 
 	ifbr(kDlt698DataTypeArray == *whole);
 	return 0;
@@ -117,15 +117,15 @@ int P2ArrayVarlenSize(const char *whole)
 	const char *mem = VarlenMem(whole);
 	return VariableLenIntByteNum(*mem);
 }
-static int LenVarlen(Pcut *part, int ix, const char *whole) { return P2ArrayVarlenSize(whole); }
-static int OffsetVarlen(Pcut *part, int ix, const char *whole) { return VarlenOffset(whole); }
-static cp_t ValidVarlen(Pcut *part, int ix, const char *whole) 
+static int LenVarlen(Pcut *cut, int ix, const char *whole) { return P2ArrayVarlenSize(whole); }
+static int OffsetVarlen(Pcut *cut, int ix, const char *whole) { return VarlenOffset(whole); }
+static cp_t ValidVarlen(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = VarlenMem(whole);
 	ifbr(kVariableLenInvalidLen != VariableLenIntValue(mem));
 	return 0; 
 }
-static cp_t ExplainVarlen(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainVarlen(Pcut *cut, int ix, const char *whole) 
 {
 	const char *mem = VarlenMem(whole);
 	const int value = VariableLenIntValue(mem);
@@ -141,22 +141,22 @@ int P2ArrayContentOffset(const char *whole)
 	const int varlen_size = P2ArrayVarlenSize(whole);
 	return kP2ArrayContentOffset(varlen_size);
 }
-static int LenContent(Pcut *part, int ix, const char *whole) 
+static int LenContent(Pcut *cut, int ix, const char *whole) 
 { 
-	P2ArrayPcut *derive = (P2ArrayPcut*)part;
+	P2ArrayPcut *derive = (P2ArrayPcut*)cut;
 	const int num = P2ArrayNum(whole);
 
 	ifed(NvarOpen(derive, num));
-	return PcutItemLenBySub(part, ix, whole);
+	return PcutItemLenBySub(cut, ix, whole);
 }
 #define OffsetContent		PcutItemOffsetDef
-static cp_t ValidContent(Pcut *part, int ix, const char *whole) 
+static cp_t ValidContent(Pcut *cut, int ix, const char *whole) 
 {
-	P2ArrayPcut *derive = (P2ArrayPcut*)part;
+	P2ArrayPcut *derive = (P2ArrayPcut*)cut;
 	const int num = P2ArrayNum(whole);
 
 	ifer(NvarOpen(derive, num));
-	return PcutItemValidBySub(part, ix, whole);
+	return PcutItemValidBySub(cut, ix, whole);
 }
 //}}}
 
@@ -226,7 +226,7 @@ cp_t P2ArrayPcutValid(const P2ArrayPcut *m)
 	ifbr(0 == m->nvar_open_cnt || 1 == m->nvar_open_cnt);
 	if (0 < m->nvar_open_cnt)
 	{
-		ifer(P2NvarPcutValid(&m->nvar_part));
+		ifer(P2NvarPcutValid(&m->nvar_cut));
 		ifer(P2DataChoicePcutValid(&m->one_data_choice));
 	}
 	return 0;
@@ -258,7 +258,7 @@ int P2ArrayPcutIxLen(P2ArrayPcut *m, int ix, const char *whole)
 	dve(P2ArrayPcutArrayIxValid(ix, whole));
 	// const int content_offset = P2ArrayContentOffset(whole);
 	const char *content = PcutIxPtrConst(&m->base, kP2ArrayCutIxContent, whole);
-	return PcutIxLen(&m->nvar_part.base, ix, content);
+	return PcutIxLen(&m->nvar_cut.base, ix, content);
 }
 int P2ArrayPcutIxOffset(P2ArrayPcut *m, int ix, const char *whole)
 {
@@ -266,13 +266,13 @@ int P2ArrayPcutIxOffset(P2ArrayPcut *m, int ix, const char *whole)
 	// const int content_offset = kP2ArrayContentOffset(P2ArrayVarlenSize(whole));
 	const int content_offset = P2ArrayContentOffset(whole);
 	const char *content = PcutIxPtrConst(&m->base, kP2ArrayCutIxContent, whole);
-	return content_offset + PcutIxOffset(&m->nvar_part.base, ix, content);
+	return content_offset + PcutIxOffset(&m->nvar_cut.base, ix, content);
 }
 cp_t P2ArrayPcutIxValid(P2ArrayPcut *m, int ix, const char *whole)
 {
 	dve(P2ArrayPcutArrayIxValid(ix, whole));
 	const char *content = PcutIxPtrConst(&m->base, kP2ArrayCutIxContent, whole);
-	return PcutIxValid(&m->nvar_part.base, ix, content);
+	return PcutIxValid(&m->nvar_cut.base, ix, content);
 }
 //}}}
 

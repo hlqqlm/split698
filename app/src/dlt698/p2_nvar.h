@@ -13,7 +13,7 @@
 #define kP2NvarWholeSize(_size)	(kP2NvarOffset + kP2NvarSize(_size))
 
 
-//{{{ part
+//{{{ cut
 typedef struct
 {
 	Pcut base;		
@@ -27,7 +27,7 @@ typedef struct
 }
 
 // num			元素个数
-// part_one		用来解析一个元素
+// sub_cut		用来解析一个元素
 // name			元素名称
 cp_t P2NvarPcutOpen(P2NvarPcut *m, int num, Pcut *sub_cut, const char *name);
 cp_t P2NvarPcutClose(P2NvarPcut *m);

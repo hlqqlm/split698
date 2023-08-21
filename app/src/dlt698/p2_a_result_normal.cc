@@ -40,9 +40,9 @@ DLT698_45报文解析
 #define kThisCutNum			(kP2AResultNormalCutNum)
 
 // {{{ oad
-static int LenOad(Pcut *part, int ix, const char *whole) { return kP2AResultNormalOadSize; }
-static int OffsetOad(Pcut *part, int ix, const char *whole) { return kP2AResultNormalOadOffset; }
-static cp_t ValidOad(Pcut *part, int ix, const char *whole) 
+static int LenOad(Pcut *cut, int ix, const char *whole) { return kP2AResultNormalOadSize; }
+static int OffsetOad(Pcut *cut, int ix, const char *whole) { return kP2AResultNormalOadOffset; }
+static cp_t ValidOad(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -51,7 +51,7 @@ static cp_t ValidOad(Pcut *part, int ix, const char *whole)
 
 // {{{ get_result
 #define LenGetResult			PcutItemLenBySub
-static int OffsetGetResult(Pcut *part, int ix, const char *whole) { return kP2AResultNormalGetResultOffset; }
+static int OffsetGetResult(Pcut *cut, int ix, const char *whole) { return kP2AResultNormalGetResultOffset; }
 //#define OffsetGetResult			PcutItemOffsetDef
 #define ValidGetResult			PcutItemValidBySub
 //}}}

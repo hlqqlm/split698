@@ -34,28 +34,10 @@ Client-APDU∷=SEQUENCE
 #define kP2ClientApduChoiceOffset				(0)
 #define kP2ClientApduChoiceSize(_choice_size)	(_choice_size)
 
-/*
-// choice对应的数据，var即变化部分。例如：choice是5 GET_Request，后面对应的数据。
-// _data_size，是通过sub part计算出来的。例如：choice是5 GET_Request，然后设置sub part，计算出来size
-#define P2_CLIENT_APDU_VAR_OFFSET		(kP2ClientApduChoiceOffset + kP2ClientApduChoiceSize)
-#define P2_CLIENT_APDU_VAR_SIZE(_var_size)	(_var_size)
-*/
-
 #define kP2ClientApduOptionalTimetagOffset(_choice_size)	\
 			(kP2ClientApduChoiceOffset + kP2ClientApduChoiceSize(_choice_size))
 #define kP2ClientApduOptionalTimetagSize(_optional_timetag_size)	(_optional_timetag_size)
 
-/*
-// timetag的可选部分
-#define P2_CLIENT_APDU_TIMETAG_OPTIONAL_OFFSET(_data_size)	\
-			(kP2ClientApduChoiceOffset + kP2ClientApduChoiceSize(_data_size))
-#define P2_CLIENT_APDU_TIMETAG_OPTIONAL_SIZE	(1)
-
-// 因为timetag是可选部分，因此，这部分不一定存在; 如果不存在，_timetag_size=0
-#define P2_CLIENT_APDU_TIMETAG_OFFSET(_data_size)	\
-			(P2_CLIENT_APDU_TIMETAG_OPTIONAL_OFFSET + P2_CLIENT_APDU_TIMETAG_OPTIONAL_SIZE(_data_size))
-#define P2_CLIENT_APDU_TIMETAG_SIZE(_timetag_size)	(_timetag_size)
-*/
 
 // choice
 uint8_t P2ClientApduChoice(const char *whole);
@@ -79,9 +61,9 @@ typedef struct
 	Pcut base;
 	PcutItem items[kP2ClientApduCutNum];
 
-	P2ClientApduChoicePcut choice_part;
-	P2OptionalPcut optional_part;
-	P2TimetagPcut timetag_part;
+	P2ClientApduChoicePcut choice_cut;
+	P2OptionalPcut optional_cut;
+	P2TimetagPcut timetag_cut;
 } P2ClientApduPcut;
 #define kP2ClientApduPcutDef {												\
 	kPcutDef, { kPcutItemDef },										\

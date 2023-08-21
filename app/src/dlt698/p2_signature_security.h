@@ -37,7 +37,7 @@ SignatureSecurity∷=SEQUENCE
 
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2SignatureSecurityCutIxCiphertext2,

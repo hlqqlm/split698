@@ -81,9 +81,9 @@ cp_t P2FillItemProcessLead(struct PfillS *fill, int level, int ix, char *mem, in
 
 
 //{{{ head
-static int LenHead(Pcut *part, int ix, const char *frame) { return P2_HEAD_SIZE; }
-static int OffsetHead(Pcut *part, int ix, const char *frame) { return P2_HEAD_OFFSET; }
-static cp_t ValidHead(Pcut *part, int ix, const char *frame) 
+static int LenHead(Pcut *cut, int ix, const char *frame) { return P2_HEAD_SIZE; }
+static int OffsetHead(Pcut *cut, int ix, const char *frame) { return P2_HEAD_OFFSET; }
+static cp_t ValidHead(Pcut *cut, int ix, const char *frame) 
 { 
 	const char ch = frame[P2_HEAD_OFFSET];
 	ifbr(P2_HEAD == ch);
@@ -100,10 +100,10 @@ cp_t P2FillItemProcessHead(struct PfillS *fill, int level, int ix, char *mem, in
 
 
 //{{{ L
-int P2LValueCut(const char l_part[P2_L_SIZE])
+int P2LValueCut(const char l_cut[P2_L_SIZE])
 {
-	const uint8_t low = (uint8_t)l_part[0];
-	const uint8_t high = (uint8_t)l_part[1];
+	const uint8_t low = (uint8_t)l_cut[0];
+	const uint8_t high = (uint8_t)l_cut[1];
 	// dLen = *(p+1) + (*(p+2)&0x3f)*256;
 	const uint8_t len_unit_k = high & 0x40;
 	const uint32_t value = low + ((uint32_t)(high & 0x3f)) * 256;
@@ -111,7 +111,7 @@ int P2LValueCut(const char l_part[P2_L_SIZE])
 		return value * 1000;
 	return value;
 }
-cp_t P2LValuePack(char l_part[P2_L_SIZE], int l_value)
+cp_t P2LValuePack(char l_cut[P2_L_SIZE], int l_value)
 {
 	ifbr(l_value >= P2_L_VALUE_MIN);
 
@@ -121,25 +121,25 @@ cp_t P2LValuePack(char l_part[P2_L_SIZE], int l_value)
 		const uint16_t l_value_k = (uint16_t)(l_value / 1000);
 		const uint8_t high = ((uint8_t)(l_value_k >> 8)) & 0x3f + 0x40;	// 0x40是k单位
 		const uint8_t low = (uint8_t)(l_value_k & 0x00ff);
-		l_part[0] = low;
-		l_part[1] = high;
+		l_cut[0] = low;
+		l_cut[1] = high;
 		return 0;
 	}
 
 	const uint8_t high = ((uint8_t)(l_value >> 8)) & 0x3f;	
 	const uint8_t low = (uint8_t)(l_value & 0x00ff);
-	l_part[0] = low;
-	l_part[1] = high;
+	l_cut[0] = low;
+	l_cut[1] = high;
 	return 0;
 }
 int P2LValue(const char *frame)
 {
-	const char *l_part = frame + P2_L_OFFSET;
-	return P2LValueCut(l_part);
+	const char *l_cut = frame + P2_L_OFFSET;
+	return P2LValueCut(l_cut);
 }
-static int LenL(Pcut *part, int ix, const char *frame) { return P2_L_SIZE; }
-static int OffsetL(Pcut *part, int ix, const char *frame) { return P2_L_OFFSET; }
-static cp_t ValidL(Pcut *part, int ix, const char *frame) 
+static int LenL(Pcut *cut, int ix, const char *frame) { return P2_L_SIZE; }
+static int OffsetL(Pcut *cut, int ix, const char *frame) { return P2_L_OFFSET; }
+static cp_t ValidL(Pcut *cut, int ix, const char *frame) 
 {
 	const int l_value = P2LValue(frame);
 	ifbr(P2_L_VALUE_MIN <= l_value);
@@ -148,7 +148,7 @@ static cp_t ValidL(Pcut *part, int ix, const char *frame)
 	// ifer(P2FrameSizeValid(frame_size));
 	return 0;
 }
-static cp_t ExplainL(Pcut *part, int ix, const char *frame) 
+static cp_t ExplainL(Pcut *cut, int ix, const char *frame) 
 {
 	const int l_value = P2LValue(frame);
 	qos_printf("%dD", l_value);
@@ -205,9 +205,9 @@ void P2ControlPrint(uint8_t control)
 	P2ControlSplit(&p2c, control);
 	qos_printf("dirprm=%u split=%u scamble=%u func=%u", p2c.dir_prm, p2c.split, p2c.scamble, p2c.func_code);
 }
-static int LenC(Pcut *part, int ix, const char *frame) { return P2_C_SIZE; }
-static int OffsetC(Pcut *part, int ix, const char *frame) { return P2_C_OFFSET; }
-static cp_t ValidC(Pcut *part, int ix, const char *frame) 
+static int LenC(Pcut *cut, int ix, const char *frame) { return P2_C_SIZE; }
+static int OffsetC(Pcut *cut, int ix, const char *frame) { return P2_C_OFFSET; }
+static cp_t ValidC(Pcut *cut, int ix, const char *frame) 
 { 
 	// 可以拆解C后检查，这里不做检查
 	/*
@@ -218,7 +218,7 @@ static cp_t ValidC(Pcut *part, int ix, const char *frame)
 	*/
 	return 0; 
 }
-static cp_t ExplainC(Pcut *part, int ix, const char *frame) 
+static cp_t ExplainC(Pcut *cut, int ix, const char *frame) 
 {
 	const uint8_t control = P2ControlInFrame(frame);
 	qos_printf("\t");
@@ -262,18 +262,18 @@ a) 扩展逻辑地址取值范围 2…255；
 b) 编码方式为压缩 BCD 码，0 保留；
 c) 当服务器地址的十进制位数为奇数时，最后字节的 bit3…bit0 用 FH 表示。
 */
-const char *P2AddrSaCut(const char *addr_part)
+const char *P2AddrSaCut(const char *addr_cut)
 {
-	return addr_part;
+	return addr_cut;
 }
-uint8_t P2AddrSaCutFeature(const char *addr_sa_part)
+uint8_t P2AddrSaCutFeature(const char *addr_sa_cut)
 {
-	const uint8_t sa_feature = (uint8_t)addr_sa_part[0];
+	const uint8_t sa_feature = (uint8_t)addr_sa_cut[0];
 	return sa_feature;
 }
-int P2AddrSaCutSize(const char *addr_sa_part)
+int P2AddrSaCutSize(const char *addr_sa_cut)
 {
-	const uint8_t sa_feature = P2AddrSaCutFeature(addr_sa_part);
+	const uint8_t sa_feature = P2AddrSaCutFeature(addr_sa_cut);
 	const uint8_t len_value = sa_feature & kP2SaLenMask;
 	// qos_printf("len_value = %d.\r\n", (int)len_value);
 	const int size = (int)len_value + 1 + 1;	// len_value 0对应1字节，加1字节特征字节
@@ -286,34 +286,34 @@ bit5=0 表示无扩展逻辑地址，bit4 取值 0 和 1 分别表示逻辑地�
 bit5=1 表示有扩展逻辑地址，bit4 备用；地址长度 N 包含 1 个字节的扩展逻辑地址，取值范
 围 2…255，表示逻辑地址 2…255；
 */
-bool P2AddrSaLogicExist(const char *addr_sa_part)
+bool P2AddrSaLogicExist(const char *addr_sa_cut)
 {
-	const uint8_t sa_feature = P2AddrSaCutFeature(addr_sa_part);
+	const uint8_t sa_feature = P2AddrSaCutFeature(addr_sa_cut);
 	const uint8_t logic_exist = sa_feature & kP2SaLogicExistMask;
 	return !!(logic_exist);
 }
-uint8_t P2AddrSaLogicAddr(const char *addr_sa_part)
+uint8_t P2AddrSaLogicAddr(const char *addr_sa_cut)
 {
-	const bool logic_exist = P2AddrSaLogicExist(addr_sa_part);
+	const bool logic_exist = P2AddrSaLogicExist(addr_sa_cut);
 	if (logic_exist)
-		return addr_sa_part[1];
+		return addr_sa_cut[1];
 
-	const uint8_t sa_feature = P2AddrSaCutFeature(addr_sa_part);
+	const uint8_t sa_feature = P2AddrSaCutFeature(addr_sa_cut);
 	const uint8_t logic_addr = (sa_feature & kP2SaLogicAddrMask) >> 4;
 	return logic_addr;
 }
-int P2AddrSaNakedOffset(const char *addr_sa_part)
+int P2AddrSaNakedOffset(const char *addr_sa_cut)
 {
-	const uint8_t logic_exist = P2AddrSaLogicExist(addr_sa_part);
+	const uint8_t logic_exist = P2AddrSaLogicExist(addr_sa_cut);
 	// 当逻辑地址存在，多一个字节扩展逻辑地址
 	const int offset = 1 + (logic_exist ? 1 : 0);
 	return offset;
 }
-int P2AddrSaNakedSize(const char *addr_sa_part)
+int P2AddrSaNakedSize(const char *addr_sa_cut)
 {
-	const int sa_size = P2AddrSaCutSize(addr_sa_part);
+	const int sa_size = P2AddrSaCutSize(addr_sa_cut);
 	dvb(sa_size >= 1);
-	const bool logic_exist = P2AddrSaLogicExist(addr_sa_part);
+	const bool logic_exist = P2AddrSaLogicExist(addr_sa_cut);
 	if (logic_exist)
 	{
 		dvb(sa_size >= 2);
@@ -321,23 +321,23 @@ int P2AddrSaNakedSize(const char *addr_sa_part)
 	}
 	return sa_size - 1;			// 1字节地址特征
 }
-const char *P2AddrSaNaked(const char *addr_sa_part)
+const char *P2AddrSaNaked(const char *addr_sa_cut)
 {
-	return addr_sa_part + P2AddrSaNakedOffset(addr_sa_part);
+	return addr_sa_cut + P2AddrSaNakedOffset(addr_sa_cut);
 }
-const char *P2AddrCaCut(const char *addr_part)
+const char *P2AddrCaCut(const char *addr_cut)
 {
-	const char *sa = P2AddrSaCut(addr_part);
+	const char *sa = P2AddrSaCut(addr_cut);
 	const int sa_size = P2AddrSaCutSize(sa);
 	return sa + sa_size;
 }
-uint8_t P2AddrCa(const char *addr_ca_part)
+uint8_t P2AddrCa(const char *addr_ca_cut)
 {
-	return (uint8_t)(*addr_ca_part);
+	return (uint8_t)(*addr_ca_cut);
 }
-int P2AddrSizeCut(const char *addr_part)
+int P2AddrSizeCut(const char *addr_cut)
 {
-	const char *sa = P2AddrSaCut(addr_part);
+	const char *sa = P2AddrSaCut(addr_cut);
 	const int sa_size = P2AddrSaCutSize(sa);
 	// qos_printf("sa_size = %d.\r\n", sa_size);
 	const int addr_size = sa_size + P2_ADDR_CA_SIZE;
@@ -345,23 +345,23 @@ int P2AddrSizeCut(const char *addr_part)
 }
 int P2AddrSize(const char *frame)
 {
-	const char * const addr_part = frame + P2_ADDR_OFFSET;
-	return P2AddrCutSize(addr_part);
+	const char * const addr_cut = frame + P2_ADDR_OFFSET;
+	return P2AddrCutSize(addr_cut);
 }
 //}}}
 #endif
 //{{{ A
 static int AddrSize(const char *frame)
 {
-	const char * const addr_part = frame + P2_ADDR_OFFSET;
-	return P2AddrCutSize(addr_part);
+	const char * const addr_cut = frame + P2_ADDR_OFFSET;
+	return P2AddrCutSize(addr_cut);
 }
-static int LenAddr(Pcut *part, int ix, const char *frame) { return P2_ADDR_SIZE(AddrSize(frame)); }
-static int OffsetAddr(Pcut *part, int ix, const char *frame) { return P2_ADDR_OFFSET; }
+static int LenAddr(Pcut *cut, int ix, const char *frame) { return P2_ADDR_SIZE(AddrSize(frame)); }
+static int OffsetAddr(Pcut *cut, int ix, const char *frame) { return P2_ADDR_OFFSET; }
 // 通过sub来检查addr的有效性
 #define ValidAddr		PcutItemValidBySub
 /*
-static cp_t ValidAddr(Pcut *part, int ix, const char *frame) 
+static cp_t ValidAddr(Pcut *cut, int ix, const char *frame) 
 { 
 	return 0; 
 }
@@ -422,9 +422,9 @@ static cp_t HcsValid(const char *frame)
 	ifbr(in_frame == calc);
 	return 0;
 }
-static int LenHcs(Pcut *part, int ix, const char *frame) { return P2_HCS_SIZE; }
-static int OffsetHcs(Pcut *part, int ix, const char *frame) { return P2_HCS_OFFSET(AddrSize(frame)); }
-static cp_t ValidHcs(Pcut *part, int ix, const char *frame) 
+static int LenHcs(Pcut *cut, int ix, const char *frame) { return P2_HCS_SIZE; }
+static int OffsetHcs(Pcut *cut, int ix, const char *frame) { return P2_HCS_OFFSET(AddrSize(frame)); }
+static cp_t ValidHcs(Pcut *cut, int ix, const char *frame) 
 { 
 	return HcsValid(frame);
 }
@@ -462,13 +462,13 @@ const char *P2Lud(const char *frame)
 {
 	return frame + P2LudOffset(frame);
 }
-static int LenLud(Pcut *part, int ix, const char *frame) { return P2LudSize(frame); }
-static int OffsetLud(Pcut *part, int ix, const char *frame) { return P2LudOffset(frame); }
-static cp_t ValidLud(Pcut *part, int ix, const char *frame) 
+static int LenLud(Pcut *cut, int ix, const char *frame) { return P2LudSize(frame); }
+static int OffsetLud(Pcut *cut, int ix, const char *frame) { return P2LudOffset(frame); }
+static cp_t ValidLud(Pcut *cut, int ix, const char *frame) 
 {
 	return 0;
 }
-static cp_t ExplainLud(Pcut *part, int ix, const char *frame) 
+static cp_t ExplainLud(Pcut *cut, int ix, const char *frame) 
 {
 	const uint8_t apdu_choice = P2LudChoice(frame);
 	qos_printf("apdu_choice=%uD(%s)", (unsigned int)apdu_choice, P2LudChoiceStr(apdu_choice));
@@ -550,9 +550,9 @@ static cp_t FcsValid(const char *frame)
 	ifbr(in_frame == calc);
 	return 0;
 }
-static int LenFcs(Pcut *part, int ix, const char *frame) { return P2_FCS_SIZE; }
-static int OffsetFcs(Pcut *part, int ix, const char *frame) { return P2_FCS_OFFSET(P2LValue(frame)); }
-static cp_t ValidFcs(Pcut *part, int ix, const char *frame) 
+static int LenFcs(Pcut *cut, int ix, const char *frame) { return P2_FCS_SIZE; }
+static int OffsetFcs(Pcut *cut, int ix, const char *frame) { return P2_FCS_OFFSET(P2LValue(frame)); }
+static cp_t ValidFcs(Pcut *cut, int ix, const char *frame) 
 { 
 	return FcsValid(frame);
 }
@@ -586,9 +586,9 @@ uint8_t P2End(const char *frame)
 	const int offset = P2_END_OFFSET(l_value);
 	return frame[offset];
 }
-static int LenEnd(Pcut *part, int ix, const char *frame) { return P2_END_SIZE; }
-static int OffsetEnd(Pcut *part, int ix, const char *frame) { return P2_END_OFFSET(P2LValue(frame)); }
-static cp_t ValidEnd(Pcut *part, int ix, const char *frame) 
+static int LenEnd(Pcut *cut, int ix, const char *frame) { return P2_END_SIZE; }
+static int OffsetEnd(Pcut *cut, int ix, const char *frame) { return P2_END_OFFSET(P2LValue(frame)); }
+static cp_t ValidEnd(Pcut *cut, int ix, const char *frame) 
 {
 	const uint8_t end = P2End(frame);
 	ifbr(P2_END == end);
@@ -653,9 +653,9 @@ static void P2PcutItemsInit(PcutItem items[kP2CutNum])
 cp_t P2PcutOpen(P2Pcut *m)
 {
 	P2PcutItemsInit(m->items);
-	ifer(P2AddrPcutOpen(&m->addr_part));
+	ifer(P2AddrPcutOpen(&m->addr_cut));
 	ifer(PcutOpen(&m->base, m->items, kP2CutNum));
-	PcutSubSet(&m->base, kP2CutIxA, &m->addr_part.base, "addr");
+	PcutSubSet(&m->base, kP2CutIxA, &m->addr_cut.base, "addr");
 	return 0;
 }
 cp_t P2PcutClose(P2Pcut *m)
@@ -664,13 +664,13 @@ cp_t P2PcutClose(P2Pcut *m)
 
 	PcutSubSet(&m->base, kP2CutIxA, NULL, NULL);
 	ifer(PcutClose(&m->base));
-	ifer(P2AddrPcutClose(&m->addr_part));
+	ifer(P2AddrPcutClose(&m->addr_cut));
 	return 0;
 }
 cp_t P2PcutValid(const P2Pcut *m)
 {
 	ifer(PcutValid(&m->base));
-	ifer(P2AddrPcutValid(&m->addr_part));
+	ifer(P2AddrPcutValid(&m->addr_cut));
 	return 0;
 }
 //}}}
@@ -694,9 +694,9 @@ static cp_t FillA(Qpack *pack, char *mem, int mem_size, int offset)
 */
 static cp_t FillL(Qpack *pack, int ix, char *mem, int mem_size, int offset)
 {
-	Pcut * const part = QpackCut(pack);
-	const int addr_size = PcutIxLen(part, kP2CutIxA, mem);
-	const int lud_size = PcutIxLen(part, kP2CutIxLud, mem);
+	Pcut * const cut = QpackCut(pack);
+	const int addr_size = PcutIxLen(cut, kP2CutIxA, mem);
+	const int lud_size = PcutIxLen(cut, kP2CutIxLud, mem);
 	const int l_value = P2_LUD_SIZE_2_L_VALUE(lud_size, addr_size);
 
 	dvb(P2_L_OFFSET == offset);
@@ -753,7 +753,7 @@ typedef enum
 // 固定部分
 // pack顺序，要保证前一部分填写完毕后，要能推算出后一部分的偏移量。即后填的可以依赖先填的，但不能先填的依赖后填的
 static const QpackItemFix kPackFix[kP2PackNum] = {
-	// part_ix	fill
+	// cut_ix	fill
 	{ kP2CutIxLud, FillLud },
 	{ kP2CutIxA, FillA },
 	{ kP2CutIxL, FillL },
@@ -786,10 +786,10 @@ cp_t P2QpackOpen(P2Qpack *m, Qpack *lud_pack)
 
 	ifer(P2AddrQpackOpen(&m->addr_pack));
 
-	ifer(P2PcutOpen(&m->part));
+	ifer(P2PcutOpen(&m->cut));
 	P2QpackItemsInit(m->items);
 
-	ifer(QpackOpen(&m->base, m->items, kP2PackNum, PcutBasePtr(&m->part.base)));
+	ifer(QpackOpen(&m->base, m->items, kP2PackNum, PcutBasePtr(&m->cut.base)));
 
 	QpackSubSet(&m->base, kPackIxA, P2AddrQpackBase(&m->addr_pack));
 	QpackSubSet(&m->base, kPackIxLud, lud_pack);
@@ -800,14 +800,14 @@ cp_t P2QpackClose(P2Qpack *m)
 	dve(P2QpackValid(m));
 
 	ifer(QpackClose(&m->base));
-	ifer(P2PcutClose(&m->part));
+	ifer(P2PcutClose(&m->cut));
 	ifer(P2AddrQpackClose(&m->addr_pack));
 	return 0;
 }
 cp_t P2QpackValid(const P2Qpack *m)
 {
 	ifer(P2AddrQpackValid(&m->addr_pack));
-	ifer(PcutBaseParentValid(&m->part.base));
+	ifer(PcutBaseParentValid(&m->cut.base));
 	ifer(QpackValid(&m->base));
 	return 0;
 }
@@ -944,14 +944,14 @@ static cp_t TestPcut(void)
 	ifer(PcutIxValid(m, kPcutIxAll, whole));
 
 	// 取sa_naked，即纯地址部分
-	Pcut *part_addr = PcutSub(m, kP2CutIxA);
-	ifbr(NULL != part_addr);
+	Pcut *cut_addr = PcutSub(m, kP2CutIxA);
+	ifbr(NULL != cut_addr);
 	const char kSaNaked[] = "\x01\x23\x45\x67\x89\x0a";
 	const int kSaNakedSize = sizeof(kSaNaked) - 1;
 
-	const char *addr_part_mem = PcutIxPtrConst(m, kP2CutIxA, whole);
-	const int sa_naked_len = PcutIxLen(part_addr, kP2AddrCutIxSaNaked, addr_part_mem);
-	const char *sa_naked_mem = PcutIxPtrConst(part_addr, kP2AddrCutIxSaNaked, addr_part_mem);
+	const char *addr_cut_mem = PcutIxPtrConst(m, kP2CutIxA, whole);
+	const int sa_naked_len = PcutIxLen(cut_addr, kP2AddrCutIxSaNaked, addr_cut_mem);
+	const char *sa_naked_mem = PcutIxPtrConst(cut_addr, kP2AddrCutIxSaNaked, addr_cut_mem);
 	ifbr(kSaNakedSize == sa_naked_len);
 	ifbr(0 == memcmp(sa_naked_mem, kSaNaked, kSaNakedSize));
 

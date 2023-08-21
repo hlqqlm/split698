@@ -44,16 +44,16 @@ DLT698_45 报文解析: n个变化长度的内容。用在解析sequence_of var 
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartVarOne = 
+static const PcutItemFix kCutVarOne = 
 	// name len offset valid explain
 	{ "one", PcutItemLenBySub, PcutItemOffsetByPreviousLen, PcutItemValidBySub, NULL };
 	
 
-static const PcutItem kPartItemOnePattern = PCUT_ITEM_NO_SUB(&kPartVarOne);
+static const PcutItem kCutItemOnePattern = PCUT_ITEM_NO_SUB(&kCutVarOne);
 static void PcutItemsInit(PcutItem *items, int num)
 {
 	for (int i = 0; i < num; ++i)
-		memcpy(&items[i], &kPartItemOnePattern, sizeof(kPartItemOnePattern));
+		memcpy(&items[i], &kCutItemOnePattern, sizeof(kCutItemOnePattern));
 }
 int P2NvarPcutNum(const P2NvarPcut *m)
 {

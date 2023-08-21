@@ -32,20 +32,21 @@ int P2SequenceOfVarLenNum(const char *whole);
 cp_t P2SequenceOfVarLenContentIxValid(const char *whole, int content_ix);
 int P2SequenceOfVarLenContentOffset(const char *whole);
 
-//{{{ part
+
+//{{{ cut
 typedef enum
 {
-	kP2SequenceOfVarLenPartIxNum,
-	kP2SequenceOfVarLenPartIxContent,				// num对应的变化部分
-	kP2SequenceOfVarLenPartNum				
-} P2SequenceOfVarLenPartIxT;
+	kP2SequenceOfVarLenCutIxNum,
+	kP2SequenceOfVarLenCutIxContent,				// num对应的变化部分
+	kP2SequenceOfVarLenCutNum				
+} P2SequenceOfVarLenCutIxT;
 
 typedef struct
 {
 	Pcut base;		
-	PcutItem items[kP2SequenceOfVarLenPartNum];
+	PcutItem items[kP2SequenceOfVarLenCutNum];
 
-	Pcut *part_one;				// 用来解析一个content单元的对象
+	Pcut *cut_one;				// 用来解析一个content单元的对象
 	const char *content_name;		// 重复元素名称
 									//
 	P2NvarPcut nvar_part;
@@ -57,7 +58,7 @@ typedef struct
 	kP2NvarPcutDef, 0,					\
 }
 
-cp_t P2SequenceOfVarLenPcutOpen(P2SequenceOfVarLenPcut *m, Pcut *part_one, const char *content_name);
+cp_t P2SequenceOfVarLenPcutOpen(P2SequenceOfVarLenPcut *m, Pcut *cut_one, const char *content_name);
 cp_t P2SequenceOfVarLenPcutClose(P2SequenceOfVarLenPcut *m);
 cp_t P2SequenceOfVarLenPcutValid(const P2SequenceOfVarLenPcut *m);
 //}}}

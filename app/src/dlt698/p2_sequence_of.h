@@ -27,7 +27,9 @@ int P2SequenceOfContentOffset(const char *whole);
 int P2SequenceOfContentIxOffset(int one_size, const char *whole, int content_ix);
 const char *P2SequenceOfContentIx(int one_size, const char *whole, int content_ix);
 
-//{{{ part
+
+
+//{{{ cut
 typedef enum
 {
 	kP2SequenceOfCutIxNum,
@@ -35,6 +37,7 @@ typedef enum
 	kP2SequenceOfCutNum				
 } P2SequenceOfCutIxT;
 
+// If item is var_len, please use P2SequenceOfVarLenPcut.
 typedef struct
 {
 	Pcut base;		
@@ -43,7 +46,7 @@ typedef struct
 	int one_size;					// 一个元素的大小
 	const char *content_name;		// 重复元素名称
 
-	P2NfixPcut nfix_part;
+	P2NfixPcut nfix_cut;
 	int nfix_open_cnt;
 } P2SequenceOfPcut;
 #define kP2SequenceOfPcutDef {		\
@@ -56,7 +59,6 @@ cp_t P2SequenceOfPcutOpen(P2SequenceOfPcut *m, int one_size, const char *content
 cp_t P2SequenceOfPcutClose(P2SequenceOfPcut *m);
 cp_t P2SequenceOfPcutValid(const P2SequenceOfPcut *m);
 //}}}
-
 
 
 // test

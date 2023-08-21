@@ -42,8 +42,8 @@ static cp_t NfixOpen(P2SequenceOfPcut *m, int num)
 	dve(P2SequenceOfPcutValid(m));
 	dvb(0 == m->nfix_open_cnt);
 	++m->nfix_open_cnt;
-	ifer(P2NfixPcutOpen(&m->nfix_part, num, m->one_size, m->content_name));
-	PcutSubSet(&m->base, kP2SequenceOfCutIxContent, &m->nfix_part.base, NULL);
+	ifer(P2NfixPcutOpen(&m->nfix_cut, num, m->one_size, m->content_name));
+	PcutSubSet(&m->base, kP2SequenceOfCutIxContent, &m->nfix_cut.base, NULL);
 	return 0;
 }
 static cp_t NfixClose(P2SequenceOfPcut *m)
@@ -55,7 +55,7 @@ static cp_t NfixClose(P2SequenceOfPcut *m)
 	dvb(1 == m->nfix_open_cnt);
 	--m->nfix_open_cnt;
 	PcutSubSet(&m->base, kP2SequenceOfCutIxContent, NULL, NULL);
-	ifer(P2NfixPcutClose(&m->nfix_part));
+	ifer(P2NfixPcutClose(&m->nfix_cut));
 	return 0;
 }
 //}}}
@@ -171,7 +171,7 @@ cp_t P2SequenceOfPcutValid(const P2SequenceOfPcut *m)
 	ifer(PcutValid(&m->base));
 	ifbr(0 == m->nfix_open_cnt || 1 == m->nfix_open_cnt);
 	if (1 == m->nfix_open_cnt)
-		ifer(P2NfixPcutValid(&m->nfix_part));
+		ifer(P2NfixPcutValid(&m->nfix_cut));
 	return 0;
 }
 //}}}

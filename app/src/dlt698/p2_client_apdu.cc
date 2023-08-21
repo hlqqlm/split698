@@ -50,7 +50,7 @@ uint8_t P2ClientApduChoice(const char *whole)
 }
 
 #define LenChoice	PcutItemLenBySub	
-static int OffsetChoice(Pcut *part ,int ix, const char *whole) { return kP2ClientApduChoiceOffset; }
+static int OffsetChoice(Pcut *cut ,int ix, const char *whole) { return kP2ClientApduChoiceOffset; }
 #define ValidChoice	PcutItemValidBySub
 //}}}
 
@@ -86,22 +86,22 @@ static void PcutItemsInit(PcutItem items[kThisCutNum])
 cp_t P2ClientApduPcutValid(const P2ClientApduPcut *m)
 {
 	ifer(PcutValid(&m->base));
-	ifer(P2ClientApduChoicePcutValid(&m->choice_part));
-	ifer(P2OptionalPcutValid(&m->optional_part));
-	ifer(P2TimetagPcutValid(&m->timetag_part));
+	ifer(P2ClientApduChoicePcutValid(&m->choice_cut));
+	ifer(P2OptionalPcutValid(&m->optional_cut));
+	ifer(P2TimetagPcutValid(&m->timetag_cut));
 	return 0;
 }
 cp_t P2ClientApduPcutOpen(P2ClientApduPcut *m)
 {
-	ifer(P2ClientApduChoicePcutOpen(&m->choice_part));
-	ifer(P2TimetagPcutOpen(&m->timetag_part));
-	ifer(P2OptionalPcutOpen(&m->optional_part, &m->timetag_part.base, "timetag"));
+	ifer(P2ClientApduChoicePcutOpen(&m->choice_cut));
+	ifer(P2TimetagPcutOpen(&m->timetag_cut));
+	ifer(P2OptionalPcutOpen(&m->optional_cut, &m->timetag_cut.base, "timetag"));
 
 	PcutItemsInit(m->items);
 	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
-	PcutSubSet(&m->base, kP2ClientApduCutIxChoice, &m->choice_part.choice.base, NULL);
-	PcutSubSet(&m->base, kP2ClientApduCutIxOptionalTimetag, &m->optional_part.base, NULL);
+	PcutSubSet(&m->base, kP2ClientApduCutIxChoice, &m->choice_cut.choice.base, NULL);
+	PcutSubSet(&m->base, kP2ClientApduCutIxOptionalTimetag, &m->optional_cut.base, NULL);
 	return 0;
 }
 cp_t P2ClientApduPcutClose(P2ClientApduPcut *m)
@@ -112,9 +112,9 @@ cp_t P2ClientApduPcutClose(P2ClientApduPcut *m)
 	PcutSubSet(&m->base, kP2ClientApduCutIxOptionalTimetag, NULL, NULL);
 
 	ifer(PcutClose(&m->base));
-	ifer(P2ClientApduChoicePcutClose(&m->choice_part));
-	ifer(P2OptionalPcutClose(&m->optional_part));
-	ifer(P2TimetagPcutClose(&m->timetag_part));
+	ifer(P2ClientApduChoicePcutClose(&m->choice_cut));
+	ifer(P2OptionalPcutClose(&m->optional_cut));
+	ifer(P2TimetagPcutClose(&m->timetag_cut));
 	return 0;
 }
 //}}}

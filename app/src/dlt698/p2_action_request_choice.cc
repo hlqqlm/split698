@@ -24,6 +24,7 @@ DLT698_45 action request choice 变化部分报文解析
 
 // var
 #include "p2_action_request_normal.h"
+#include "p2_action_request_normal_list.h"
 
 #include "p2_action_request_choice.h"
 #include "p2_action_request_choice.xcp.h"
@@ -67,10 +68,11 @@ const char *P2ActionRequestChoiceStr(uint8_t choice)
 
 //{{{ var_factory_info
 static const P2ActionRequestNormalPcut kP2ActionRequestNormalPcutDefVar = kP2ActionRequestNormalPcutDef;
+static const P2ActionRequestNormalListPcut kP2ActionRequestNormalListPcutDefVar = kP2ActionRequestNormalListPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
 	// name		size	init	derive_open		derive_close
 	{ kP2ActionRequestNormalName, sizeof(P2ActionRequestNormalPcut), &kP2ActionRequestNormalPcutDefVar, P2ActionRequestNormalPcutOpenBase, P2ActionRequestNormalPcutCloseBase },	// 请求操作一个对象方法 [1] ActionRequestNormal，
-	kPcutFactoryInfoDef("ActionRequestNormalList"),				// 请求操作若干个对象方法 [2] ActionRequestNormalList，
+	{ kP2ActionRequestNormalListName, sizeof(P2ActionRequestNormalListPcut), &kP2ActionRequestNormalListPcutDefVar, P2ActionRequestNormalListPcutOpenBase, P2ActionRequestNormalListPcutCloseBase },	// 请求操作若干个对象方法 [2] ActionRequestNormalList，
 	kPcutFactoryInfoDef("ActionThenGetRequestNormalList"),				// 请求操作若干个对象方法后读取若干个对象属性 [3] ActionThenGetRequestNormalList
 };
 //}}}
