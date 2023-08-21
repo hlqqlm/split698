@@ -74,13 +74,13 @@ typedef struct
 	Pcut base;
 	PcutItem items[kP2ServerApduCutNum];
 
-	P2ServerApduChoicePcut choice_part;
+	P2ServerApduChoicePcut choice_cut;
 
 	P2OptionalPcut optional_follow_report;
-	P2FollowReportPcut follow_report_part;
+	P2FollowReportPcut follow_report_cut;
 
 	P2OptionalPcut optional_timetag;
-	P2TimetagPcut timetag_part;
+	P2TimetagPcut timetag_cut;
 } P2ServerApduPcut;
 #define kP2ServerApduPcutDef {							\
 	kPcutDef, { kPcutItemDef },						\

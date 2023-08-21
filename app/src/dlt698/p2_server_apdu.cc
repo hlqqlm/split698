@@ -48,7 +48,7 @@ uint8_t P2ServerApduChoice(const char *whole)
 }
 
 #define LenChoice	PcutItemLenBySub	
-static int OffsetChoice(Pcut *part ,int ix, const char *whole) { return kP2ServerApduChoiceOffset; }
+static int OffsetChoice(Pcut *cut ,int ix, const char *whole) { return kP2ServerApduChoiceOffset; }
 #define ValidChoice	PcutItemValidBySub
 //}}}
 
@@ -94,29 +94,29 @@ static void PcutItemsInit(PcutItem items[kThisCutNum])
 cp_t P2ServerApduPcutValid(const P2ServerApduPcut *m)
 {
 	ifer(PcutValid(&m->base));
-	ifer(P2ServerApduChoicePcutValid(&m->choice_part));
+	ifer(P2ServerApduChoicePcutValid(&m->choice_cut));
 
 	ifer(P2OptionalPcutValid(&m->optional_follow_report));
-	ifer(P2FollowReportPcutValid(&m->follow_report_part));
+	ifer(P2FollowReportPcutValid(&m->follow_report_cut));
 
 	ifer(P2OptionalPcutValid(&m->optional_timetag));
-	ifer(P2TimetagPcutValid(&m->timetag_part));
+	ifer(P2TimetagPcutValid(&m->timetag_cut));
 	return 0;
 }
 cp_t P2ServerApduPcutOpen(P2ServerApduPcut *m)
 {
-	ifer(P2ServerApduChoicePcutOpen(&m->choice_part));
+	ifer(P2ServerApduChoicePcutOpen(&m->choice_cut));
 
-	ifer(P2FollowReportPcutOpen(&m->follow_report_part));
-	ifer(P2OptionalPcutOpen(&m->optional_follow_report, &m->follow_report_part.base, kP2ServerApduNameFollowReport));
+	ifer(P2FollowReportPcutOpen(&m->follow_report_cut));
+	ifer(P2OptionalPcutOpen(&m->optional_follow_report, &m->follow_report_cut.base, kP2ServerApduNameFollowReport));
 
-	ifer(P2TimetagPcutOpen(&m->timetag_part));
-	ifer(P2OptionalPcutOpen(&m->optional_timetag, &m->timetag_part.base, kP2ServerApduNameTimetag));
+	ifer(P2TimetagPcutOpen(&m->timetag_cut));
+	ifer(P2OptionalPcutOpen(&m->optional_timetag, &m->timetag_cut.base, kP2ServerApduNameTimetag));
 
 	PcutItemsInit(m->items);
 	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
-	PcutSubSet(&m->base, kP2ServerApduCutIxChoice, &m->choice_part.choice.base, NULL);
+	PcutSubSet(&m->base, kP2ServerApduCutIxChoice, &m->choice_cut.choice.base, NULL);
 	PcutSubSet(&m->base, kP2ServerApduCutIxOptionalFollowReport, &m->optional_follow_report.base, NULL);
 	PcutSubSet(&m->base, kP2ServerApduCutIxOptionalTimetag, &m->optional_timetag.base, NULL);
 	return 0;
@@ -130,11 +130,11 @@ cp_t P2ServerApduPcutClose(P2ServerApduPcut *m)
 	PcutSubSet(&m->base, kP2ServerApduCutIxOptionalTimetag, NULL, NULL);
 
 	ifer(PcutClose(&m->base));
-	ifer(P2ServerApduChoicePcutClose(&m->choice_part));
+	ifer(P2ServerApduChoicePcutClose(&m->choice_cut));
 	ifer(P2OptionalPcutClose(&m->optional_follow_report));
-	ifer(P2FollowReportPcutClose(&m->follow_report_part));
+	ifer(P2FollowReportPcutClose(&m->follow_report_cut));
 	ifer(P2OptionalPcutClose(&m->optional_timetag));
-	ifer(P2TimetagPcutClose(&m->timetag_part));
+	ifer(P2TimetagPcutClose(&m->timetag_cut));
 	return 0;
 }
 //}}}
