@@ -29,6 +29,7 @@ huanglin 创建.
 // var
 #include "p2_action_response_normal.h"
 #include "p2_action_response_normal_list.h"
+#include "p2_action_then_get_response_normal_list.h"
 
 #include "p2_action_response.h"
 #include "p2_action_response.xcp.h"
@@ -75,6 +76,8 @@ static const P2ActionResponseNormalListPcut kP2ActionResponseNormalListPcutDefVa
 static const PcutFactoryInfo kVarFactoryInfoList[kThisChoiceNum] = {
 	{ kP2ActionResponseNormalName, sizeof(P2ActionResponseNormalPcut), &kP2ActionResponseNormalPcutDefVar, P2ActionResponseNormalPcutOpenBase, P2ActionResponseNormalPcutCloseBase },	// 操作一个对象方法的响应 [1] ActionResponseNormal，
 	{ kP2ActionResponseNormalListName, sizeof(P2ActionResponseNormalListPcut), &kP2ActionResponseNormalListPcutDefVar, P2ActionResponseNormalListPcutOpenBase, P2ActionResponseNormalListPcutCloseBase },	// 操作若干个对象方法的响应 [2] ActionResponseNormalList，
+
+
 	kPcutFactoryInfoDef("ActionThenGetResponseNormalList"), // 操作若干个对象方法后读取若干个属性的响应 [3] ActionThenGetResponseNormalList
 };
 cp_t P2ActionResponsePcutOpen(P2ActionResponsePcut *m)
