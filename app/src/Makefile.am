@@ -35,6 +35,7 @@ split698_SOURCES = 	\
 	dlt698/p2_error_response.cc 	\
 	dlt698/p2_link_apdu.cc dlt698/p2_link_apdu_choice.cc dlt698/p2_link_request.cc dlt698/p2_link_response.cc \
 	dlt698/p2_connect_request.cc dlt698/p2_connect_mechanism_info_choice.cc dlt698/p2_signature_security.cc dlt698/p2_symmetry_security.cc \
+	dlt698/p2_release_request.cc \
 	dlt698/p2_get_request.cc dlt698/p2_get_request_normal.cc dlt698/p2_get_request_normal_list.cc \
 	dlt698/p2_set_request_choice.cc dlt698/p2_set_request_normal.cc dlt698/p2_set_request_normal_list.cc dlt698/p2_set_then_get_request_normal_list.cc \
 	dlt698/p2_action_request_choice.cc dlt698/p2_action_request_normal.cc dlt698/p2_action_request_normal_list.cc dlt698/p2_action_then_get_request_normal_list.cc \
@@ -69,6 +70,7 @@ nobase_include_HEADERS = \
 	dlt698/p2_error_response.h 	\
 	dlt698/p2_link_apdu.h dlt698/p2_link_apdu_choice.h dlt698/p2_link_request.h dlt698/p2_link_response.h \
 	dlt698/p2_connect_request.h dlt698/p2_connect_mechanism_info_choice.h dlt698/p2_signature_security.h dlt698/p2_symmetry_security.h \
+	dlt698/p2_release_request.h \
 	dlt698/p2_get_request.h dlt698/p2_get_request_normal.h dlt698/p2_get_request_normal_list.h \
 	dlt698/p2_set_request_choice.h dlt698/p2_set_request_normal.h dlt698/p2_set_request_normal_list.h dlt698/p2_set_then_get_request_normal_list.h \
 	dlt698/p2_action_request_choice.h dlt698/p2_action_request_normal.h dlt698/p2_action_request_normal_list.h dlt698/p2_action_then_get_request_normal_list.h \

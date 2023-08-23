@@ -191,11 +191,10 @@ static void PcutItemsInit(PcutItem items[kThisCutNum])
 
 cp_t P2ConnectRequestPcutOpen(P2ConnectRequestPcut *m)
 {
-	ifer(P2ConnectMechanismInfoChoicePcutOpen(&m->cmi));
-
 	PcutItemsInit(m->items);
 	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
+	ifer(P2ConnectMechanismInfoChoicePcutOpen(&m->cmi));
 	PcutSubSet(&m->base, kP2ConnectRequestCutIxConnectMechanismInfo, &m->cmi.choice.base, NULL);
 	return 0;
 }
@@ -204,16 +203,15 @@ cp_t P2ConnectRequestPcutClose(P2ConnectRequestPcut *m)
 	dve(P2ConnectRequestPcutValid(m));
 
 	PcutSubSet(&m->base, kP2ConnectRequestCutIxConnectMechanismInfo, NULL, NULL);
+	ifer(P2ConnectMechanismInfoChoicePcutClose(&m->cmi));
 
 	ifer(PcutClose(&m->base));
-
-	ifer(P2ConnectMechanismInfoChoicePcutClose(&m->cmi));
 	return 0;
 }
 cp_t P2ConnectRequestPcutValid(const P2ConnectRequestPcut *m)
 {
-	ifer(P2ConnectMechanismInfoChoicePcutValid(&m->cmi));
 	ifer(PcutValid(&m->base));
+	ifer(P2ConnectMechanismInfoChoicePcutValid(&m->cmi));
 	return 0;
 }
 

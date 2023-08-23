@@ -57,7 +57,7 @@ uint8_t P2GetRequestChoice(const char *whole);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef struct 
 {
 	P2ChoicePcut choice;

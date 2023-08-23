@@ -63,7 +63,7 @@ uint16_t P2ConnectRequestAppProtocolVersion(const char *whole);
 
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2ConnectRequestCutIxPiid,
