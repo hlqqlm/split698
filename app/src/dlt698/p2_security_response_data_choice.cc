@@ -74,7 +74,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2SecurityResponseDataChoiceNu
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 cp_t P2SecurityResponseDataChoicePcutOpen(P2SecurityResponseDataChoicePcut *m)
 {
 	return P2ChoicePcutOpen(&m->choice, kP2SecurityResponseDataChoiceName, 

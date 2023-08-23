@@ -154,7 +154,7 @@ int P2OctetStringCutSize(const char *whole)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {
@@ -213,29 +213,6 @@ cp_t P2OctetStringPcutCloseBase(Pcut *base)
 }
 //}}}
 
-
-#if 0
-//{{{ pcut-datatype
-// 有数据类型的pcut
-cp_t P2OctetStringDatatypePcutOpen(P2OctetStringPcut *m)
-{
-	ifer(P2OctetStringPcutOpen(m));
-	P2OctetStringPcutConfigDatatypeExist(m, true);
-	return 0;
-}
-cp_t P2OctetStringDatatypePcutClose(P2OctetStringPcut *m)
-{
-	ifer(P2OctetStringPcutClose(m));
-	return 0;
-}
-cp_t P2OctetStringDatatypePcutValid(const P2OctetStringPcut *m)
-{
-	ifer(P2OctetStringPcutValid(m));
-	ifbr(m->datatype_exist);
-	return 0;
-}
-//}}}
-#endif
 
 //{{{ fill_by_string
 /*

@@ -71,7 +71,7 @@ static cp_t ValidUnsigned(Pcut *cut, int ix, const char *whole)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {

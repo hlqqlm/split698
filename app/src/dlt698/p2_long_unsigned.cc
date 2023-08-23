@@ -50,37 +50,6 @@ static int GetDatatypeSize(bool datatype_exist)
 }
 //}}}
 
-#if 0
-//{{{ datatype
-static int DatatypeSize(const Pcut *part, const char *whole) 
-{
-	const P2LongUnsignedPcut *derive = ToDerive(part);
-	if (!derive->datatype_exist)
-		return 0;
-
-	dvb(kDlt698DataTypeLongUnsigned == *whole);
-	return kDlt698DatatypeSize;
-}
-static int LenDatatype(Pcut *part, int ix, const char *whole) 
-{ 
-	return DatatypeSize(part, whole);
-}
-static int OffsetDatatype(Pcut *part, int ix, const char *whole) 
-{ 
-	return kP2LongUnsignedDatatypeOffset; 
-}
-static cp_t ValidDatatype(Pcut *part, int ix, const char *whole) 
-{ 
-	const P2LongUnsignedPcut *derive = ToDerive(part);
-	if (derive->datatype_exist)
-	{
-		ifbr(kDlt698DataTypeLongUnsigned == *whole);
-		return 0;
-	}
-	return 0; 
-}
-//}}}
-#endif
 
 //{{{ content
 static int LenContent(Pcut *part, int ix, const char *whole) 
@@ -126,7 +95,7 @@ uint16_t P2LongUnsignedToValue(const char *whole)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {
@@ -184,28 +153,6 @@ cp_t P2LongUnsignedPcutCloseBase(Pcut *base)
 }
 //}}}
 
-#if 0
-//{{{ pcut-datatype
-// 有数据类型的pcut
-cp_t P2LongUnsignedDatatypePcutOpen(P2LongUnsignedPcut *m)
-{
-	ifer(P2LongUnsignedPcutOpen(m));
-	P2LongUnsignedPcutConfigDatatypeExist(m, true);
-	return 0;
-}
-cp_t P2LongUnsignedDatatypePcutClose(P2LongUnsignedPcut *m)
-{
-	ifer(P2LongUnsignedPcutClose(m));
-	return 0;
-}
-cp_t P2LongUnsignedDatatypePcutValid(const P2LongUnsignedPcut *m)
-{
-	ifer(P2LongUnsignedPcutValid(m));
-	ifbr(m->datatype_exist);
-	return 0;
-}
-//}}}
-#endif
 
 //{{{ fill_by_string
 typedef struct 

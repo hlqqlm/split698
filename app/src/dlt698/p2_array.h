@@ -89,12 +89,6 @@ cp_t P2ArrayPcutIxValid(P2ArrayPcut *m, int ix, const char *whole);
 
 cp_t P2ArrayPcutOpenBase(Pcut *base);
 cp_t P2ArrayPcutCloseBase(Pcut *base);
-
-// 有数据类型的array
-// 如果用在choice中，open/close函数接口必须是这个形式
-cp_t P2ArrayDatatypePcutOpen(P2ArrayPcut *m);
-cp_t P2ArrayDatatypePcutClose(P2ArrayPcut *m);
-cp_t P2ArrayDatatypePcutValid(const P2ArrayPcut *m);
 //}}}
 
 

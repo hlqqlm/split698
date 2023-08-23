@@ -70,7 +70,7 @@ uint8_t P2CompactGetRequestChoice(const char *whole)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 static const P2GetRequestNormalPcut kP2GetRequestNormalPcutDefVar = kP2GetRequestNormalPcutDef;
 static const P2GetRequestNormalListPcut kP2GetRequestNormalListPcutDefVar = kP2GetRequestNormalListPcutDef;
 static const P2GetRequestRecordPcut kP2GetRequestRecordPcutDefVar = kP2GetRequestRecordPcutDef;

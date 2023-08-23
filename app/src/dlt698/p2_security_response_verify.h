@@ -51,7 +51,7 @@ cp_t P2SecurityResponseVerifyChoiceValid(uint8_t choice);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2SecurityResponseVerifyPartIxOptionalMac,

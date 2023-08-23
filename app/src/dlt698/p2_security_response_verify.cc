@@ -60,7 +60,7 @@ cp_t P2SecurityResponseVerifyChoiceValid(uint8_t choice)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 #define LenOptionalMac		PcutItemLenBySub
 #define OffsetOptionalMac	PcutItemOffsetDef
 #define ValidOptionalMac	PcutItemValidBySub

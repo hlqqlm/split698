@@ -51,7 +51,7 @@ static int OffsetData(Pcut *cut, int ix, const char *whole) { return kP2Selector
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {

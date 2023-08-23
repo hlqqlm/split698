@@ -114,7 +114,7 @@ uint32_t P2DoubleLongUnsignedToValue(bool datatype_exist, const char *whole)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {
@@ -171,7 +171,7 @@ cp_t P2DoubleLongUnsignedPcutCloseBase(Pcut *base)
 //}}}
 
 
-//{{{ pcut-datatype
+//{{{ cut-datatype
 // 有数据类型的pcut
 cp_t P2DoubleLongUnsignedDatatypePcutOpen(P2DoubleLongUnsignedPcut *m)
 {

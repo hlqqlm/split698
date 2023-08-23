@@ -83,7 +83,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 cp_t P2GetResultPcutOpen(P2GetResultPcut *m)
 {
 	return P2ChoicePcutOpen(&m->choice, kP2GetResultNameChoice, kChoiceList, kChoiceNum, kVarFactoryInfoList);

@@ -87,7 +87,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 cp_t P2ProxyRequestChoicePcutOpen(P2ProxyRequestChoicePcut *m)
 {
 	return P2ChoicePcutOpen(&m->choice, kP2ProxyRequestNameChoice, kChoiceList, kChoiceNum, kVarFactoryInfoList);

@@ -45,34 +45,6 @@ typedef struct
 #define kP2SecurityResponseValueDef { 0 }
 //}}}
 
-#if 0
-//{{{ todo
-// 下面模仿dlt698_45_security_request_data_choice.h + dlt698_45_security_request_verify_choice.h
-// 待实现
-typedef struct
-{
-	P2ChoicePcut choice;
-} P2SecurityResponseDataChoicePcut;
-#define kP2SecurityResponseDataChoicePcutDef {		\
-	kP2ChoicePcutDef,					\
-}
-cp_t P2SecurityResponseDataChoicePcutOpen(P2SecurityResponseDataChoicePcut *m);
-cp_t P2SecurityResponseDataChoicePcutClose(P2SecurityResponseDataChoicePcut *m);
-cp_t P2SecurityResponseDataChoicePcutValid(const P2SecurityResponseDataChoicePcut *m);
-
-typedef struct
-{
-	P2ChoicePcut choice;
-} P2SecurityResponseVerifyChoicePcut;
-#define kP2SecurityResponseVerifyChoicePcutDef {		\
-	kP2ChoicePcutDef,					\
-}
-
-cp_t P2SecurityResponseVerifyChoicePcutOpen(P2SecurityResponseVerifyChoicePcut *m);
-cp_t P2SecurityResponseVerifyChoicePcutClose(P2SecurityResponseVerifyChoicePcut *m);
-cp_t P2SecurityResponseVerifyChoicePcutValid(const P2SecurityResponseVerifyChoicePcut *m);
-//}}}
-#endif
 
 //{{{ cut
 typedef enum
@@ -94,7 +66,7 @@ typedef struct
 } P2SecurityResponsePcut;
 #define kP2SecurityResponsePcutDef {				\
 	kPcutDef, { kPcutItemDef }					\
-	, kP2SecurityResponseDataChoicePcutDef, kP2SecurityResponseVerifyChoicePcutDef	\
+	, kP2SecurityResponseDataChoicePcutDef, kP2SecurityResponseVerifyPcutDef	\
 }
 
 cp_t P2SecurityResponsePcutOpen(P2SecurityResponsePcut *m);

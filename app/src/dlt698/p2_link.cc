@@ -102,7 +102,7 @@ static cp_t DiscardLeft(P2Link *m, int discard_n)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 P2Pcut *P2LinkPart(P2Link *m)
 {
 	return &m->pcut;

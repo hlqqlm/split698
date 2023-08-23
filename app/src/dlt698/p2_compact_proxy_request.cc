@@ -71,7 +71,7 @@ uint8_t P2CompactProxyRequestChoice(const char *whole)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 static const P2CompactProxyGetRequestNormalPcut kP2CompactProxyGetRequestNormalPcutDefVar = kP2CompactProxyGetRequestNormalPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kThisChoiceNum] = {
 	{ kP2CompactProxyGetRequestNormalName, sizeof(P2CompactProxyGetRequestNormalPcut), &kP2CompactProxyGetRequestNormalPcutDefVar, P2CompactProxyGetRequestNormalPcutOpenBase, P2CompactProxyGetRequestNormalPcutCloseBase },	// 请求紧凑代理读取服务器的若干个对象属性 [1] CompactProxyGetRequestNormal，

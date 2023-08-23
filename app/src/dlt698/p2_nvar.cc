@@ -41,7 +41,7 @@ DLT698_45 报文解析: n个变化长度的内容。用在解析sequence_of var 
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutVarOne = 

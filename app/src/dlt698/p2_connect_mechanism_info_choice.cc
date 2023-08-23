@@ -79,7 +79,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2ConnectMechanismInfoChoiceNu
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 cp_t P2ConnectMechanismInfoChoicePcutOpen(P2ConnectMechanismInfoChoicePcut *m)
 {
 	return P2ChoicePcutOpen(&m->choice, kP2ConnectMechanismInfoChoiceName, 

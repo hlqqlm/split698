@@ -80,7 +80,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2SecurityRequestVerifyChoiceN
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 cp_t P2SecurityRequestVerifyChoicePcutOpen(P2SecurityRequestVerifyChoicePcut *m)
 {
 	return P2ChoicePcutOpen(&m->choice, P2_SECURITY_REQUEST_VERIFY_CHOICE_NAME, kChoiceList, kP2SecurityRequestVerifyChoiceNum, kVarFactoryInfoList);

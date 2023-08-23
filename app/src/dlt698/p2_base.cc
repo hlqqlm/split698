@@ -615,7 +615,7 @@ cp_t P2FillItemProcessEnd(struct PfillS *fill, int level, int ix, char *mem, int
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 // 为了节约内存，const部分集中在一起
 static const PcutItemFix kCutFix[kP2CutNum] = {
 	// name len offset valid explain

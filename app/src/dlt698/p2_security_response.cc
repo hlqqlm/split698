@@ -29,7 +29,6 @@ DLT698_45报文解析
 
 #include "p2_security_response.h"
 #include "p2_security_response.xcp.h"
-//#define this_file_id	0xb6068ae9 // echo -n dlt698_45_security_response.c | rhash --simple -
 
 
 #define TEST_EN					(0)
@@ -39,7 +38,7 @@ DLT698_45报文解析
 
 // {{{ data
 #define LenData	PcutItemLenBySub	
-static int OffsetData(Pcut *part, int ix, const char *whole) { return kP2SecurityResponseDataOffset; }
+static int OffsetData(Pcut *cut, int ix, const char *whole) { return kP2SecurityResponseDataOffset; }
 #define ValidData	PcutItemValidBySub
 //}}}
 
@@ -51,7 +50,7 @@ static int OffsetData(Pcut *part, int ix, const char *whole) { return kP2Securit
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kP2SecurityResponseCutNum] = {

@@ -68,7 +68,7 @@ uint8_t P2SetResponseChoice(const char *whole)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 static const P2SetResponseNormalPcut kP2SetResponseNormalPcutDefVar = kP2SetResponseNormalPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kP2SetResponseChoiceNum] = {
 	{ kP2SetResponseNormalName, sizeof(P2SetResponseNormalPcut), &kP2SetResponseNormalPcutDefVar, P2SetResponseNormalPcutOpenBase, P2SetResponseNormalPcutCloseBase },	// 设置一个对象属性的响应 [1] SetResponseNormal，

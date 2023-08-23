@@ -70,7 +70,7 @@ uint8_t P2ActionResponseChoice(const char *whole)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 static const P2ActionResponseNormalPcut kP2ActionResponseNormalPcutDefVar = kP2ActionResponseNormalPcutDef;
 static const P2ActionResponseNormalListPcut kP2ActionResponseNormalListPcutDefVar = kP2ActionResponseNormalListPcutDef;
 static const P2ActionThenGetResponseNormalListPcut kP2ActionThenGetResponseNormalListPcutDefVar = kP2ActionThenGetResponseNormalListPcutDef;

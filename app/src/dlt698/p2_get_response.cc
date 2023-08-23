@@ -72,7 +72,7 @@ uint8_t P2GetResponseChoice(const char *whole)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 static const P2GetResponseNormalPcut kP2GetResponseNormalPcutDefVar = kP2GetResponseNormalPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kP2GetResponseChoiceNum] = {
 	{ kP2GetResponseNormalName, sizeof(P2GetResponseNormalPcut), &kP2GetResponseNormalPcutDefVar, P2GetResponseNormalPcutOpenBase, P2GetResponseNormalPcutCloseBase },	// 读取一个对象属性的响应 [1] GetResponseNormal，

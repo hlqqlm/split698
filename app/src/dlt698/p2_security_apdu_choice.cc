@@ -35,6 +35,7 @@ security_apud就是security_apud_choice，不像client_apdu在client_apdu_choice
 
 // var
 #include "p2_security_request.h"
+#include "p2_security_response.h"
 
 #include "p2_security_apdu_choice.h"
 #include "p2_security_apdu_choice.xcp.h"
@@ -77,15 +78,17 @@ const char *P2SecurityApduChoiceStr(uint8_t choice)
 
 //{{{ var_factory_info
 static const P2SecurityRequestPcut kP2SecurityRequestPcutDefVar = kP2SecurityRequestPcutDef;
+static const P2SecurityResponsePcut kP2SecurityResponsePcutDefVar = kP2SecurityResponsePcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kP2SecurityApduChoiceNum] = {
 	// name		size	init	derive_open		derive_close
 	{ kP2SecurityRequestName, sizeof(P2SecurityRequestPcut), &kP2SecurityRequestPcutDefVar, P2SecurityRequestPcutOpenBase, P2SecurityRequestPcutCloseBase },	// 安全请求 [16] SECURITY-Request，
-	kPcutFactoryInfoDef("SECURITY-Response"),				// 安全响应 [144] SECURITY-Response
+	{ kP2SecurityResponseName, sizeof(P2SecurityResponsePcut), &kP2SecurityResponsePcutDefVar, P2SecurityResponsePcutOpenBase, P2SecurityResponsePcutCloseBase },	// 安全响应 [144] SECURITY-Response
+	// kPcutFactoryInfoDef("example"),				// 安全响应 [144] SECURITY-Response
 };
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 cp_t P2SecurityApduChoicePcutOpen(P2SecurityApduChoicePcut *m)
 {
 	return P2ChoicePcutOpen(&m->choice, kP2SecurityApduNameChoice, kChoiceList, kP2SecurityApduChoiceNum, kVarFactoryInfoList);
