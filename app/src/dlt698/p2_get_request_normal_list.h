@@ -17,13 +17,13 @@ GetRequestNormalList∷=SEQUENCE
 }
 */
 // GRNL = GetRequestNormalList
-#define P2_GRNL_PIID_OFFSET		(0)
-#define P2_GRNL_PIID_SIZE		(1)
+#define kP2GetRequestNormalListPiidOffset		(0)
+#define kP2GetRequestNormalListPiidSize		(1)
 
-#define P2_GRNL_SEQUENCE_OAD_OFFSET		(P2_GRNL_PIID_OFFSET + P2_GRNL_PIID_SIZE)
-#define P2_GRNL_SEQUENCE_OAD_SIZE(_sequence_oad_size)		(_sequence_oad_size)
+#define kP2GetRequestNormalListSequenceOfOadOffset						(kP2GetRequestNormalListPiidOffset + kP2GetRequestNormalListPiidSize)
+#define kP2GetRequestNormalListSequenceOfOadSize(_sequence_oad_size)	(_sequence_oad_size)
 
-#define P2_GRNL_WHOLE_SIZE		(P2_GRNL_SEQUENCE_OAD_OFFSET + P2_GRNL_SEQUENCE_OAD_SIZE)
+#define kP2GetRequestNormalListWholeSize(_sequence_of_oad_size)		(kP2GetRequestNormalListSequenceOfOadOffset + kP2GetRequestNormalListSequenceOfOadSize(_sequence_of_oad_size))
 
 // piid
 uint8_t P2GetRequestNormalListPiid(const char *whole);
@@ -31,7 +31,7 @@ uint8_t P2GetRequestNormalListPiid(const char *whole);
 // oad
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2GetRequestNormalListCutIxPiid,

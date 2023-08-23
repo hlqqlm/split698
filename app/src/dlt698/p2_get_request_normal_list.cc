@@ -42,9 +42,9 @@ DLT698_45报文解析
 #define kThisCutNum				(kP2GetRequestNormalListCutNum)
 
 // {{{ piid
-static int LenPiid(Pcut *part, int ix, const char *whole) { return P2_GRNL_PIID_SIZE; }
-static int OffsetPiid(Pcut *part, int ix, const char *whole) { return P2_GRNL_PIID_OFFSET; }
-static cp_t ValidPiid(Pcut *part, int ix, const char *whole) 
+static int LenPiid(Pcut *cut, int ix, const char *whole) { return kP2GetRequestNormalListPiidSize; }
+static int OffsetPiid(Pcut *cut, int ix, const char *whole) { return kP2GetRequestNormalListPiidOffset; }
+static cp_t ValidPiid(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -53,14 +53,14 @@ static cp_t ValidPiid(Pcut *part, int ix, const char *whole)
 
 uint8_t P2GetRequestNormalListPiid(const char *whole)
 {
-	return *(whole + P2_GRNL_PIID_OFFSET);
+	return *(whole + kP2GetRequestNormalListPiidOffset);
 }
 //}}}
 
 
 // {{{ oad
 #define LenSequenceOfOad		PcutItemLenBySub	
-static int OffsetSequenceOfOad(Pcut *part, int ix, const char *whole) { return P2_GRNL_SEQUENCE_OAD_OFFSET; }
+static int OffsetSequenceOfOad(Pcut *cut, int ix, const char *whole) { return kP2GetRequestNormalListSequenceOfOadOffset; }
 #define ValidSequenceOfOad		PcutItemValidBySub
 //}}}
 
@@ -128,10 +128,10 @@ typedef struct {
 	Pdo doa;
 	P2GetRequestNormalListOadValue oad;
 } PdoSequenceOfOad;
-static cp_t PdoProcessSequenceOfOad(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoProcessSequenceOfOad(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	PdoSequenceOfOad *derive = (PdoSequenceOfOad*)doa;
-	const char * const sequence_of_oad_mem = PcutIxPtrConst(part, ix, whole);
+	const char * const sequence_of_oad_mem = PcutIxPtrConst(cut, ix, whole);
 
 	const int num = P2SequenceOfNum(sequence_of_oad_mem);
 	// 有上限限制
@@ -147,12 +147,12 @@ static cp_t PdoProcessSequenceOfOad(struct PdoS *doa, Pcut *part, int ix, const 
 	return 0;
 }
 #define kPdoSequenceOfOadDef { PDO_INIT(PdoProcessSequenceOfOad), kP2GetRequestNormalListOadValueDef }
-static cp_t ValueInOpen(Pcut *part, P2GetRequestNormalListValue *value, const char *whole)
+static cp_t ValueInOpen(Pcut *cut, P2GetRequestNormalListValue *value, const char *whole)
 {
 	PdoSequenceOfOad do_soo = kPdoSequenceOfOadDef;
-	PcutDoSet(part, kP2GetRequestNormalListCutIxSequenceOfOad, &do_soo.doa);
-	ifer(PcutIxDo(part, 0, 0, kPcutIxAll, whole));
-	PcutDoSet(part, kP2GetRequestNormalListCutIxSequenceOfOad, NULL);
+	PcutDoSet(cut, kP2GetRequestNormalListCutIxSequenceOfOad, &do_soo.doa);
+	ifer(PcutIxDo(cut, 0, 0, kPcutIxAll, whole));
+	PcutDoSet(cut, kP2GetRequestNormalListCutIxSequenceOfOad, NULL);
 
 	value->piid = P2GetRequestNormalListPiid(whole);
 	value->oad = do_soo.oad;
