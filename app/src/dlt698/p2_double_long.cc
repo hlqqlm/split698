@@ -45,9 +45,9 @@ double long
 
 
 //{{{ main
-static int LenMain(Pcut *part, int ix, const char *whole) { return kP2DoubleLongSize; }
-static int OffsetMain(Pcut *part, int ix, const char *whole) { return kP2DoubleLongOffset; }
-static cp_t ValidMain(Pcut *part, int ix, const char *whole) 
+static int LenMain(Pcut *cut, int ix, const char *whole) { return kP2DoubleLongSize; }
+static int OffsetMain(Pcut *cut, int ix, const char *whole) { return kP2DoubleLongOffset; }
+static cp_t ValidMain(Pcut *cut, int ix, const char *whole) 
 {
 	return 0;
 }
@@ -64,7 +64,7 @@ int32_t P2DoubleLongToValue(const char *whole)
 //}}}
 
 
-//{{{ pcut
+//{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {

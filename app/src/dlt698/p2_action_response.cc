@@ -73,12 +73,11 @@ uint8_t P2ActionResponseChoice(const char *whole)
 //{{{ pcut
 static const P2ActionResponseNormalPcut kP2ActionResponseNormalPcutDefVar = kP2ActionResponseNormalPcutDef;
 static const P2ActionResponseNormalListPcut kP2ActionResponseNormalListPcutDefVar = kP2ActionResponseNormalListPcutDef;
+static const P2ActionThenGetResponseNormalListPcut kP2ActionThenGetResponseNormalListPcutDefVar = kP2ActionThenGetResponseNormalListPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kThisChoiceNum] = {
 	{ kP2ActionResponseNormalName, sizeof(P2ActionResponseNormalPcut), &kP2ActionResponseNormalPcutDefVar, P2ActionResponseNormalPcutOpenBase, P2ActionResponseNormalPcutCloseBase },	// 操作一个对象方法的响应 [1] ActionResponseNormal，
 	{ kP2ActionResponseNormalListName, sizeof(P2ActionResponseNormalListPcut), &kP2ActionResponseNormalListPcutDefVar, P2ActionResponseNormalListPcutOpenBase, P2ActionResponseNormalListPcutCloseBase },	// 操作若干个对象方法的响应 [2] ActionResponseNormalList，
-
-
-	kPcutFactoryInfoDef("ActionThenGetResponseNormalList"), // 操作若干个对象方法后读取若干个属性的响应 [3] ActionThenGetResponseNormalList
+	{ kP2ActionThenGetResponseNormalListName, sizeof(P2ActionThenGetResponseNormalListPcut), &kP2ActionThenGetResponseNormalListPcutDefVar, P2ActionThenGetResponseNormalListPcutOpenBase, P2ActionThenGetResponseNormalListPcutCloseBase },	// 操作若干个对象方法后读取若干个属性的响应 [3] ActionThenGetResponseNormalList
 };
 cp_t P2ActionResponsePcutOpen(P2ActionResponsePcut *m)
 {

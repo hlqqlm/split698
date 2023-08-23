@@ -43,12 +43,12 @@ static cp_t ValidPiidAcd(Pcut *cut, int ix, const char *whole) { return 0; }
 
 
 // {{{ sequence_of_omd_data
-#define LenSequenceOfOmdDarDataOptional		PcutItemLenBySub
-static int OffsetSequenceOfOmdDarDataOptional(Pcut *cut, int ix, const char *whole) 
+#define LenSequenceOf		PcutItemLenBySub
+static int OffsetSequenceOf(Pcut *cut, int ix, const char *whole) 
 { 
-	return kP2ActionResponseNormalListSequenceOfOmdDarDataOptionalOffset;
+	return kP2ActionResponseNormalListSequenceOfOffset;
 }
-#define ValidSequenceOfOmdDarDataOptional		PcutItemValidBySub
+#define ValidSequenceOf		PcutItemValidBySub
 //}}}
 
 
@@ -58,13 +58,13 @@ static int OffsetSequenceOfOmdDarDataOptional(Pcut *cut, int ix, const char *who
 static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ kP2ActionResponseNormalListNamePiidAcd, LenPiidAcd, OffsetPiidAcd, ValidPiidAcd, NULL },
-	{ kP2ActionResponseNormalListNameSequenceOfOmdDarDataOptional, LenSequenceOfOmdDarDataOptional, OffsetSequenceOfOmdDarDataOptional, ValidSequenceOfOmdDarDataOptional, NULL },
+	{ kP2ActionResponseNormalListNameSequenceOf, LenSequenceOf, OffsetSequenceOf, ValidSequenceOf, NULL },
 };
 	
 
 static const PcutItem kCutItemsPattern[kThisCutNum] = {
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2ActionResponseNormalListCutIxPiidAcd]),
-	PCUT_ITEM_NO_SUB(&kCutFix[kP2ActionResponseNormalListCutIxSequenceOfOmdDarDataOptional]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2ActionResponseNormalListCutIxSequenceOf]),
 };
 static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
@@ -77,16 +77,16 @@ cp_t P2ActionResponseNormalListPcutOpen(P2ActionResponseNormalListPcut *m)
 	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
 	ifer(P2OmdDarDataOptionalPcutOpen(&m->omd_dar_data_optional_cut));
-	ifer(P2SequenceOfVarLenPcutOpen(&m->sequence_of_omd_dar_data_optional_cut, &m->omd_dar_data_optional_cut.base, kP2ActionResponseNormalListNameSequenceOfOmdDarDataOptional));
-	PcutSubSet(&m->base, kP2ActionResponseNormalListCutIxSequenceOfOmdDarDataOptional, &m->sequence_of_omd_dar_data_optional_cut.base, NULL);
+	ifer(P2SequenceOfVarLenPcutOpen(&m->sequence_of_cut, &m->omd_dar_data_optional_cut.base, kP2ActionResponseNormalListNameSequenceOf));
+	PcutSubSet(&m->base, kP2ActionResponseNormalListCutIxSequenceOf, &m->sequence_of_cut.base, NULL);
 	return 0;
 }
 cp_t P2ActionResponseNormalListPcutClose(P2ActionResponseNormalListPcut *m)
 {
 	dve(P2ActionResponseNormalListPcutValid(m));
 
-	PcutSubSet(&m->base, kP2ActionResponseNormalListCutIxSequenceOfOmdDarDataOptional, NULL, NULL);
-	ifer(P2SequenceOfVarLenPcutClose(&m->sequence_of_omd_dar_data_optional_cut));
+	PcutSubSet(&m->base, kP2ActionResponseNormalListCutIxSequenceOf, NULL, NULL);
+	ifer(P2SequenceOfVarLenPcutClose(&m->sequence_of_cut));
 	ifer(P2OmdDarDataOptionalPcutClose(&m->omd_dar_data_optional_cut));
 
 	ifer(PcutClose(&m->base));
@@ -95,7 +95,7 @@ cp_t P2ActionResponseNormalListPcutClose(P2ActionResponseNormalListPcut *m)
 cp_t P2ActionResponseNormalListPcutValid(const P2ActionResponseNormalListPcut *m)
 {
 	ifer(PcutValid(&m->base));
-	ifer(P2SequenceOfVarLenPcutValid(&m->sequence_of_omd_dar_data_optional_cut));
+	ifer(P2SequenceOfVarLenPcutValid(&m->sequence_of_cut));
 	ifer(P2OmdDarDataOptionalPcutValid(&m->omd_dar_data_optional_cut));
 	return 0;
 }

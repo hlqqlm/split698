@@ -21,8 +21,8 @@
 int32_t P2DoubleLongToValue(const char *whole);
 
 
-//{{{ part
-// part_ix
+//{{{ cut
+// cut_ix
 // 各部分索引号
 typedef enum
 {

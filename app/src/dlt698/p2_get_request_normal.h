@@ -15,13 +15,13 @@ GetRequestNormal∷=SEQUENCE
  一个对象属性描述符 OAD
 }
 */
-#define P2_GRN_PIID_OFFSET		(0)
-#define P2_GRN_PIID_SIZE		(1)
+#define kP2GetRequestNormalPiidOffset		(0)
+#define kP2GetRequestNormalPiidSize			(1)
 
-#define P2_GRN_OAD_OFFSET		(P2_GRN_PIID_OFFSET + P2_GRN_PIID_SIZE)
-#define P2_GRN_OAD_SIZE			(sizeof(OadT))
+#define kP2GetRequestNormalOadOffset		(kP2GetRequestNormalPiidOffset + kP2GetRequestNormalPiidSize)
+#define kP2GetRequestNormalOadSize			(OAD_MEM_SIZE)
 
-#define P2_GRN_WHOLE_SIZE		(P2_GRN_OAD_OFFSET + P2_GRN_OAD_SIZE)
+#define kP2GetRequestNormalWholeSize		(kP2GetRequestNormalOadOffset + kP2GetRequestNormalOadSize)
 
 // piid
 uint8_t P2GetRequestNormalPiid(const char *whole);

@@ -45,8 +45,8 @@ DLT698_45报文解析
 
 
 // {{{ piid
-static int LenPiid(Pcut *part, int ix, const char *whole) { return P2_GRN_PIID_SIZE; }
-static int OffsetPiid(Pcut *part, int ix, const char *whole) { return P2_GRN_PIID_OFFSET; }
+static int LenPiid(Pcut *part, int ix, const char *whole) { return kP2GetRequestNormalPiidSize; }
+static int OffsetPiid(Pcut *part, int ix, const char *whole) { return kP2GetRequestNormalPiidOffset; }
 static cp_t ValidPiid(Pcut *part, int ix, const char *whole) 
 { 
 	return 0; 
@@ -66,14 +66,14 @@ static cp_t ValuePiid(Pcut *m, int ix, const char *whole, void *value, int value
 
 uint8_t P2GetRequestNormalPiid(const char *whole)
 {
-	return *(whole + P2_GRN_PIID_OFFSET);
+	return *(whole + kP2GetRequestNormalPiidOffset);
 }
 //}}}
 
 
 // {{{ oad
-static int LenOad(Pcut *part, int ix, const char *whole) { return P2_GRN_OAD_SIZE; }
-static int OffsetOad(Pcut *part, int ix, const char *whole) { return P2_GRN_OAD_OFFSET; }
+static int LenOad(Pcut *part, int ix, const char *whole) { return kP2GetRequestNormalOadSize; }
+static int OffsetOad(Pcut *part, int ix, const char *whole) { return kP2GetRequestNormalOadOffset; }
 static cp_t ValidOad(Pcut *part, int ix, const char *whole) 
 { 
 	return 0; 
@@ -82,7 +82,7 @@ static cp_t ValidOad(Pcut *part, int ix, const char *whole)
 
 OadT P2GetRequestNormalOad(const char *whole)
 {
-	const char *mem = whole + P2_GRN_OAD_OFFSET;
+	const char *mem = whole + kP2GetRequestNormalOadOffset;
 	const OadT oad = Dlt698Mem2Oad(mem);
 printf_hex_ex("oad_mem: ", "\r\n", mem, 4, "");
 qos_printf("oad_out=%08x\r\n", oad);
@@ -162,7 +162,7 @@ static cp_t FillPiid(Qpack *pack, int ix, char *mem, int mem_size, int offset, v
 	ifbr(sizeof(P2GetRequestNormalValue) == value_size);
 	const P2GetRequestNormalValue * const val = value;
 	mem[offset] = val->piid;
-	*fill_len = P2_GRN_PIID_SIZE;
+	*fill_len = kP2GetRequestNormalPiidSize;
 	return 0; 
 }
 static cp_t FillOad(Qpack *pack, int ix, char *mem, int mem_size, int offset, void *value, int value_size, int *fill_len) 
@@ -170,7 +170,7 @@ static cp_t FillOad(Qpack *pack, int ix, char *mem, int mem_size, int offset, vo
 	ifbr(sizeof(P2GetRequestNormalValue) == value_size);
 	const P2GetRequestNormalValue * const val = value;
 	Dlt698Oad2Mem(mem + offset, val->oad);
-	*fill_len = P2_GRN_OAD_SIZE;
+	*fill_len = kP2GetRequestNormalOadSize;
 	return 0; 
 }
 
@@ -236,7 +236,7 @@ static cp_t TestQpack(void)
 	if (PRINT_PACK_IN_TEST_EN)
 		QpackSetPrintFill(pack, QpackPrintFillNormal);
 
-	char mem[P2_GRN_WHOLE_SIZE];
+	char mem[kP2GetRequestNormalWholeSize];
 	ifer(QpackDo(pack, mem, sizeof(mem)));
 
 	// 68 17 00 43 45 01 23 45 67 89 0a 00 7a 4e 05 01 00 40 01 02 00 00 ed 03 16

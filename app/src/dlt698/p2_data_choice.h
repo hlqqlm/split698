@@ -68,8 +68,10 @@ time 27 octet-string（SIZE（3））
 	/*
 保留 29-79
 OI 80 见 0
-OAD 81 见 0
-ROAD 82 见 0
+*/
+	kDlt698DataTypeIxOad,		// OAD 81 见 0
+	kDlt698DataTypeIxRoad,		// ROAD 82 见 0
+/*
 Q/GDW XXXXX—XXXX
 15
 类型描述 标记 定义 数值范围
@@ -101,7 +103,7 @@ cp_t P2DataChoiceValid(uint8_t choice);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef struct
 {
 	P2ChoicePcut choice;

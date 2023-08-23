@@ -37,6 +37,8 @@ DLT698_45 data choice 变化部分报文解析
 #include "p2_struct.h"
 #include "p2_datetime.h"
 #include "p2_datetimes.h"
+#include "p2_oad.h"
+#include "p2_road.h"
 #include "p2_tsa.h"
 
 #include "p2_data_choice.h"
@@ -108,8 +110,10 @@ time 27 octet-string（SIZE（3））
 	/*
 保留 29-79
 OI 80 见 0
-OAD 81 见 0
-ROAD 82 见 0
+*/
+	{ kDlt698DataTypeOad, "oad" },		// OAD 81 见 0
+	{ kDlt698DataTypeRoad, "road" },		// ROAD 82 见 0
+/*
 Q/GDW XXXXX—XXXX
 15
 类型描述 标记 定义 数值范围
@@ -161,6 +165,8 @@ static const P2LongUnsignedPcut kP2LongUnsignedPcutVar = kP2LongUnsignedPcutDef;
 static const P2OctetStringPcut kP2OctetStringPcutVar = kP2OctetStringPcutDef;
 static const P2DatetimePcut kP2DatetimePcutVar = kP2DatetimePcutDef;
 static const P2DatetimesPcut kP2DatetimesPcutVar = kP2DatetimesPcutDef;
+static const P2OadPcut kP2OadPcutVar = kP2OadPcutDef;
+static const P2RoadPcut kP2RoadPcutVar = kP2RoadPcutDef;
 static const P2TsaPcut kP2TsaPcutVar = kP2TsaPcutDef;
 
 static const PcutFactoryInfo kVarFactoryInfoList[kP2DataTypeNum] = {
@@ -203,8 +209,10 @@ time 27 octet-string（SIZE（3））
 	/*
 保留 29-79
 OI 80 见 0
-OAD 81 见 0
-ROAD 82 见 0
+*/
+	{ "oad", sizeof(kP2OadPcutVar), &kP2OadPcutVar, P2OadPcutOpenBase, P2OadPcutCloseBase },	// OAD 81 见 0
+	{ "road", sizeof(kP2RoadPcutVar), &kP2RoadPcutVar, P2RoadPcutOpenBase, P2RoadPcutCloseBase },	// ROAD 82 见 0
+	/*
 Q/GDW XXXXX—XXXX
 15
 类型描述 标记 定义 数值范围

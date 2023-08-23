@@ -58,7 +58,7 @@ typedef struct
 } P2ActionThenGetResponseNormalListPcut;
 #define kP2ActionThenGetResponseNormalListPcutDef {					\
 	kPcutDef, { kPcutItemDef }								\
-	, kP2OmdDataPcutDef, kP2SequenceOfVarLenPcutDef		\
+	, kP2OmdDarDataOptionalAresultnormalPcutDef, kP2SequenceOfVarLenPcutDef		\
 }
 
 cp_t P2ActionThenGetResponseNormalListPcutOpen(P2ActionThenGetResponseNormalListPcut *m);

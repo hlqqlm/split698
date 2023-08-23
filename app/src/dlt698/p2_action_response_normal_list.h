@@ -6,15 +6,13 @@
 #include "protocol/pcut.h"
 #include "protocol/pfill.h"
 #include "qdlt698.h"
-//#include "p2_dar.h"
-//#include "p2_optional.h"
 #include "p2_omd_dar_data_optional.h"
 #include "p2_sequence_of_var_len.h"
 
 
 #define kP2ActionResponseNormalListName				"action_response_normal_list"
 #define kP2ActionResponseNormalListNamePiidAcd		"piid-acd"
-#define kP2ActionResponseNormalListNameSequenceOfOmdDarDataOptional			"sequence_of_omd_dar_data_optional"
+#define kP2ActionResponseNormalListNameSequenceOf	"sequence_of_omd_dar_data_optional"
 
 
 
@@ -38,8 +36,8 @@ ActionResponseNormalList∷=SEQUENCE
 #define kP2ActionResponseNormalListPiidAcdOffset		(0)
 #define kP2ActionResponseNormalListPiidAcdSize			(1)
 
-#define kP2ActionResponseNormalListSequenceOfOmdDarDataOptionalOffset	(kP2ActionResponseNormalListPiidAcdOffset + kP2ActionResponseNormalListPiidAcdSize)
-#define kP2ActionResponseNormalListSequenceOfOmdDarDataOptionalSize(_sooddo_size)		(_sooddo_size)
+#define kP2ActionResponseNormalListSequenceOfOffset	(kP2ActionResponseNormalListPiidAcdOffset + kP2ActionResponseNormalListPiidAcdSize)
+#define kP2ActionResponseNormalListSequenceOfSize(_sooddo_size)		(_sooddo_size)
 //}}}
 
 
@@ -47,7 +45,7 @@ ActionResponseNormalList∷=SEQUENCE
 typedef enum
 {
 	kP2ActionResponseNormalListCutIxPiidAcd,
-	kP2ActionResponseNormalListCutIxSequenceOfOmdDarDataOptional,
+	kP2ActionResponseNormalListCutIxSequenceOf,
 	kP2ActionResponseNormalListCutNum				
 } P2ActionResponseNormalListCutIxT;
 
@@ -59,13 +57,7 @@ typedef struct
 
 	// sub
 	P2OmdDarDataOptionalPcut omd_dar_data_optional_cut;
-	P2SequenceOfVarLenPcut sequence_of_omd_dar_data_optional_cut;
-	// } P2ActionRequestNormalListPcut;
-
-	//P2DarPcut dar_cut;
-
-	//P2OptionalPcut optional_data_cut;
-	//P2DataChoicePcut data_cut;
+	P2SequenceOfVarLenPcut sequence_of_cut;
 } P2ActionResponseNormalListPcut;
 #define kP2ActionResponseNormalListPcutDef {						\
 	kPcutDef, { kPcutItemDef }										\
