@@ -8,7 +8,7 @@
 #include "p2_data_choice.h"
 
 
-#define kP2SetRequestNormalName				"action_request_normal"
+#define kP2SetRequestNormalName				"set_request_normal"
 #define kP2SetRequestNormalNamePiid			"piid"
 #define kP2SetRequestNormalNameOad			"oad"
 #define kP2SetRequestNormalNameData			"data"
