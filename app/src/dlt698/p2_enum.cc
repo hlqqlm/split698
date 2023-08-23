@@ -38,12 +38,12 @@ DLT698_45 enum 部分报文解析
 
 
 #define TEST_EN				(0)
-
+#define kThisCutNum			(kP2EnumCutNum)
 
 //{{{ part_update_enum
 static cp_t UpdateDo(P2EnumPcut *m, uint8_t enum_value);
 
-static cp_t PartUpdateEnum(P2EnumPcut *m, const char *whole)
+static cp_t CutUpdateEnum(P2EnumPcut *m, const char *whole)
 {
 	dve(P2EnumPcutValid(m));
 	const uint8_t enum_value = P2EnumValue(whole);
@@ -108,7 +108,7 @@ static cp_t ValidEnum(Pcut *cut, int ix, const char *whole)
 	const uint8_t enum_value = P2EnumValue(whole);
 	ifer(P2EnumValid(eq->enum_list, eq->enum_num, enum_value));
 	// 刷新enum对应的do_table等
-	ifer(PartUpdateEnum(eq, whole));
+	ifer(CutUpdateEnum(eq, whole));
 	return 0; 
 }
 static cp_t ExplainEnum(Pcut *cut, int ix, const char *whole) 
@@ -127,18 +127,18 @@ static cp_t ExplainEnum(Pcut *cut, int ix, const char *whole)
 //{{{ pcut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2EnumPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ kP2EnumName, LenEnum, OffsetEnum, ValidEnum, ExplainEnum },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2EnumPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2EnumPartIxEnum]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2EnumCutIxEnum]),
 };
-static void PcutItemsInit(PcutItem items[kP2EnumPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
@@ -151,7 +151,7 @@ cp_t P2EnumPcutClose(P2EnumPcut *m)
 {
 	dve(P2EnumPcutValid(m));
 
-	PcutDoSet(&m->base, kP2EnumPartIxEnum, NULL);
+	PcutDoSet(&m->base, kP2EnumCutIxEnum, NULL);
 	ifer(PcutClose(&m->base));
 	m->enum_do_table = NULL;
 	return 0;
@@ -162,8 +162,8 @@ cp_t P2EnumPcutOpen(P2EnumPcut *m, const char *enum_name, const P2Enum enum_list
 	m->enum_num = enum_num;
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2EnumPartNum));
-	ifer(PcutNameSetIx(&m->base, kP2EnumPartIxEnum, enum_name));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
+	ifer(PcutNameSetIx(&m->base, kP2EnumCutIxEnum, enum_name));
 
 	m->enum_do_table = NULL;
 	return 0;
@@ -181,7 +181,7 @@ static cp_t UpdateDo(P2EnumPcut *m, uint8_t enum_value)
 	ifer(P2EnumIxValid(m->enum_num, enum_ix));
 	
 	Pdo * const doa = (NULL == m->enum_do_table) ? NULL : m->enum_do_table[enum_ix];
-	PcutDoSet(&m->base, kP2EnumPartIxEnum, doa);
+	PcutDoSet(&m->base, kP2EnumCutIxEnum, doa);
 	return 0;
 }	
 

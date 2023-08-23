@@ -9,7 +9,7 @@
 
 
 
-
+//{{{ base
 /*
 PIID-ACD——见 0。 心跳周期——单位：秒。 date_time——见 0。
 
@@ -45,6 +45,7 @@ LINK-Request∷=SEQUENCE
 
 #define kP2LinkRequestDatetimeOffset			(kP2LinkRequestHeartbeatIntervalOffset + kP2LinkRequestHeartbeatIntervalSize)
 #define kP2LinkRequestDatetimeSize				(kDlt698DatetimeSize)
+//}}}
 
 
 //{{{ type
@@ -53,7 +54,7 @@ typedef enum
 	kP2LinkRequestTypeEnumLogin = 0,		// 登录 （0），
 	kP2LinkRequestTypeEnumHeartbeat = 1,	// 心跳 （1），
 	kP2LinkRequestTypeEnumHeartLogout = 2,	// 退出登录 （2）
-} P2LinkRqeustEnumT;
+} P2LinkRequestEnumT;
 
 typedef enum 
 {

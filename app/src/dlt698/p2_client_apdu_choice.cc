@@ -42,6 +42,7 @@ DLT698_45 client apdu choice 变化部分报文解析
 #include "p2_compact_get_request.h"
 #include "p2_compact_set_request.h"
 #include "p2_compact_proxy_request.h"
+#include "p2_error_response.h"
 
 #include "p2_client_apdu_choice.h"
 #include "p2_client_apdu_choice.xcp.h"
@@ -100,6 +101,7 @@ static const P2ProxyRequestChoicePcut kP2ProxyRequestChoicePcutDefVar = kP2Proxy
 static const P2CompactGetRequestPcut kP2CompactGetRequestPcutDefVar = kP2CompactGetRequestPcutDef;
 static const P2CompactSetRequestPcut kP2CompactSetRequestPcutDefVar = kP2CompactSetRequestPcutDef;
 static const P2CompactProxyRequestPcut kP2CompactProxyRequestPcutDefVar = kP2CompactProxyRequestPcutDef;
+static const P2ErrorResponsePcut kP2ErrorResponsePcutDefVar = kP2ErrorResponsePcutDef;
 
 static const PcutFactoryInfo kVarFactoryInfoList[kP2ClientApduChoiceNum] = {
 	// name		size	init	derive_open		derive_close
@@ -114,7 +116,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2ClientApduChoiceNum] = {
 	{ kP2CompactGetRequestName, sizeof(P2CompactGetRequestPcut), &kP2CompactGetRequestPcutDefVar, P2CompactGetRequestPcutOpenBase, P2CompactGetRequestPcutCloseBase },	// 紧凑读取请求 [69] COMPACT-GET-Request，
 	{ kP2CompactSetRequestName, sizeof(P2CompactSetRequestPcut), &kP2CompactSetRequestPcutDefVar, P2CompactSetRequestPcutOpenBase, P2CompactSetRequestPcutCloseBase },	// 紧凑设置请求 [70] COMPACT-SET-Request，
 	{ kP2CompactProxyRequestName, sizeof(P2CompactProxyRequestPcut), &kP2CompactProxyRequestPcutDefVar, P2CompactProxyRequestPcutOpenBase, P2CompactProxyRequestPcutCloseBase },	// 紧凑代理请求 [73] COMPACT-PROXY-Request，
-	kPcutFactoryInfoDef("ERROR-Response"),		// 异常响应 [110] ERROR-Response
+	{ kP2ErrorResponseName, sizeof(P2ErrorResponsePcut), &kP2ErrorResponsePcutDefVar, P2ErrorResponsePcutOpenBase, P2ErrorResponsePcutCloseBase },	// 异常响应 [110] ERROR-Response
 	// kPcutFactoryInfoDef("example"),		// 
 };
 //}}}

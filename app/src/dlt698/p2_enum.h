@@ -36,12 +36,12 @@ uint8_t P2EnumValue(const char *whole);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
-	kP2EnumPartIxEnum,
-	kP2EnumPartNum				
-} P2EnumPartIxT;
+	kP2EnumCutIxEnum,
+	kP2EnumCutNum				
+} P2EnumCutIxT;
 
 
 
@@ -52,7 +52,7 @@ typedef enum
 typedef struct
 {
 	Pcut base;		
-	PcutItem items[kP2EnumPartNum];
+	PcutItem items[kP2EnumCutNum];
 	
 	const P2Enum *enum_list; 
 	int enum_num;
