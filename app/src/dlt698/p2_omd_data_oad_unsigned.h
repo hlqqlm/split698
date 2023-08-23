@@ -43,7 +43,7 @@ ActionThenGetRequestNormalList∷=SEQUENCE
 #define kP2OmdDataOadUnsignedOadOffset(_data_size)	(kP2OmdDataOadUnsignedDataOffset + kP2OmdDataOadUnsignedDataSize(_data_size))
 #define kP2OmdDataOadUnsignedOadSize				(OAD_MEM_SIZE)
 
-#define kP2OmdDataOadUnsignedUnsignedOffset(_data_size)	(kP2OmdDataOadUnsignedUnsignedOffset(_data_size) + kP2OmdDataOadUnsignedOadSize)
+#define kP2OmdDataOadUnsignedUnsignedOffset(_data_size)	(kP2OmdDataOadUnsignedOadOffset(_data_size) + kP2OmdDataOadUnsignedOadSize)
 #define kP2OmdDataOadUnsignedUnsignedSize			(kDlt698UnsignedSize)
 
 

@@ -25,6 +25,7 @@ DLT698_45 set request choice 变化部分报文解析
 // var
 #include "p2_set_request_normal.h"
 #include "p2_set_request_normal_list.h"
+#include "p2_set_then_get_request_normal_list.h"
 
 #include "p2_set_request_choice.h"
 #include "p2_set_request_choice.xcp.h"
@@ -69,11 +70,13 @@ const char *P2SetRequestChoiceStr(uint8_t choice)
 //{{{ var_factory_info
 static const P2SetRequestNormalPcut kP2SetRequestNormalPcutDefVar = kP2SetRequestNormalPcutDef;
 static const P2SetRequestNormalListPcut kP2SetRequestNormalListPcutDefVar = kP2SetRequestNormalListPcutDef;
+static const P2SetThenGetRequestNormalListPcut kP2SetThenGetRequestNormalListPcutDefVar = kP2SetThenGetRequestNormalListPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kP2SetRequestChoiceNum] = {
 	// name		size	init	derive_open		derive_close
 	{ kP2SetRequestNormalName, sizeof(P2SetRequestNormalPcut), &kP2SetRequestNormalPcutDefVar, P2SetRequestNormalPcutOpenBase, P2SetRequestNormalPcutCloseBase },	// 请求操作一个对象方法 [1] SetRequestNormal，
 	{ kP2SetRequestNormalListName, sizeof(P2SetRequestNormalListPcut), &kP2SetRequestNormalListPcutDefVar, P2SetRequestNormalListPcutOpenBase, P2SetRequestNormalListPcutCloseBase },	// 请求操作若干个对象方法 [2] SetRequestNormalList，
-	kPcutFactoryInfoDef("SetThenGetRequestNormalList"),				// 请求操作若干个对象方法后读取若干个对象属性 [3] SetThenGetRequestNormalList
+	{ kP2SetThenGetRequestNormalListName, sizeof(P2SetThenGetRequestNormalListPcut), &kP2SetThenGetRequestNormalListPcutDefVar, P2SetThenGetRequestNormalListPcutOpenBase, P2SetThenGetRequestNormalListPcutCloseBase },	// 请求操作若干个对象方法后读取若干个对象属性 [3] SetThenGetRequestNormalList
+	// kPcutFactoryInfoDef("SetThenGetRequestNormalList"),				// 请求操作若干个对象方法后读取若干个对象属性 [3] SetThenGetRequestNormalList
 };
 //}}}
 
