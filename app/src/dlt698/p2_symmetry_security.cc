@@ -21,7 +21,7 @@ Split698. If not, see <https://www.gnu.org/licenses/>.
 huanglin 创建.
 DLT698_45报文解析
 
-用来描述dlt698_45中的SymmetrySecurityS
+用来描述dlt698_45中的SymmetrySecurity
 */
 #include <string.h>
 
@@ -31,7 +31,7 @@ DLT698_45报文解析
 
 #define TEST_EN					(0)
 #define PRINT_FILL_IN_TEST_EN	(0)
-
+#define kThisCutNum				(kP2SymmetrySecurityCutNum)
 
 // {{{ ciphertext1
 #define LenCiphertext1		PcutItemLenBySub
@@ -50,18 +50,18 @@ static int OffsetCiphertext1(Pcut *part, int ix, const char *whole) { return kP2
 //{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kCutFix[kP2SymmetrySecurityCutNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ kP2SymmetrySecurityNameCiphertext1, LenCiphertext1, OffsetCiphertext1, ValidCiphertext1, NULL },
 	{ kP2SymmetrySecurityNameSign1, LenSign1, OffsetSign1, ValidSign1, NULL },
 };
 	
 
-static const PcutItem kCutItemsPattern[kP2SymmetrySecurityCutNum] = {
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2SymmetrySecurityCutIxCiphertext1]),
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2SymmetrySecurityCutIxSign1]),
 };
-static void PcutItemsInit(PcutItem items[kP2SymmetrySecurityCutNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
 	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
@@ -72,7 +72,7 @@ cp_t P2SymmetrySecurityPcutOpen(P2SymmetrySecurityPcut *m)
 	ifer(P2OctetStringPcutOpen(&m->sign1));
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2SymmetrySecurityCutNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
 	PcutSubSet(&m->base, kP2SymmetrySecurityCutIxCiphertext1, &m->ciphertext1.base, NULL);
 	PcutSubSet(&m->base, kP2SymmetrySecurityCutIxSign1, &m->sign1.base, NULL);

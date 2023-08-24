@@ -81,7 +81,9 @@ TI 84 见 0
 	kDlt698DataTypeIxTsa,		// TSA 85 见 0
 	/*
 MAC 86 见 0
-RN 87 见 0
+*/
+	kDlt698DataTypeIxRn,		// RN 87 见 0
+	/*
 Region 88 见 0
 Scaler_Unit 89 见 0
 RSD 90 见 0

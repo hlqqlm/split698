@@ -48,18 +48,18 @@ octet-string
 #define kThisCutNum				(kP2OctetStringCutNum)
 
 //{{{ misc
-static const P2OctetStringPcut *ToDerive(const Pcut *part)
+static const P2OctetStringPcut *ToDerive(const Pcut *cut)
 {
-	return (P2OctetStringPcut*)(part);
+	return (P2OctetStringPcut*)(cut);
 }
 //}}}
 
 
 //{{{ datatype
 /*
-static int DatatypeSize(const Pcut *part, const char *whole) 
+static int DatatypeSize(const Pcut *cut, const char *whole) 
 {
-	const P2OctetStringPcut *derive = ToDerive(part);
+	const P2OctetStringPcut *derive = ToDerive(cut);
 	if (!derive->datatype_exist)
 		return 0;
 
@@ -68,17 +68,17 @@ static int DatatypeSize(const Pcut *part, const char *whole)
 }
 */
 /*
-static int LenDatatype(Pcut *part, int ix, const char *whole) 
+static int LenDatatype(Pcut *cut, int ix, const char *whole) 
 { 
-	return DatatypeSize(part, whole);
+	return DatatypeSize(cut, whole);
 }
-static int OffsetDatatype(Pcut *part, int ix, const char *whole) 
+static int OffsetDatatype(Pcut *cut, int ix, const char *whole) 
 { 
 	return kP2OctetStringDatatypeOffset; 
 }
-static cp_t ValidDatatype(Pcut *part, int ix, const char *whole) 
+static cp_t ValidDatatype(Pcut *cut, int ix, const char *whole) 
 { 
-	const P2OctetStringPcut *derive = ToDerive(part);
+	const P2OctetStringPcut *derive = ToDerive(cut);
 	if (derive->datatype_exist)
 	{
 		ifbr(kDlt698DataTypeOctetString == *whole);
@@ -91,9 +91,9 @@ static cp_t ValidDatatype(Pcut *part, int ix, const char *whole)
 
 
 //{{{ var_len
-static int VarlenOffset(const Pcut *part, const char *whole)
+static int VarlenOffset(const char *whole)
 {
-	//const int datatype_size = DatatypeSize(part, whole);
+	//const int datatype_size = DatatypeSize(cut, whole);
 	return kP2OctetStringVarlenOffset;
 }
 static const char *VarlenMem(const char *whole)
@@ -101,20 +101,20 @@ static const char *VarlenMem(const char *whole)
 	const char *mem = whole + kP2OctetStringVarlenOffset;
 	return mem;
 }
-static int VarlenSize(const Pcut *part, const char *whole)
+static int VarlenSize(const char *whole)
 {
 	const char *mem = VarlenMem(whole);
 	return Qdlt698OctetStringLenSize(mem);
 }
-static int LenVarlen(Pcut *part, int ix, const char *whole) { return VarlenSize(part, whole); }
-static int OffsetVarlen(Pcut *part, int ix, const char *whole) { return VarlenOffset(part, whole); }
-static cp_t ValidVarlen(Pcut *part, int ix, const char *whole) 
+static int LenVarlen(Pcut *cut, int ix, const char *whole) { return VarlenSize(whole); }
+static int OffsetVarlen(Pcut *cut, int ix, const char *whole) { return VarlenOffset(whole); }
+static cp_t ValidVarlen(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = VarlenMem(whole);
 	ifbr(kVariableLenInvalidLen != VariableLenIntValue(mem));
 	return 0; 
 }
-static cp_t ExplainVarlen(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainVarlen(Pcut *cut, int ix, const char *whole) 
 {
 	const char *mem = VarlenMem(whole);
 	const int value = VariableLenIntValue(mem);
@@ -125,19 +125,19 @@ static cp_t ExplainVarlen(Pcut *part, int ix, const char *whole)
 
 
 //{{{ content
-static int LenContent(Pcut *part, int ix, const char *whole) 
+static int LenContent(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = VarlenMem(whole);
 	const int content_size = Qdlt698OctetStringContentSize(mem);
 	return content_size;
 }
-static int OffsetContent(Pcut *part, int ix, const char *whole) 
+static int OffsetContent(Pcut *cut, int ix, const char *whole) 
 { 
-	//const int datatype_size = DatatypeSize(part, whole);
-	const int varlen_size = VarlenSize(part, whole);
+	//const int datatype_size = DatatypeSize(cut, whole);
+	const int varlen_size = VarlenSize(whole);
 	return kP2OctetStringContentOffset(varlen_size);
 }
-static cp_t ValidContent(Pcut *part, int ix, const char *whole) 
+static cp_t ValidContent(Pcut *cut, int ix, const char *whole) 
 {
 	return 0;
 }

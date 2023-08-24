@@ -23,6 +23,7 @@ huanglin 创建.
 */
 
 // var
+#include "p2_connect_response.h"
 #include "p2_get_response.h"
 #include "p2_set_response.h"
 #include "p2_action_response.h"

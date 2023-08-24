@@ -35,12 +35,14 @@ DLT698_45 data choice 变化部分报文解析
 #include "p2_double_long_unsigned.h"
 #include "p2_long_unsigned.h"
 #include "p2_octet_string.h"
+#include "p2_visible_string.h"
 #include "p2_struct.h"
 #include "p2_datetime.h"
 #include "p2_datetimes.h"
 #include "p2_oad.h"
 #include "p2_road.h"
 #include "p2_tsa.h"
+#include "p2_rn.h"
 
 #include "p2_data_choice.h"
 #include "p2_data_choice.xcp.h"
@@ -124,7 +126,9 @@ TI 84 见 0
 	{ kDlt698DataTypeTsa, "tsa" },	// TSA 85 见 0
 	/*
 MAC 86 见 0
-RN 87 见 0
+*/
+	{ kDlt698DataTypeRn, "rn" },	// RN 87 见 0
+	/*
 Region 88 见 0
 Scaler_Unit 89 见 0
 RSD 90 见 0
@@ -166,11 +170,13 @@ static const P2DoubleLongPcut kP2DoubleLongPcutVar = kP2DoubleLongPcutDef;
 static const P2DoubleLongUnsignedPcut kP2DoubleLongUnsignedPcutVar = kP2DoubleLongUnsignedPcutDef;
 static const P2LongUnsignedPcut kP2LongUnsignedPcutVar = kP2LongUnsignedPcutDef;
 static const P2OctetStringPcut kP2OctetStringPcutVar = kP2OctetStringPcutDef;
+static const P2VisibleStringPcut kP2VisibleStringPcutVar = kP2VisibleStringPcutDef;
 static const P2DatetimePcut kP2DatetimePcutVar = kP2DatetimePcutDef;
 static const P2DatetimesPcut kP2DatetimesPcutVar = kP2DatetimesPcutDef;
 static const P2OadPcut kP2OadPcutVar = kP2OadPcutDef;
 static const P2RoadPcut kP2RoadPcutVar = kP2RoadPcutDef;
 static const P2TsaPcut kP2TsaPcutVar = kP2TsaPcutDef;
+static const P2RnPcut kP2RnPcutVar = kP2RnPcutDef;
 
 static const PcutFactoryInfo kVarFactoryInfoList[kP2DataTypeNum] = {
 	// name		size	init	derive_open		derive_close
@@ -183,7 +189,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2DataTypeNum] = {
 	{ "double-long-unsigned", sizeof(kP2DoubleLongUnsignedPcutVar), &kP2DoubleLongUnsignedPcutVar, P2DoubleLongUnsignedPcutOpenBase, P2DoubleLongUnsignedPcutCloseBase },	//double-long-unsigned 6 32 位正整数 0…2^32-1
 											// 保留 7-8
 	{ "octet-string", sizeof(kP2OctetStringPcutVar), &kP2OctetStringPcutVar, P2OctetStringPcutOpenBase, P2OctetStringPcutCloseBase },	// octet-string 9 8 位字节串
-	kPcutFactoryInfoDef("visible-string"),		// visible-string 10 ASCII 字符串
+	{ "visible-string", sizeof(kP2VisibleStringPcutVar), &kP2VisibleStringPcutVar, P2VisibleStringPcutOpenBase, P2VisibleStringPcutCloseBase },	// visible-string 10 ASCII 字符串
 											// 保留 11
 											/*
 UTF8-string 12 UTF-8 编码的字符串
@@ -225,7 +231,9 @@ TI 84 见 0
 	{ "tsa", sizeof(kP2TsaPcutVar), &kP2TsaPcutVar, P2TsaPcutOpenBase, P2TsaPcutCloseBase },	// TSA 85 见 0
 /*
 MAC 86 见 0
-RN 87 见 0
+*/
+	{ "rn", sizeof(kP2RnPcutVar), &kP2RnPcutVar, P2RnPcutOpenBase, P2RnPcutCloseBase },	// RN 87 见 0
+	/*
 Region 88 见 0
 Scaler_Unit 89 见 0
 RSD 90 见 0

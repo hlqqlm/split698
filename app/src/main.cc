@@ -51,6 +51,19 @@ const FileidTable *MainFileidTable() { return &kFileidTable; }
 
 
 
+// only keep 0~9 a~f A~F in a string
+static std::string Filter(const std::string &to) 
+{
+	std::string ret;
+	for(std::string::const_iterator it = to.begin(); it != to.end(); ++it)
+	{
+		if((*it >= '0' && *it <= '9') || (*it >= 'a' && *it <= 'f') || (*it >= 'A' && *it <= 'F'))
+		{
+			ret += *it;
+		}
+	}
+	return ret;
+}
 
 
 int main()
@@ -69,7 +82,8 @@ int main()
 	std::string line;
 
 	while (std::getline(std::cin, line) && !line.empty()) {
-		const std::string mem = HexStr2Mem(line);
+		const std::string only_hex_char = Filter(line) ;
+		const std::string mem = HexStr2Mem(only_hex_char);
 		printf_hex_ex("rx: ", "\r\n", mem.data(), mem.size(), "");
 		
 #if P2_PROCESS_EN > 0

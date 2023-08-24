@@ -63,7 +63,9 @@ TI 84 见 0
 	kDlt698DataTypeTsa = 85,		// TSA 85 见 0
 /*
 MAC 86 见 0
-RN 87 见 0
+*/
+	kDlt698DataTypeRn = 87,		// RN 87 见 0
+/*
 Region 88 见 0
 Scaler_Unit 89 见 0
 RSD 90 见 0
@@ -256,6 +258,16 @@ int Qdlt698VisibleStringLenContentSize(const char *mem);
 // type + len + content长度
 int Qdlt698VisibleStringTypeLenContentSize(const char *memtype);
 
+
+// rn
+// 变长长度字节数
+int Qdlt698RnLenSize(const char *mem);
+// 内容长度
+int Qdlt698RnContentSize(const char *mem);
+// len + content长度
+int Qdlt698RnLenContentSize(const char *mem);
+// type + len + content长度
+int Qdlt698RnTypeLenContentSize(const char *memtype);
 
 
 /*
