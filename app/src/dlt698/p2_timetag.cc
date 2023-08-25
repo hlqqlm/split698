@@ -42,9 +42,9 @@ DLT698_45 timetag 部分报文解析
 #define kThisCutNum			(kP2TimetagCutNum)
 
 // {{{ datetimes
-static int LenDatetimes(Pcut *part, int ix, const char *whole) { return P2_TIMETAG_DATETIMES_SIZE; }
-static int OffsetDatetimes(Pcut *part, int ix, const char *whole) { return P2_TIMETAG_DATETIMES_OFFSET; }
-static cp_t ValidDatetimes(Pcut *part, int ix, const char *whole) 
+static int LenDatetimes(Pcut *cut, int ix, const char *whole) { return P2_TIMETAG_DATETIMES_SIZE; }
+static int OffsetDatetimes(Pcut *cut, int ix, const char *whole) { return P2_TIMETAG_DATETIMES_OFFSET; }
+static cp_t ValidDatetimes(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = whole + P2_TIMETAG_DATETIMES_OFFSET;
 	return Dlt698DatetimesValid(mem);
@@ -53,9 +53,9 @@ static cp_t ValidDatetimes(Pcut *part, int ix, const char *whole)
 
 
 // {{{ ti
-static int LenTi(Pcut *part, int ix, const char *whole) { return P2_TIMETAG_TI_SIZE; }
-static int OffsetTi(Pcut *part, int ix, const char *whole) { return P2_TIMETAG_TI_OFFSET; }
-static cp_t ValidTi(Pcut *part, int ix, const char *whole) 
+static int LenTi(Pcut *cut, int ix, const char *whole) { return P2_TIMETAG_TI_SIZE; }
+static int OffsetTi(Pcut *cut, int ix, const char *whole) { return P2_TIMETAG_TI_OFFSET; }
+static cp_t ValidTi(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = whole + P2_TIMETAG_TI_OFFSET;	
 	return Dlt698TiValid(mem);

@@ -47,50 +47,15 @@ TSA 目标服务器地址TSA（Target Server Address）
 #define kThisCutNum				(kP2TsaCutNum)
 
 //{{{ misc
-static const P2TsaPcut *ToDerive(const Pcut *part)
+static const P2TsaPcut *ToDerive(const Pcut *cut)
 {
-	return (P2TsaPcut*)(part);
+	return (P2TsaPcut*)(cut);
 }
-//}}}
-
-
-//{{{ datatype
-/*
-static int DatatypeSize(const Pcut *part, const char *whole) 
-{
-	const P2TsaPcut *derive = ToDerive(part);
-	if (!derive->datatype_exist)
-		return 0;
-
-	dvb(kDlt698DataTypeTsa == *whole);
-	return kDlt698DatatypeSize;
-}
-*/
-/*
-static int LenDatatype(Pcut *part, int ix, const char *whole) 
-{ 
-	return DatatypeSize(part, whole);
-}
-static int OffsetDatatype(Pcut *part, int ix, const char *whole) 
-{ 
-	return kP2TsaDatatypeOffset; 
-}
-static cp_t ValidDatatype(Pcut *part, int ix, const char *whole) 
-{ 
-	const P2TsaPcut *derive = ToDerive(part);
-	if (derive->datatype_exist)
-	{
-		ifbr(kDlt698DataTypeTsa == *whole);
-		return 0;
-	}
-	return 0; 
-}
-*/
 //}}}
 
 
 //{{{ var_len
-static int VarlenOffset(const Pcut *part, const char *whole)
+static int VarlenOffset(const Pcut *cut, const char *whole)
 {
 	return kP2TsaVarlenOffset;
 }
@@ -99,22 +64,22 @@ static const char *VarlenMem(const char *whole)
 	const char *mem = whole + kP2TsaVarlenOffset;
 	return mem;
 }
-static int VarlenSize(const Pcut *part, const char *whole)
+static int VarlenSize(const Pcut *cut, const char *whole)
 {
 	const char *mem = VarlenMem(whole);
 	return VariableLenIntByteNum(*mem);
 	// return Qdlt698OctetStringLenSize(mem);
 	// return Qdlt698TsaLenSize(mem);
 }
-static int LenVarlen(Pcut *part, int ix, const char *whole) { return VarlenSize(part, whole); }
-static int OffsetVarlen(Pcut *part, int ix, const char *whole) { return VarlenOffset(part, whole); }
-static cp_t ValidVarlen(Pcut *part, int ix, const char *whole) 
+static int LenVarlen(Pcut *cut, int ix, const char *whole) { return VarlenSize(cut, whole); }
+static int OffsetVarlen(Pcut *cut, int ix, const char *whole) { return VarlenOffset(cut, whole); }
+static cp_t ValidVarlen(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = VarlenMem(whole);
 	ifbr(kVariableLenInvalidLen != VariableLenIntValue(mem));
 	return 0; 
 }
-static cp_t ExplainVarlen(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainVarlen(Pcut *cut, int ix, const char *whole) 
 {
 	const char *mem = VarlenMem(whole);
 	const int value = VariableLenIntValue(mem);
@@ -126,7 +91,7 @@ static cp_t ExplainVarlen(Pcut *part, int ix, const char *whole)
 
 
 //{{{ content
-static int LenContent(Pcut *part, int ix, const char *whole) 
+static int LenContent(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = VarlenMem(whole);
 	// const int content_size = Qdlt698TsaContentSize(mem);
@@ -134,9 +99,9 @@ static int LenContent(Pcut *part, int ix, const char *whole)
 var(content_size);
 	return content_size;
 }
-static int OffsetContent(Pcut *part, int ix, const char *whole) 
+static int OffsetContent(Pcut *cut, int ix, const char *whole) 
 { 
-	const int varlen_size = VarlenSize(part, whole);
+	const int varlen_size = VarlenSize(cut, whole);
 	return kP2TsaContentOffset(varlen_size);
 }
 cp_t P2TsaContentSizeValid(int content_size)
@@ -145,7 +110,7 @@ cp_t P2TsaContentSizeValid(int content_size)
 	ifbr(content_size <= kP2TsaContentSizeMax);
 	return 0;
 }
-static cp_t ValidContent(Pcut *part, int ix, const char *whole) 
+static cp_t ValidContent(Pcut *cut, int ix, const char *whole) 
 {
 	const char *mem = VarlenMem(whole);
 	const int content_size = VariableLenIntValue(mem);
@@ -221,7 +186,6 @@ cp_t P2TsaPcutCloseBase(Pcut *base)
 	return P2TsaPcutClose(m);
 }
 //}}}
-
 
 
 //{{{ fill_by_string

@@ -71,9 +71,9 @@ static int NumSize(const char *whole)
 	return VariableLenIntByteNum(*whole);
 }
 
-static int LenNum(Pcut *part, int ix, const char *whole) { return NumSize(whole); }
-static int OffsetNum(Pcut *part, int ix, const char *whole) { return kP2SequenceOfNumOffset; }
-static cp_t ValidNum(Pcut *part, int ix, const char *whole) 
+static int LenNum(Pcut *cut, int ix, const char *whole) { return NumSize(whole); }
+static int OffsetNum(Pcut *cut, int ix, const char *whole) { return kP2SequenceOfNumOffset; }
+static cp_t ValidNum(Pcut *cut, int ix, const char *whole) 
 { 
 	ifbr(kVariableLenInvalidLen != VariableLenIntValue(whole));
 	return 0; 
@@ -82,25 +82,25 @@ static cp_t ValidNum(Pcut *part, int ix, const char *whole)
 
 
 //{{{ content
-static int LenContent(Pcut *part, int ix, const char *whole) 
+static int LenContent(Pcut *cut, int ix, const char *whole) 
 { 
-	P2SequenceOfPcut *derive = (P2SequenceOfPcut*)part;
+	P2SequenceOfPcut *derive = (P2SequenceOfPcut*)cut;
 	const int num = P2SequenceOfNum(whole);
 	ifed(NfixClose(derive));
 	ifed(NfixOpen(derive, num));
-	return PcutItemLenBySub(part, ix, whole);
+	return PcutItemLenBySub(cut, ix, whole);
 }
-static int OffsetContent(Pcut *part, int ix, const char *whole) 
+static int OffsetContent(Pcut *cut, int ix, const char *whole) 
 { 
 	return P2SequenceOfContentOffset(whole);
 }
-static cp_t ValidContent(Pcut *part, int ix, const char *whole)
+static cp_t ValidContent(Pcut *cut, int ix, const char *whole)
 {
-	P2SequenceOfPcut *derive = (P2SequenceOfPcut*)part;
+	P2SequenceOfPcut *derive = (P2SequenceOfPcut*)cut;
 	const int num = P2SequenceOfNum(whole);
 	ifed(NfixClose(derive));
 	ifed(NfixOpen(derive, num));
-	return PcutItemValidBySub(part, ix, whole);
+	return PcutItemValidBySub(cut, ix, whole);
 }
 
 

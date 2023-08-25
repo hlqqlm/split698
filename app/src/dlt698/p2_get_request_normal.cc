@@ -45,9 +45,9 @@ DLT698_45报文解析
 
 
 // {{{ piid
-static int LenPiid(Pcut *part, int ix, const char *whole) { return kP2GetRequestNormalPiidSize; }
-static int OffsetPiid(Pcut *part, int ix, const char *whole) { return kP2GetRequestNormalPiidOffset; }
-static cp_t ValidPiid(Pcut *part, int ix, const char *whole) 
+static int LenPiid(Pcut *cut, int ix, const char *whole) { return kP2GetRequestNormalPiidSize; }
+static int OffsetPiid(Pcut *cut, int ix, const char *whole) { return kP2GetRequestNormalPiidOffset; }
+static cp_t ValidPiid(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -72,9 +72,9 @@ uint8_t P2GetRequestNormalPiid(const char *whole)
 
 
 // {{{ oad
-static int LenOad(Pcut *part, int ix, const char *whole) { return kP2GetRequestNormalOadSize; }
-static int OffsetOad(Pcut *part, int ix, const char *whole) { return kP2GetRequestNormalOadOffset; }
-static cp_t ValidOad(Pcut *part, int ix, const char *whole) 
+static int LenOad(Pcut *cut, int ix, const char *whole) { return kP2GetRequestNormalOadSize; }
+static int OffsetOad(Pcut *cut, int ix, const char *whole) { return kP2GetRequestNormalOadOffset; }
+static cp_t ValidOad(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -179,7 +179,7 @@ static cp_t FillOad(Qpack *pack, int ix, char *mem, int mem_size, int offset, vo
 // 固定部分
 // pack顺序，要保证前一部分填写完毕后，要能推算出后一部分的偏移量。即后填的可以依赖先填的，但不能先填的依赖后填的
 static const QpackItemFix kPackFix[kP2GetRequestNormalPackNum] = {
-	// part_ix	fill
+	// cut_ix	fill
 	{ "piid", QpackItemOffsetFollow, FillPiid },
 	{ "oad", QpackItemOffsetFollow, FillOad },
 };
@@ -200,7 +200,7 @@ cp_t P2GetRequestNormalQpackValid(const P2GetRequestNormalQpack *m)
 }
 cp_t P2GetRequestNormalQpackOpen(P2GetRequestNormalQpack *m)
 {
-	//ifer(P2GetRequestNormalPcutOpen(&m->part.base));
+	//ifer(P2GetRequestNormalPcutOpen(&m->cut.base));
 	QpackItemsInit(m->items);
 	ifer(QpackOpen(&m->base, m->items, kP2GetRequestNormalPackNum, &m->value, sizeof(P2GetRequestNormalValue)));
 	//QpackSetValue(QpackBasePtr(&m->base), &m->value, sizeof(P2GetRequestNormalValue));

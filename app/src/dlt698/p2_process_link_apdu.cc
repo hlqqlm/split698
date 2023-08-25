@@ -48,7 +48,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoLinkRequestLogin;
-static cp_t PdoLinkRequestLoginProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoLinkRequestLoginProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2EnumCutIxEnum);
 
@@ -58,7 +58,7 @@ static cp_t PdoLinkRequestLoginProcess(struct PdoS *doa, Pcut *part, int ix, con
 	PfillRepository * const fill_repository_life = derive->fill_repository_life;
 
 	// 可以确定，当前处在link_request_enum中, link_request_login是当前的enum
-	P2EnumPcut *type_enum = (P2EnumPcut*)part;
+	P2EnumPcut *type_enum = (P2EnumPcut*)cut;
 
 	const char * const type_mem = PcutIxPtrConst(&type_enum->base, ix, whole);
 	const int type_mem_len = PcutIxLen(&type_enum->base, ix, whole);
@@ -89,7 +89,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoLinkRequestHeartbeat;
-static cp_t PdoLinkRequestHeartbeatProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoLinkRequestHeartbeatProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	qos_printf("todo: answer link_request.heartbeat\r\n");
 	return 0;
@@ -102,7 +102,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoLinkRequestLogout;
-static cp_t PdoLinkRequestLogoutProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoLinkRequestLogoutProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	qos_printf("todo: answer link_request.logout\r\n");
 	return 0;
@@ -115,14 +115,14 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoLinkRequest;
-static cp_t PdoLinkRequestProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoLinkRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoiceCutIxVar);
 
 	PdoLinkRequest *derive = (PdoLinkRequest*)doa;
 
 	// 可以确定，当前处在link_apdu_choice中, link_request是当前的choice
-	P2LinkApduChoicePcut *lac = (P2LinkApduChoicePcut*)part;
+	P2LinkApduChoicePcut *lac = (P2LinkApduChoicePcut*)cut;
 	P2LinkRequestPcut *lr = (P2LinkRequestPcut*)P2ChoicePcutVar(&lac->choice);
 	dvb(lr == (void*)PcutFindSubRecursionDepth(&lac->choice.base, kP2LinkRequestName));
 
@@ -161,7 +161,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoLinkResponse;
-static cp_t PdoLinkResponseProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoLinkResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	//qos_printf("todo: link_apdu.response process.");
 	return 0;
@@ -188,9 +188,9 @@ cp_t P2ProcessLinkApdu(PfillRepository *fill_repository_life, const char *apdu, 
 		&do_link_request.doa,	// kP2LinkApduChoiceRequest = 1,	// 预连接请求 [1] LINK-Request，
 		&do_link_response.doa,			// kP2LinkApduChoiceResponse = 129,	// 预连接响应 [129] LINK-Response
 	};
-	P2ChoiceVarDoTableSet(&la.choice_part.choice, kDoTable);
+	P2ChoiceVarDoTableSet(&la.choice_cut.choice, kDoTable);
 	const cp_t cp = PcutIxDo(&la.base, 0, 0, kPcutIxAll, apdu);
-	P2ChoiceVarDoTableSet(&la.choice_part.choice, NULL);
+	P2ChoiceVarDoTableSet(&la.choice_cut.choice, NULL);
 
 	ifer(P2LinkApduPcutClose(&la));
 	return cp;

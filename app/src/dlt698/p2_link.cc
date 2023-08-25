@@ -202,21 +202,21 @@ static bool DiscardWhileUpdateOnce(P2Link *m)
 
 	// 只有接收到了那一部分，才能分析该部分
 	// 判断各部分是否合法
-	for (int part_ix = 0; part_ix < kP2CutNum; ++part_ix)
+	for (int cut_ix = 0; cut_ix < kP2CutNum; ++cut_ix)
 	{
 		// 期望的长度
-		len_expect += PcutIxLen(&m->pcut.base, part_ix, m->buf);
+		len_expect += PcutIxLen(&m->pcut.base, cut_ix, m->buf);
 		// 接收的长度大于当前部分的期望长度，才能进行有效性判断
 		if (len_expect <= rx_size)
 		{
-			const cp_t cp = PcutIxValid(&m->pcut.base, part_ix, m->buf);
+			const cp_t cp = PcutIxValid(&m->pcut.base, cut_ix, m->buf);
 			// 有错误出现
 			if (0 != cp)
 			{
 				// first只记录一次
-				if (-1 == m->first_rx_error_part_ix)
-					m->first_rx_error_part_ix = part_ix;
-				m->last_rx_error_part_ix = part_ix;		// 最后一个错误的CutIx，表示对应的部分出错
+				if (-1 == m->first_rx_error_cut_ix)
+					m->first_rx_error_cut_ix = cut_ix;
+				m->last_rx_error_cut_ix = cut_ix;		// 最后一个错误的CutIx，表示对应的部分出错
 				m->last_rx_error_cp = cp;				// 错误位置
 				const int discard_n = m->last_discard_n = CountDiscardNTillHead(m);	// 抛弃掉的字符数
 				dvb(0 < discard_n);							// 至少抛弃一个字符
@@ -263,10 +263,10 @@ void P2LinkPrint(const P2Link *m)
 	char cp_str[CPSTR_SIZE];
 	const int rx_size = P2LinkRxSize(m);
 	qos_printf("dlt698_45_link:"
-			" last_rx_error_part_ix=%d(%s) last_rx_error_cp=%s "
+			" last_rx_error_cut_ix=%d(%s) last_rx_error_cp=%s "
 			" last_discard_n=%d discard_total=%d"
 			" rx_size=%d"
-			, m->last_rx_error_part_ix, PcutIxStr(&m->pcut.base, m->last_rx_error_part_ix), CpStr(cp_str, m->last_rx_error_cp)
+			, m->last_rx_error_cut_ix, PcutIxStr(&m->pcut.base, m->last_rx_error_cut_ix), CpStr(cp_str, m->last_rx_error_cp)
 			, m->last_discard_n, m->discard_total
 			, rx_size
 			);
@@ -288,7 +288,7 @@ cp_t P2LinkPrintRxErrorNormal(const P2Link *m)
 	qos_printf("\n");
 
 	// cs错误，这个发生比较多，打印信息，方便调试
-	if (kP2CutIxHcs == m->last_rx_error_part_ix)
+	if (kP2CutIxHcs == m->last_rx_error_cut_ix)
 	{
 		const uint16_t hcs_in_frame = P2HcsInFrame(m->buf);
 		const uint16_t hcs_calc = P2HcsCalc(m->buf);
@@ -297,7 +297,7 @@ cp_t P2LinkPrintRxErrorNormal(const P2Link *m)
 		return 0;
 	}
 
-	if (kP2CutIxFcs == m->last_rx_error_part_ix)
+	if (kP2CutIxFcs == m->last_rx_error_cut_ix)
 	{
 		const uint16_t fcs_in_frame = P2FcsInFrame(m->buf);
 		const uint16_t fcs_calc = P2FcsCalc(m->buf);
@@ -418,8 +418,8 @@ static cp_t TestHcsInvalidFrame(void)
 
 	ifbr(!m.valid_frame_exist);
 	// 因为测试报文中无0x68，因此，first / last 是一样的.
-	ifbr(kP2CutIxHcs == m.first_rx_error_part_ix);
-	ifbr(kP2CutIxHcs == m.last_rx_error_part_ix);
+	ifbr(kP2CutIxHcs == m.first_rx_error_cut_ix);
+	ifbr(kP2CutIxHcs == m.last_rx_error_cut_ix);
 	ifbr(frame_size == m.discard_total);
 	ifbr(0 == P2LinkRxSize(&m));
 

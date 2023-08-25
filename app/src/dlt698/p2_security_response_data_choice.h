@@ -53,7 +53,7 @@ cp_t P2SecurityResponseDataChoiceValid(uint8_t choice);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef struct
 {
 	P2ChoicePcut choice;

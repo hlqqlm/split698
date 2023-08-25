@@ -72,7 +72,7 @@ uint8_t P2LinkResponseResult(const char *whole);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2LinkResponseCutIxPiid,

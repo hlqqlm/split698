@@ -48,7 +48,7 @@ const char *P2SecurityApduChoiceStr(uint8_t choice);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef struct
 {
 	P2ChoicePcut choice;

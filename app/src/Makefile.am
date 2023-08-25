@@ -46,6 +46,8 @@ split698_SOURCES = 	\
 	dlt698/p2_compact_proxy_request.cc dlt698/p2_compact_proxy_get_request_normal.cc \
 	dlt698/p2_client_apdu.cc dlt698/p2_client_apdu_choice.cc  \
 	dlt698/p2_connect_response.cc dlt698/p2_factory_version.cc dlt698/p2_connect_response_info.cc dlt698/p2_security_data.cc	\
+	dlt698/p2_release_response.cc \
+	dlt698/p2_release_notification.cc \
 	dlt698/p2_get_response.cc dlt698/p2_get_response_normal.cc dlt698/p2_get_response_normal_list.cc dlt698/p2_get_result.cc \
 	dlt698/p2_set_response.cc dlt698/p2_set_response_normal.cc \
 	dlt698/p2_action_response.cc dlt698/p2_action_response_normal.cc dlt698/p2_action_response_normal_list.cc dlt698/p2_action_then_get_response_normal_list.cc \
@@ -82,6 +84,8 @@ nobase_include_HEADERS = \
 	dlt698/p2_compact_proxy_request.h dlt698/p2_compact_proxy_get_request_normal.h \
 	dlt698/p2_client_apdu.h dlt698/p2_client_apdu_choice.h   \
 	dlt698/p2_connect_response.h dlt698/p2_factory_version.h dlt698/p2_connect_response_info.h	dlt698/p2_security_data.h \
+	dlt698/p2_release_response.h \
+	dlt698/p2_release_notification.h \
 	dlt698/p2_get_response.h dlt698/p2_get_response_normal.h dlt698/p2_get_response_normal_list.h dlt698/p2_get_result.h \
 	dlt698/p2_set_response.h dlt698/p2_set_response_normal.h \
 	dlt698/p2_action_response.h dlt698/p2_action_response_normal.h dlt698/p2_action_response_normal_list.h dlt698/p2_action_then_get_response_normal_list.h \

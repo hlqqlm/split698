@@ -102,19 +102,19 @@ uint8_t P2ChoiceValue(const char *whole)
 {
 	return whole[kP2ChoiceOffset];
 }
-static int LenChoice(Pcut *part, int ix, const char *whole) { return kP2ChoiceSize; }
-static int OffsetChoice(Pcut *part, int ix, const char *whole) { return kP2ChoiceOffset; }
-static cp_t ValidChoice(Pcut *part, int ix, const char *whole) 
+static int LenChoice(Pcut *cut, int ix, const char *whole) { return kP2ChoiceSize; }
+static int OffsetChoice(Pcut *cut, int ix, const char *whole) { return kP2ChoiceOffset; }
+static cp_t ValidChoice(Pcut *cut, int ix, const char *whole) 
 { 
-	P2ChoicePcut * const cp = (P2ChoicePcut*)part;
+	P2ChoicePcut * const cp = (P2ChoicePcut*)cut;
 
 	const uint8_t choice = P2ChoiceValue(whole);
 	ifer(P2ChoiceValid(cp->choice_list, cp->choice_num, choice));
 	return 0; 
 }
-static cp_t ExplainChoice(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainChoice(Pcut *cut, int ix, const char *whole) 
 {
-	P2ChoicePcut * const cp = (P2ChoicePcut*)part;
+	P2ChoicePcut * const cp = (P2ChoicePcut*)cut;
 
 	const uint8_t choice = P2ChoiceValue(whole);
 	const char *str = P2ChoiceStr(cp->choice_list, cp->choice_num, choice);
@@ -126,9 +126,9 @@ static cp_t ExplainChoice(Pcut *part, int ix, const char *whole)
 
 
 //{{{ var
-static int LenVar(Pcut *part, int ix, const char *whole) 
+static int LenVar(Pcut *cut, int ix, const char *whole) 
 { 
-	P2ChoicePcut * const p2cp = (P2ChoicePcut*)part;
+	P2ChoicePcut * const p2cp = (P2ChoicePcut*)cut;
 	const uint8_t choice = P2ChoiceValue(whole);
 	// qos_printf("choice=%02xH ix=%d\r\n", choice, ix);
 	// printf_hex(whole, 10, " ");
@@ -141,19 +141,19 @@ static int LenVar(Pcut *part, int ix, const char *whole)
 	if (0 != cp)
 		return -1;
 
-	dvb(NULL != p2cp->var_part);
+	dvb(NULL != p2cp->var_cut);
 	const char *mem = whole + kP2ChoiceVarOffset;
-	return PcutIxLen(p2cp->var_part, kPcutIxAll, mem);
+	return PcutIxLen(p2cp->var_cut, kPcutIxAll, mem);
 }
-static int OffsetVar(Pcut *part, int ix, const char *whole) { return kP2ChoiceVarOffset; }
-static cp_t ValidVar(Pcut *part, int ix, const char *whole) 
+static int OffsetVar(Pcut *cut, int ix, const char *whole) { return kP2ChoiceVarOffset; }
+static cp_t ValidVar(Pcut *cut, int ix, const char *whole) 
 { 
-	P2ChoicePcut * const cp = (P2ChoicePcut*)part;
+	P2ChoicePcut * const cp = (P2ChoicePcut*)cut;
 	ifer(CutFactoryVarOnWhole(cp, whole));
-	dvb(NULL != cp->var_part);
+	dvb(NULL != cp->var_cut);
 
 	const char *mem = whole + kP2ChoiceVarOffset;
-	ifer(PcutIxValid(cp->var_part, kPcutIxAll, mem));
+	ifer(PcutIxValid(cp->var_cut, kPcutIxAll, mem));
 	return 0; 
 }
 //}}}
@@ -203,7 +203,7 @@ static void PcutItemsInit(PcutItem items[kThisCutNum])
 
 static cp_t CutCloseVar(P2ChoicePcut *m)
 {
-	if (NULL == m->var_part)
+	if (NULL == m->var_cut)
 		return 0;
 
 	// 首先，断开关联
@@ -212,10 +212,10 @@ static cp_t CutCloseVar(P2ChoicePcut *m)
 	
 	const PcutFactoryInfo * const vfi = FactoryInfo(m, m->choice);
 	ifer(PcutFactoryInfoValid(vfi));
-	ifer(PcutDeriveDestory(m->var_part, vfi));
+	ifer(PcutDeriveDestory(m->var_cut, vfi));
 
 	// 清理掉内容，避免再次调用close
-	m->var_part = NULL;
+	m->var_cut = NULL;
 	m->choice = kP2ChoiceInvalid;
 	return 0;
 }
@@ -224,15 +224,15 @@ cp_t P2ChoicePcutValid(const P2ChoicePcut *m)
 	ifer(PcutValid(&m->base));
 	ifbr(NULL != m->var_factory_info);
 
-	if (NULL == m->var_part)
+	if (NULL == m->var_cut)
 	{
 		ifbr(kP2ChoiceInvalid == m->choice);
 	}
 	else
 	{
 		ifer(PcutChoiceValid(m, m->choice));
-		ifbr(NULL != m->var_part);
-		ifer(PcutValid(m->var_part));
+		ifbr(NULL != m->var_cut);
+		ifer(PcutValid(m->var_cut));
 	}
 	return 0;
 }
@@ -257,7 +257,7 @@ cp_t P2ChoicePcutOpen(P2ChoicePcut *m, const char *choice_name, const P2Choice c
 	ifer(PcutNameSetIx(&m->base, kP2ChoiceCutIxChoice, choice_name));
 
 	m->choice = kP2ChoiceInvalid;
-	m->var_part = NULL;
+	m->var_cut = NULL;
 	m->var_do_table = NULL;
 	return 0;
 }
@@ -282,7 +282,7 @@ static cp_t CutFactoryVar(P2ChoicePcut *m, uint8_t choice)
 	dve(P2ChoicePcutValid(m));
 
 	// close旧的var
-	if (NULL != m->var_part)
+	if (NULL != m->var_cut)
 	{
 		// 已经生成了var，且记录的choice和当前解析帧中的一样，没必要反复生成
 		if (choice == m->choice)
@@ -300,11 +300,11 @@ static cp_t CutFactoryVar(P2ChoicePcut *m, uint8_t choice)
 	ifer(PcutDeriveFactoryByInfo(&var, vfi));
 	ifbr(NULL != var);
 	m->choice = choice;
-	m->var_part = var;
+	m->var_cut = var;
 	const int choice_ix = PcutChoiceIx(m, choice);
 
 	// 关联起来
-	PcutSubSet(&m->base, kP2ChoiceCutIxVar, m->var_part, vfi->name);
+	PcutSubSet(&m->base, kP2ChoiceCutIxVar, m->var_cut, vfi->name);
 	// 设置var do对象
 	ifer(UpdateVarDo(m));
 	return 0;
@@ -317,7 +317,7 @@ uint16_t P2ChoicePcutChoice(P2ChoicePcut *m)
 }
 Pcut *P2ChoicePcutVar(P2ChoicePcut *m)
 {
-	return m->var_part;
+	return m->var_cut;
 }
 cp_t P2ChoiceVarDoTableSet(P2ChoicePcut *m, Pdo * const *var_do_table)
 {
@@ -349,7 +349,7 @@ static cp_t FillChoice(Qpack *pack, int ix, char *mem, int mem_size, int offset,
 // 固定部分
 // pack顺序，要保证前一部分填写完毕后，要能推算出后一部分的偏移量。即后填的可以依赖先填的，但不能先填的依赖后填的
 static const QpackItemFix kPackFix[kP2ChoicePackNum] = {
-	// part_ix	fill
+	// cut_ix	fill
 	{ kP2ChoiceNameChoice, QpackItemOffsetFollow, FillChoice },
 	{ kP2ChoiceNameVar, QpackItemOffsetFollow, FillVar },
 };
@@ -384,7 +384,7 @@ cp_t P2ChoiceQpackValid(const P2ChoiceQpack *m)
 }
 cp_t P2ChoiceQpackOpen(P2ChoiceQpack *m, const char *choice_name, const P2Choice choice_list[], int choice_num)
 {
-	// ifer(P2ChoicePcutOpen(&m->part, choice_name, choice_list, choice_num, var_factory_info));
+	// ifer(P2ChoicePcutOpen(&m->cut, choice_name, choice_list, choice_num, var_factory_info));
 	m->choice_list = choice_list; 
 	m->choice_num = choice_num;
 

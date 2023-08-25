@@ -64,8 +64,8 @@ typedef struct
 	Pcut base;
 	PcutItem items[kP2SecurityResponseVerifyPartNum];
 
-	P2OptionalPcut optional_part;
-	P2OctetStringPcut mac_part;
+	P2OptionalPcut optional_cut;
+	P2OctetStringPcut mac_cut;
 } P2SecurityResponseVerifyPcut;
 //参考 P2ClientApduPcut;
 #define kP2SecurityResponseVerifyPcutDef {				\

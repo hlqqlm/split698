@@ -66,7 +66,7 @@ typedef struct {
 	Pdo doa;
 	PfillRepository *fill_repository_life;
 } PdoSecurityRequestDataPlain;
-static cp_t PdoSecurityRequestDataPlainProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoSecurityRequestDataPlainProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	// qos_printf("plain\r\n");
 	dvb(ix == kP2ChoicePartIxVar);
@@ -74,7 +74,7 @@ static cp_t PdoSecurityRequestDataPlainProcess(struct PdoS *doa, Pcut *part, int
 	PfillRepository *fill_repository_life = derive->fill_repository_life;
 
 	// 可以确定，当前处在security-request-data中, plain是当前的choice
-	P2SecurityRequestDataChoicePcut *srdc = (P2SecurityRequestDataChoicePcut*)part;
+	P2SecurityRequestDataChoicePcut *srdc = (P2SecurityRequestDataChoicePcut*)cut;
 	P2OctetStringPcut *os = (P2OctetStringPcut*)P2ChoicePcutVar(&srdc->choice);
 	dvb(os == (void*)PcutFindSubRecursionDepth(&srdc->choice.base, kP2SecurityRequestDataNamePlain));
 
@@ -136,7 +136,7 @@ static cp_t PdoSecurityRequestDataPlainProcess(struct PdoS *doa, Pcut *part, int
 typedef struct {
 	Pdo doa;
 } PdoSecurityRequestDataCipher;
-static cp_t PdoSecurityRequestDataCipherProcess(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoSecurityRequestDataCipherProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	return cph;
 }
@@ -147,11 +147,11 @@ static cp_t PdoSecurityRequestDataCipherProcess(struct PdoS *doa, Pcut *part, in
 //{{{ security-apdu
 typedef struct PdoSecurityApduRequestS {
 	Pdo doa;
-	Pcut *part;
+	Pcut *cut;
 	int lud_size;	
 	PfillRepository *fill_repository_life;
 } PdoSecurityApduRequest;
-static cp_t PdoProcessSecurityApduRequest(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoProcessSecurityApduRequest(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	dvb(ix == kP2ChoicePartIxVar);
 	struct PdoSecurityApduRequestS *derive = (struct PdoSecurityApduRequestS *)doa;
@@ -159,9 +159,9 @@ static cp_t PdoProcessSecurityApduRequest(struct PdoS *doa, Pcut *part, int ix, 
 	dve(PfillRepositoryValid(fill_repository_life));
 
 	// 可以确定，当前处在security-apdu中，choice为request
-	P2SecurityApduChoicePcut *sac = (P2SecurityApduChoicePcut*)part;
-	P2ChoicePcut *choice = (P2ChoicePcut*)part;
-	Pcut *sac_base = (Pcut*)part;
+	P2SecurityApduChoicePcut *sac = (P2SecurityApduChoicePcut*)cut;
+	P2ChoicePcut *choice = (P2ChoicePcut*)cut;
+	Pcut *sac_base = (Pcut*)cut;
 	dvb(choice == &sac->choice);
 	dvb(sac_base == &sac->choice.base);
 	// 当前一定是选择了security-request
@@ -177,13 +177,13 @@ static cp_t PdoProcessSecurityApduRequest(struct PdoS *doa, Pcut *part, int ix, 
 	const char * const request_mem = PcutIxPtrConst(sac_base, ix, whole);
 	
 
-	dvb(part == derive->part);
-	const int whole_len = PcutIxLen(part, kPcutIxAll, whole);
+	dvb(cut == derive->cut);
+	const int whole_len = PcutIxLen(cut, kPcutIxAll, whole);
 	ifbr(whole_len == derive->lud_size);
-	const int invalid_ix = PcutInvalidIx(part, whole);
+	const int invalid_ix = PcutInvalidIx(cut, whole);
 	ifbr(-1 == invalid_ix);
 	printf_hex_ex("\r\nsecurity_apdu_request mem: ", "\r\n", whole, whole_len, "");
-	PcutAllPrint(part, 0, whole);
+	PcutAllPrint(cut, 0, whole);
 	
 	PdoSecurityRequestDataPlain do_plain = { PDO_INIT(PdoSecurityRequestDataPlainProcess), fill_repository_life };
 	PdoSecurityRequestDataCipher do_cipher = kPdoSecurityRequestDataCipherDef;
@@ -202,7 +202,7 @@ static cp_t PdoProcessSecurityApduRequest(struct PdoS *doa, Pcut *part, int ix, 
 typedef struct {
 	Pdo doa;
 } PdoSecurityApduResponse;
-static cp_t PdoProcessSecurityApduResponse(struct PdoS *doa, Pcut *part, int ix, const char *whole)
+static cp_t PdoProcessSecurityApduResponse(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	return cph;
 }

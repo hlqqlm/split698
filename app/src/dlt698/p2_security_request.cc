@@ -44,7 +44,7 @@ DLT698_45报文解析
 
 // {{{ data
 #define LenData	PcutItemLenBySub	
-static int OffsetData(Pcut *part, int ix, const char *whole) { return kP2SecurityRequestDataOffset; }
+static int OffsetData(Pcut *cut, int ix, const char *whole) { return kP2SecurityRequestDataOffset; }
 #define ValidData	PcutItemValidBySub
 //}}}
 

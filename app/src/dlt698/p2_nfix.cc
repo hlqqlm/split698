@@ -37,21 +37,21 @@ DLT698_45 报文解析: n个固定长度的内容。用在解析sequence_of
 
 
 // {{{ one
-#define TO_DERIVE(_part)		(P2NfixPcut*)(_part)
+#define TO_DERIVE(_cut)		(P2NfixPcut*)(_cut)
 
-static int LenOne(Pcut *part, int ix, const char *whole) 
+static int LenOne(Pcut *cut, int ix, const char *whole) 
 { 
-	const P2NfixPcut *derive = (P2NfixPcut*)part;
+	const P2NfixPcut *derive = (P2NfixPcut*)cut;
 	return derive->one_size;
 }
-static int OffsetOne(Pcut *part, int ix, const char *whole) 
+static int OffsetOne(Pcut *cut, int ix, const char *whole) 
 { 
-	const P2NfixPcut *derive = (P2NfixPcut*)part;
+	const P2NfixPcut *derive = (P2NfixPcut*)cut;
 	dvb(ix < derive->num);
 	const int offset = ix * (derive->one_size);
 	return offset;
 }
-static cp_t ValidOne(Pcut *part, int ix, const char *whole) 
+static cp_t ValidOne(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }

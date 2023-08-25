@@ -49,7 +49,7 @@ typedef struct
 	Pcut *cut_one;				// 用来解析一个content单元的对象
 	const char *content_name;		// 重复元素名称
 									//
-	P2NvarPcut nvar_part;
+	P2NvarPcut nvar_cut;
 	int nvar_open_cnt;
 } P2SequenceOfVarLenPcut;
 #define kP2SequenceOfVarLenPcutDef {		\

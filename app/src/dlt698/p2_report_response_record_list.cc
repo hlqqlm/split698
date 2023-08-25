@@ -36,9 +36,9 @@ DLT698_45报文解析
 
 
 // {{{ piid
-static int LenPiid(Pcut *part, int ix, const char *whole) { return kP2ReportResponseRecordListPiidSize; }
-static int OffsetPiid(Pcut *part, int ix, const char *whole) { return kP2ReportResponseRecordListPiidOffset; }
-static cp_t ValidPiid(Pcut *part, int ix, const char *whole) 
+static int LenPiid(Pcut *cut, int ix, const char *whole) { return kP2ReportResponseRecordListPiidSize; }
+static int OffsetPiid(Pcut *cut, int ix, const char *whole) { return kP2ReportResponseRecordListPiidOffset; }
+static cp_t ValidPiid(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -47,7 +47,7 @@ static cp_t ValidPiid(Pcut *part, int ix, const char *whole)
 
 // {{{ sequence_of_oad
 #define LenSequenceOfOad		PcutItemLenBySub	
-static int OffsetSequenceOfOad(Pcut *part, int ix, const char *whole) { return kP2ReportResponseRecordListSequenceOfOadOffset; }
+static int OffsetSequenceOfOad(Pcut *cut, int ix, const char *whole) { return kP2ReportResponseRecordListSequenceOfOadOffset; }
 #define ValidSequenceOfOad		PcutItemValidBySub
 //}}}
 

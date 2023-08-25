@@ -28,15 +28,15 @@ DLT698_45 Null 报文解析
 #define TEST_EN					(0)
 
 //{{{ null
-static int LenNull(Pcut *part, int ix, const char *whole) 
+static int LenNull(Pcut *cut, int ix, const char *whole) 
 { 
 	return kP2NullSize;
 }
-static int OffsetNull(Pcut *part, int ix, const char *whole) 
+static int OffsetNull(Pcut *cut, int ix, const char *whole) 
 { 
 	return kP2NullOffset;
 }
-static cp_t ValidNull(Pcut *part, int ix, const char *whole) 
+static cp_t ValidNull(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }

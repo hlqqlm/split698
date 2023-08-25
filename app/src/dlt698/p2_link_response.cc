@@ -39,9 +39,9 @@ DLT698_45报文解析
 
 
 // {{{ piid_acd
-static int LenPiid(Pcut *part, int ix, const char *whole) { return kP2LinkResponsePiidSize; }
-static int OffsetPiid(Pcut *part, int ix, const char *whole) { return kP2LinkResponsePiidOffset; }
-static cp_t ValidPiid(Pcut *part, int ix, const char *whole) { return 0; }
+static int LenPiid(Pcut *cut, int ix, const char *whole) { return kP2LinkResponsePiidSize; }
+static int OffsetPiid(Pcut *cut, int ix, const char *whole) { return kP2LinkResponsePiidOffset; }
+static cp_t ValidPiid(Pcut *cut, int ix, const char *whole) { return 0; }
 //}}}
 
 
@@ -76,10 +76,10 @@ uint8_t P2LinkResponseResult(const char *whole)
 }
 
 
-static int LenResult(Pcut *part, int ix, const char *whole) { return kP2LinkResponseResultSize; }
-static int OffsetResult(Pcut *part, int ix, const char *whole) { return kP2LinkResponseResultOffset; }
-static cp_t ValidResult(Pcut *part, int ix, const char *whole) { return 0; }
-static cp_t ExplainResult(Pcut *part, int ix, const char *whole) 
+static int LenResult(Pcut *cut, int ix, const char *whole) { return kP2LinkResponseResultSize; }
+static int OffsetResult(Pcut *cut, int ix, const char *whole) { return kP2LinkResponseResultOffset; }
+static cp_t ValidResult(Pcut *cut, int ix, const char *whole) { return 0; }
+static cp_t ExplainResult(Pcut *cut, int ix, const char *whole) 
 {
 	const uint8_t result = P2LinkResponseResult(whole);
 	const uint8_t bit7 = ResultBit7(result);
@@ -92,15 +92,15 @@ static cp_t ExplainResult(Pcut *part, int ix, const char *whole)
 
 
 // {{{ request_datetime
-static int LenRequestDatetime(Pcut *part, int ix, const char *whole) { return kP2LinkResponseRequestDatetimeSize; }
-static int OffsetRequestDatetime(Pcut *part, int ix, const char *whole) { return kP2LinkResponseRequestDatetimeOffset; }
-static cp_t ValidRequestDatetime(Pcut *part, int ix, const char *whole) 
+static int LenRequestDatetime(Pcut *cut, int ix, const char *whole) { return kP2LinkResponseRequestDatetimeSize; }
+static int OffsetRequestDatetime(Pcut *cut, int ix, const char *whole) { return kP2LinkResponseRequestDatetimeOffset; }
+static cp_t ValidRequestDatetime(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = whole + kP2LinkResponseRequestDatetimeOffset;
 	ifer(Dlt698DatetimeValid(mem));
 	return 0; 
 }
-static cp_t ExplainRequestDatetime(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainRequestDatetime(Pcut *cut, int ix, const char *whole) 
 {
 	const char *mem = whole + kP2LinkResponseRequestDatetimeOffset;
 	return P2DatetimeExplain(mem);
@@ -109,15 +109,15 @@ static cp_t ExplainRequestDatetime(Pcut *part, int ix, const char *whole)
 
 
 // {{{ receive_datetime
-static int LenReceiveDatetime(Pcut *part, int ix, const char *whole) { return kP2LinkResponseReceiveDatetimeSize; }
-static int OffsetReceiveDatetime(Pcut *part, int ix, const char *whole) { return kP2LinkResponseReceiveDatetimeOffset; }
-static cp_t ValidReceiveDatetime(Pcut *part, int ix, const char *whole) 
+static int LenReceiveDatetime(Pcut *cut, int ix, const char *whole) { return kP2LinkResponseReceiveDatetimeSize; }
+static int OffsetReceiveDatetime(Pcut *cut, int ix, const char *whole) { return kP2LinkResponseReceiveDatetimeOffset; }
+static cp_t ValidReceiveDatetime(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = whole + kP2LinkResponseReceiveDatetimeOffset;
 	ifer(Dlt698DatetimeValid(mem));
 	return 0; 
 }
-static cp_t ExplainReceiveDatetime(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainReceiveDatetime(Pcut *cut, int ix, const char *whole) 
 {
 	const char *mem = whole + kP2LinkResponseReceiveDatetimeOffset;
 	return P2DatetimeExplain(mem);
@@ -126,15 +126,15 @@ static cp_t ExplainReceiveDatetime(Pcut *part, int ix, const char *whole)
 
 
 // {{{ response_datetime
-static int LenResponseDatetime(Pcut *part, int ix, const char *whole) { return kP2LinkResponseResponseDatetimeSize; }
-static int OffsetResponseDatetime(Pcut *part, int ix, const char *whole) { return kP2LinkResponseResponseDatetimeOffset; }
-static cp_t ValidResponseDatetime(Pcut *part, int ix, const char *whole) 
+static int LenResponseDatetime(Pcut *cut, int ix, const char *whole) { return kP2LinkResponseResponseDatetimeSize; }
+static int OffsetResponseDatetime(Pcut *cut, int ix, const char *whole) { return kP2LinkResponseResponseDatetimeOffset; }
+static cp_t ValidResponseDatetime(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = whole + kP2LinkResponseResponseDatetimeOffset;
 	ifer(Dlt698DatetimeValid(mem));
 	return 0; 
 }
-static cp_t ExplainResponseDatetime(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainResponseDatetime(Pcut *cut, int ix, const char *whole) 
 {
 	const char *mem = whole + kP2LinkResponseResponseDatetimeOffset;
 	return P2DatetimeExplain(mem);

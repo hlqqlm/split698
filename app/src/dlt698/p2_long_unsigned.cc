@@ -40,9 +40,9 @@ long unsigned
 
 
 //{{{ misc
-static const P2LongUnsignedPcut *ToDerive(const Pcut *part)
+static const P2LongUnsignedPcut *ToDerive(const Pcut *cut)
 {
-	return (P2LongUnsignedPcut*)(part);
+	return (P2LongUnsignedPcut*)(cut);
 }
 static int GetDatatypeSize(bool datatype_exist)
 {
@@ -52,22 +52,22 @@ static int GetDatatypeSize(bool datatype_exist)
 
 
 //{{{ content
-static int LenContent(Pcut *part, int ix, const char *whole) 
+static int LenContent(Pcut *cut, int ix, const char *whole) 
 { 
 	return kP2LongUnsignedContentSize;
 }
-static int OffsetContent(Pcut *part, int ix, const char *whole) 
+static int OffsetContent(Pcut *cut, int ix, const char *whole) 
 { 
-	//const int datatype_size = DatatypeSize(part, whole);
+	//const int datatype_size = DatatypeSize(cut, whole);
 	// const int content_offset = kP2LongUnsignedContentOffset(datatype_size);
 	// return content_offset;
 	return kP2LongUnsignedContentOffset;
 }
-static cp_t ValidContent(Pcut *part, int ix, const char *whole) 
+static cp_t ValidContent(Pcut *cut, int ix, const char *whole) 
 {
 	return 0;
 }
-static cp_t ExplainContent(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainContent(Pcut *cut, int ix, const char *whole) 
 {
 	const uint16_t value = P2LongUnsignedToValue(whole);
 	qos_printf("%uD", value);

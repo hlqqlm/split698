@@ -35,7 +35,7 @@ DLT698_45报文解析
 
 // {{{ random
 #define LenRandom		PcutItemLenBySub
-static int OffsetRandom(Pcut *part, int ix, const char *whole) { return kP2SecurityDataRandomOffset; }
+static int OffsetRandom(Pcut *cut, int ix, const char *whole) { return kP2SecurityDataRandomOffset; }
 #define ValidRandom	PcutItemValidBySub
 //}}}
 

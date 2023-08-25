@@ -29,8 +29,8 @@ uint8_t P2DatatypeWithContentDatatype(const char *whole);
 const char *P2DatatypeWithContentContentMem(const char *whole);
 
 
-//{{{ part
-// part_ix
+//{{{ cut
+// cut_ix
 // 各部分索引号
 typedef enum
 {

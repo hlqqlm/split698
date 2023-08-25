@@ -31,7 +31,7 @@ OadT P2GetRequestNormalOad(const char *whole);
 
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2GetRequestNormalCutIxPiid,

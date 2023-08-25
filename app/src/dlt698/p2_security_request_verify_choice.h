@@ -44,7 +44,7 @@ cp_t P2SecurityRequestVerifyChoiceValid(uint8_t choice);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef struct
 {
 	P2ChoicePcut choice;

@@ -98,7 +98,7 @@ AC_CONFIG_FILES([Makefile
 AC_OUTPUT
 
 AC_MSG_RESULT([
-minimal-gtest-autotools $VERSION is now configured
+split698 $VERSION is now configured
 Configure Information:
   C Compiler        : $CC
     DEFS            :   $DEFS

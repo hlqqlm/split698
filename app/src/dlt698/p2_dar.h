@@ -16,7 +16,7 @@
 
 
 //{{{ cut
-// part_ix
+// cut_ix
 // 各部分索引号
 typedef enum
 {

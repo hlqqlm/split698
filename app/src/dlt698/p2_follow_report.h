@@ -23,7 +23,7 @@
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2FollowReportPartIxDatetimes,

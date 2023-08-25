@@ -39,7 +39,7 @@ const char *P2LinkApduChoiceStr(uint8_t choice);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef struct
 {
 	P2ChoicePcut choice;

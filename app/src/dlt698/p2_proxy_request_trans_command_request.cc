@@ -36,9 +36,9 @@ DLT698_45报文解析
 
 
 // {{{ piid
-static int LenPiid(Pcut *part, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestPiidSize; }
-static int OffsetPiid(Pcut *part, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestPiidOffset; }
-static cp_t ValidPiid(Pcut *part, int ix, const char *whole) 
+static int LenPiid(Pcut *cut, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestPiidSize; }
+static int OffsetPiid(Pcut *cut, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestPiidOffset; }
+static cp_t ValidPiid(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -46,9 +46,9 @@ static cp_t ValidPiid(Pcut *part, int ix, const char *whole)
 
 
 // {{{ oad
-static int LenOad(Pcut *part, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestOadSize; }
-static int OffsetOad(Pcut *part, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestOadOffset; }
-static cp_t ValidOad(Pcut *part, int ix, const char *whole) 
+static int LenOad(Pcut *cut, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestOadSize; }
+static int OffsetOad(Pcut *cut, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestOadOffset; }
+static cp_t ValidOad(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -69,9 +69,9 @@ uint16_t P2ProxyRequestTransCommandRequestRxTimeoutSecValue(const char *whole)
 	return Dlt698Uint16(mem);
 }
 
-static int LenRxTimeoutSec(Pcut *part, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestRxTimeoutSecSize; }
-static int OffsetRxTimeoutSec(Pcut *part, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestRxTimeoutSecOffset; }
-static cp_t ValidRxTimeoutSec(Pcut *part, int ix, const char *whole) 
+static int LenRxTimeoutSec(Pcut *cut, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestRxTimeoutSecSize; }
+static int OffsetRxTimeoutSec(Pcut *cut, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestRxTimeoutSecOffset; }
+static cp_t ValidRxTimeoutSec(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -91,9 +91,9 @@ uint16_t P2ProxyRequestTransCommandRequestRxByteTimeoutMsValue(const char *whole
 	return Dlt698Uint16(mem);
 }
 
-static int LenRxByteTimeoutMs(Pcut *part, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestRxByteTimeoutMsSize; }
-static int OffsetRxByteTimeoutMs(Pcut *part, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestRxByteTimeoutMsOffset; }
-static cp_t ValidRxByteTimeoutMs(Pcut *part, int ix, const char *whole) 
+static int LenRxByteTimeoutMs(Pcut *cut, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestRxByteTimeoutMsSize; }
+static int OffsetRxByteTimeoutMs(Pcut *cut, int ix, const char *whole) { return kP2ProxyRequestTransCommandRequestRxByteTimeoutMsOffset; }
+static cp_t ValidRxByteTimeoutMs(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }

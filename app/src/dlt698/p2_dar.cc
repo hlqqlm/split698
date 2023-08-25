@@ -31,15 +31,15 @@ dar
 #define TEST_EN					(0)
 
 //{{{ dar
-static int LenDar(Pcut *part, int ix, const char *whole) 
+static int LenDar(Pcut *cut, int ix, const char *whole) 
 { 
 	return kP2DarSize;
 }
-static int OffsetDar(Pcut *part, int ix, const char *whole) 
+static int OffsetDar(Pcut *cut, int ix, const char *whole) 
 { 
 	return kP2DarOffset;
 }
-static cp_t ValidDar(Pcut *part, int ix, const char *whole) 
+static cp_t ValidDar(Pcut *cut, int ix, const char *whole) 
 { 
 	const uint8_t dar = whole[kP2DarOffset];
 	ifer(P2DarValid(dar));

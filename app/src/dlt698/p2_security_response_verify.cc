@@ -85,13 +85,13 @@ static void PcutItemsInit(PcutItem items[kP2SecurityResponseVerifyPartNum])
 
 cp_t P2SecurityResponseVerifyPcutOpen(P2SecurityResponseVerifyPcut *m)
 {
-	ifer(P2OctetStringPcutOpen(&m->mac_part));
-	ifer(P2OptionalPcutOpen(&m->optional_part, &m->mac_part.base, kP2SecurityResponseVerifyNameMac));
+	ifer(P2OctetStringPcutOpen(&m->mac_cut));
+	ifer(P2OptionalPcutOpen(&m->optional_cut, &m->mac_cut.base, kP2SecurityResponseVerifyNameMac));
 
 	PcutItemsInit(m->items);
 	ifer(PcutOpen(&m->base, m->items, kP2SecurityResponseVerifyPartNum));
 
-	PcutSubSet(&m->base, kP2SecurityResponseVerifyPartIxOptionalMac, &m->optional_part.base, NULL);
+	PcutSubSet(&m->base, kP2SecurityResponseVerifyPartIxOptionalMac, &m->optional_cut.base, NULL);
 	return 0;
 }
 cp_t P2SecurityResponseVerifyPcutClose(P2SecurityResponseVerifyPcut *m)
@@ -101,15 +101,15 @@ cp_t P2SecurityResponseVerifyPcutClose(P2SecurityResponseVerifyPcut *m)
 	PcutSubSet(&m->base, kP2SecurityResponseVerifyPartIxOptionalMac, NULL, NULL);
 
 	ifer(PcutClose(&m->base));
-	ifer(P2OptionalPcutClose(&m->optional_part));
-	ifer(P2OctetStringPcutClose(&m->mac_part));
+	ifer(P2OptionalPcutClose(&m->optional_cut));
+	ifer(P2OctetStringPcutClose(&m->mac_cut));
 	return 0;
 }
 cp_t P2SecurityResponseVerifyPcutValid(const P2SecurityResponseVerifyPcut *m)
 {
 	ifer(PcutValid(&m->base));
-	ifer(P2OptionalPcutValid(&m->optional_part));
-	ifer(P2OctetStringPcutValid(&m->mac_part));
+	ifer(P2OptionalPcutValid(&m->optional_cut));
+	ifer(P2OctetStringPcutValid(&m->mac_cut));
 	return 0;
 }
 //}}}

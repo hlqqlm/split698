@@ -36,7 +36,7 @@ uint8_t P2ChoiceValue(const char *whole);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2ChoiceCutIxChoice,
@@ -54,7 +54,7 @@ typedef struct
 
 	uint16_t choice;							// 正常choice范围0~0xff，定义为16位，可以描述invalid choice
 	const PcutFactoryInfo *var_factory_info;	// 长度一定是choice_num
-	Pcut *var_part;							// 指向choice后动态生成的指针
+	Pcut *var_cut;							// 指向choice后动态生成的指针
 	Pdo * const *var_do_table;					// 长度为choice_num，下标对应choice选择后要执行的动作。
 												// 名称中var强调这是var对应的行为
 } P2ChoicePcut;

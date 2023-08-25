@@ -14,7 +14,7 @@
 
 
 
-//{{{ part
+//{{{ cut
 typedef struct
 {
 	Pcut base;		

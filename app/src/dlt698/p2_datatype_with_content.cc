@@ -34,9 +34,9 @@ DLT698_45报文解析
 
 
 //{{{ misc
-static const P2DatatypeWithContentPcut *ToDerive(const Pcut *part)
+static const P2DatatypeWithContentPcut *ToDerive(const Pcut *cut)
 {
-	return (P2DatatypeWithContentPcut*)(part);
+	return (P2DatatypeWithContentPcut*)(cut);
 }
 //}}}
 
@@ -46,16 +46,16 @@ uint8_t P2DatatypeWithContentDatatype(const char *whole)
 {
 	return whole[kP2DatatypeWithContentDatatypeOffset];
 }
-static int LenDatatype(Pcut *part, int ix, const char *whole) { return kP2DatatypeWithContentDatatypeSize; }
-static int OffsetDatatype(Pcut *part, int ix, const char *whole) { return kP2DatatypeWithContentDatatypeOffset; }
-static cp_t ValidDatatype(Pcut *part, int ix, const char *whole) 
+static int LenDatatype(Pcut *cut, int ix, const char *whole) { return kP2DatatypeWithContentDatatypeSize; }
+static int OffsetDatatype(Pcut *cut, int ix, const char *whole) { return kP2DatatypeWithContentDatatypeOffset; }
+static cp_t ValidDatatype(Pcut *cut, int ix, const char *whole) 
 { 
-	const P2DatatypeWithContentPcut *derive = ToDerive(part);
+	const P2DatatypeWithContentPcut *derive = ToDerive(cut);
 	const uint8_t datatype = whole[kP2DatatypeWithContentDatatypeOffset];
 	ifbr(datatype == derive->datatype);
 	return 0; 
 }
-static cp_t ExplainDatatype(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainDatatype(Pcut *cut, int ix, const char *whole) 
 {
 	qos_printf("todo");
 	return 0;
@@ -71,7 +71,7 @@ const char *P2DatatypeWithContentContentMem(const char *whole)
 
 
 #define LenContent		PcutItemLenBySub
-static int OffsetContent(Pcut *part, int ix, const char *whole) { return kP2DatatypeWithContentContentOffset; }
+static int OffsetContent(Pcut *cut, int ix, const char *whole) { return kP2DatatypeWithContentContentOffset; }
 #define ValidContent	PcutItemValidBySub
 //}}}
 

@@ -38,9 +38,9 @@ double long unsigned
 #define kThisCutNum				(kP2DoubleLongUnsignedCutNum)
 
 //{{{ misc
-static const P2DoubleLongUnsignedPcut *ToDerive(const Pcut *part)
+static const P2DoubleLongUnsignedPcut *ToDerive(const Pcut *cut)
 {
-	return (P2DoubleLongUnsignedPcut*)(part);
+	return (P2DoubleLongUnsignedPcut*)(cut);
 }
 static int GetDatatypeSize(bool datatype_exist)
 {
@@ -50,26 +50,26 @@ static int GetDatatypeSize(bool datatype_exist)
 
 
 //{{{ datatype
-static int DatatypeSize(const Pcut *part, const char *whole) 
+static int DatatypeSize(const Pcut *cut, const char *whole) 
 {
-	const P2DoubleLongUnsignedPcut *derive = ToDerive(part);
+	const P2DoubleLongUnsignedPcut *derive = ToDerive(cut);
 	if (!derive->datatype_exist)
 		return 0;
 
 	dvb(kDlt698DataTypeDoubleLongUnsigned == *whole);
 	return kDlt698DatatypeSize;
 }
-static int LenDatatype(Pcut *part, int ix, const char *whole) 
+static int LenDatatype(Pcut *cut, int ix, const char *whole) 
 { 
-	return DatatypeSize(part, whole);
+	return DatatypeSize(cut, whole);
 }
-static int OffsetDatatype(Pcut *part, int ix, const char *whole) 
+static int OffsetDatatype(Pcut *cut, int ix, const char *whole) 
 { 
 	return kP2DoubleLongUnsignedDatatypeOffset; 
 }
-static cp_t ValidDatatype(Pcut *part, int ix, const char *whole) 
+static cp_t ValidDatatype(Pcut *cut, int ix, const char *whole) 
 { 
-	const P2DoubleLongUnsignedPcut *derive = ToDerive(part);
+	const P2DoubleLongUnsignedPcut *derive = ToDerive(cut);
 	if (derive->datatype_exist)
 	{
 		ifbr(kDlt698DataTypeDoubleLongUnsigned == *whole);
@@ -81,17 +81,17 @@ static cp_t ValidDatatype(Pcut *part, int ix, const char *whole)
 
 
 //{{{ content
-static int LenContent(Pcut *part, int ix, const char *whole) 
+static int LenContent(Pcut *cut, int ix, const char *whole) 
 { 
 	return kP2DoubleLongUnsignedContentSize;
 }
-static int OffsetContent(Pcut *part, int ix, const char *whole) 
+static int OffsetContent(Pcut *cut, int ix, const char *whole) 
 { 
-	const int datatype_size = DatatypeSize(part, whole);
+	const int datatype_size = DatatypeSize(cut, whole);
 	const int content_offset = kP2DoubleLongUnsignedContentOffset(datatype_size);
 	return content_offset;
 }
-static cp_t ValidContent(Pcut *part, int ix, const char *whole) 
+static cp_t ValidContent(Pcut *cut, int ix, const char *whole) 
 {
 	return 0;
 }

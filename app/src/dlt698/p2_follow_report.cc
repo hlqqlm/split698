@@ -40,9 +40,9 @@ DLT698_45 follow_report 部分报文解析
 
 
 // {{{ datetimes
-static int LenDatetimes(Pcut *part, int ix, const char *whole) { return kP2FollowReportXXXSize; }
-static int OffsetDatetimes(Pcut *part, int ix, const char *whole) { return kP2FollowReportXXXoffset; }
-static cp_t ValidDatetimes(Pcut *part, int ix, const char *whole) 
+static int LenDatetimes(Pcut *cut, int ix, const char *whole) { return kP2FollowReportXXXSize; }
+static int OffsetDatetimes(Pcut *cut, int ix, const char *whole) { return kP2FollowReportXXXoffset; }
+static cp_t ValidDatetimes(Pcut *cut, int ix, const char *whole) 
 { 
 	const char *mem = whole + kP2FollowReportXXXoffset;
 	return Dlt698DatetimesValid(mem);

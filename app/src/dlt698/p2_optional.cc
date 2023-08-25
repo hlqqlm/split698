@@ -37,6 +37,7 @@ DLT698_45 optional 部分报文解析
 
 
 #define TEST_EN				(0)
+#define kThisCutNum			(kP2OptionalCutNum)
 
 
 // {{{ optional
@@ -45,9 +46,9 @@ uint8_t P2OptionalValue(const char *whole)
 	return whole[kP2OptionalOffset];
 }
 
-static int LenOptional(Pcut *part, int ix, const char *whole) { return kP2OptionalSize; }
-static int OffsetOptional(Pcut *part, int ix, const char *whole) { return kP2OptionalOffset; }
-static cp_t ValidOptional(Pcut *part, int ix, const char *whole) 
+static int LenOptional(Pcut *cut, int ix, const char *whole) { return kP2OptionalSize; }
+static int OffsetOptional(Pcut *cut, int ix, const char *whole) { return kP2OptionalOffset; }
+static cp_t ValidOptional(Pcut *cut, int ix, const char *whole) 
 { 
 	const uint8_t optional = P2OptionalValue(whole);
 	ifbr(0 == optional || 1 == optional);
@@ -57,39 +58,39 @@ static cp_t ValidOptional(Pcut *part, int ix, const char *whole)
 
 
 //{{{ var
-static void UpdateVarSub(Pcut *part, const char *whole) 
+static void UpdateVarSub(Pcut *cut, const char *whole) 
 {
-	P2OptionalPcut *m = (P2OptionalPcut*)part;
+	P2OptionalPcut *m = (P2OptionalPcut*)cut;
 	if (0 == P2OptionalValue(whole))
 	{
-		PcutSubSet(part, kP2OptionalPartIxVar, NULL, NULL);
+		PcutSubSet(cut, kP2OptionalCutIxVar, NULL, NULL);
 		return;
 	}
 
-	dve(PcutValid(m->var_part));
-	PcutSubSet(part, kP2OptionalPartIxVar, m->var_part, m->var_name);
+	dve(PcutValid(m->var_cut));
+	PcutSubSet(cut, kP2OptionalCutIxVar, m->var_cut, m->var_name);
 	return;
 }
-static int LenVar(Pcut *part, int ix, const char *whole) 
+static int LenVar(Pcut *cut, int ix, const char *whole) 
 { 
-	UpdateVarSub(part, whole);
+	UpdateVarSub(cut, whole);
 	if (0 == P2OptionalValue(whole))
 		return 0;
 	
-	return PcutItemLenBySub(part, ix, whole);
+	return PcutItemLenBySub(cut, ix, whole);
 }
-static int OffsetVar(Pcut *part, int ix, const char *whole) 
+static int OffsetVar(Pcut *cut, int ix, const char *whole) 
 { 
-	UpdateVarSub(part, whole);
+	UpdateVarSub(cut, whole);
 	return kP2OptionalVarOffset; 
 }
-static cp_t ValidVar(Pcut *part, int ix, const char *whole) 
+static cp_t ValidVar(Pcut *cut, int ix, const char *whole) 
 {
-	UpdateVarSub(part, whole);
+	UpdateVarSub(cut, whole);
 	if (0 == P2OptionalValue(whole))
 		return 0;
 
-	return PcutItemValidBySub(part, ix ,whole);
+	return PcutItemValidBySub(cut, ix ,whole);
 }
 //}}}
 
@@ -97,49 +98,49 @@ static cp_t ValidVar(Pcut *part, int ix, const char *whole)
 //{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分
-static const PcutItemFix kPartFix[kP2OptionalPartNum] = {
+static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
 	{ "optional", LenOptional, OffsetOptional, ValidOptional, NULL },
 	{ "var", LenVar, OffsetVar, ValidVar, NULL },
 };
 	
 
-static const PcutItem kPartItemsPattern[kP2OptionalPartNum] = {
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2OptionalPartIxOptional]),
-	PCUT_ITEM_NO_SUB(&kPartFix[kP2OptionalPartIxVar]),
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2OptionalCutIxOptional]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2OptionalCutIxVar]),
 };
-static void PcutItemsInit(PcutItem items[kP2OptionalPartNum])
+static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
-	memcpy(items, kPartItemsPattern, sizeof(kPartItemsPattern));
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
 
-cp_t P2OptionalPcutOpen(P2OptionalPcut *m, Pcut *var_part, const char *var_name)
+cp_t P2OptionalPcutOpen(P2OptionalPcut *m, Pcut *var_cut, const char *var_name)
 {
-	dve(PcutValid(var_part));
+	dve(PcutValid(var_cut));
 
-	m->var_part = var_part;
+	m->var_cut = var_cut;
 	m->var_name = var_name;
 
 	PcutItemsInit(m->items);
-	ifer(PcutOpen(&m->base, m->items, kP2OptionalPartNum));
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 	return 0;
 }
 cp_t P2OptionalPcutClose(P2OptionalPcut *m)
 {
 	dve(P2OptionalPcutValid(m));
 
-	PcutSubSet(&m->base, kP2OptionalPartIxVar, NULL, NULL);
+	PcutSubSet(&m->base, kP2OptionalCutIxVar, NULL, NULL);
 	ifer(PcutClose(&m->base));
-	m->var_part = NULL;
+	m->var_cut = NULL;
 	m->var_name = NULL;
 	return 0;
 }
 cp_t P2OptionalPcutValid(const P2OptionalPcut *m)
 {
 	ifer(PcutValid(&m->base));
-	if (NULL != m->var_part)
-		ifer(PcutValid(m->var_part));
+	if (NULL != m->var_cut)
+		ifer(PcutValid(m->var_cut));
 	return 0;
 }
 //}}}

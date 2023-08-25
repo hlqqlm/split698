@@ -35,9 +35,9 @@ datetimes
 #define kThisCutNum				(kP2DatetimesCutNum)
 
 //{{{ misc
-static const P2DatetimesPcut *ToDerive(const Pcut *part)
+static const P2DatetimesPcut *ToDerive(const Pcut *cut)
 {
-	return (P2DatetimesPcut*)(part);
+	return (P2DatetimesPcut*)(cut);
 }
 //}}}
 
@@ -52,13 +52,13 @@ cp_t P2DatetimesExplain(const char *whole)
 	return 0;
 }
 
-static int LenMain(Pcut *part, int ix, const char *whole) { return kP2DatetimesSize; }
-static int OffsetMain(Pcut *part, int ix, const char *whole) { return kP2DatetimesOffset; }
-static cp_t ValidMain(Pcut *part, int ix, const char *whole) 
+static int LenMain(Pcut *cut, int ix, const char *whole) { return kP2DatetimesSize; }
+static int OffsetMain(Pcut *cut, int ix, const char *whole) { return kP2DatetimesOffset; }
+static cp_t ValidMain(Pcut *cut, int ix, const char *whole) 
 {
 	return 0;
 }
-static cp_t ExplainMain(Pcut *part, int ix, const char *whole) 
+static cp_t ExplainMain(Pcut *cut, int ix, const char *whole) 
 {
 	const char *mem = whole + kP2DatetimesOffset;
 	P2DatetimesExplain(mem);

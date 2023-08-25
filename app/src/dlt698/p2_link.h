@@ -18,8 +18,8 @@
 typedef struct P2LinkS
 {
 // public:
-	int first_rx_error_part_ix;		// 第一个错误的PartIx，表示对应的部分出错。测试用
-	int last_rx_error_part_ix;		// 最后一个错误的PartIx，表示对应的部分出错
+	int first_rx_error_cut_ix;		// 第一个错误的PartIx，表示对应的部分出错。测试用
+	int last_rx_error_cut_ix;		// 最后一个错误的PartIx，表示对应的部分出错
 									// 如果不在[kP2PartIxHead, kP2PartNum)之间，表示上一次没有错误
 	cp_t last_rx_error_cp;			// 错误位置
 	int last_discard_n;				// 上一次抛弃的非法字符数

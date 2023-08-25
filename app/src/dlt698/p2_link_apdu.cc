@@ -48,7 +48,7 @@ uint8_t P2LinkApduChoice(const char *whole)
 }
 
 #define LenChoice	PcutItemLenBySub	
-static int OffsetChoice(Pcut *part ,int ix, const char *whole) { return kP2LinkApduChoiceOffset; }
+static int OffsetChoice(Pcut *cut ,int ix, const char *whole) { return kP2LinkApduChoiceOffset; }
 #define ValidChoice	PcutItemValidBySub
 //}}}
 
@@ -74,17 +74,17 @@ static void PcutItemsInit(PcutItem items[kP2LinkApduPartNum])
 cp_t P2LinkApduPcutValid(const P2LinkApduPcut *m)
 {
 	ifer(PcutValid(&m->base));
-	ifer(P2LinkApduChoicePcutValid(&m->choice_part));
+	ifer(P2LinkApduChoicePcutValid(&m->choice_cut));
 	return 0;
 }
 cp_t P2LinkApduPcutOpen(P2LinkApduPcut *m)
 {
-	ifer(P2LinkApduChoicePcutOpen(&m->choice_part));
+	ifer(P2LinkApduChoicePcutOpen(&m->choice_cut));
 
 	PcutItemsInit(m->items);
 	ifer(PcutOpen(&m->base, m->items, kP2LinkApduPartNum));
 
-	PcutSubSet(&m->base, kP2LinkApduPartIxChoice, &m->choice_part.choice.base, NULL);
+	PcutSubSet(&m->base, kP2LinkApduPartIxChoice, &m->choice_cut.choice.base, NULL);
 	return 0;
 }
 cp_t P2LinkApduPcutClose(P2LinkApduPcut *m)
@@ -94,7 +94,7 @@ cp_t P2LinkApduPcutClose(P2LinkApduPcut *m)
 	PcutSubSet(&m->base, kP2LinkApduPartIxChoice, NULL, NULL);
 
 	ifer(PcutClose(&m->base));
-	ifer(P2LinkApduChoicePcutClose(&m->choice_part));
+	ifer(P2LinkApduChoicePcutClose(&m->choice_cut));
 	return 0;
 }
 //}}}

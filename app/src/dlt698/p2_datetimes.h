@@ -21,8 +21,8 @@
 cp_t P2DatetimesExplain(const char *whole);
 
 
-//{{{ part
-// part_ix
+//{{{ cut
+// cut_ix
 // 各部分索引号
 typedef enum
 {

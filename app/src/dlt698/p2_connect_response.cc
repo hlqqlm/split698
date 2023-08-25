@@ -35,9 +35,9 @@ DLT698_45报文解析
 
  
 // {{{ piid-acd
-static int LenPiidAcd(Pcut *part, int ix, const char *whole) { return kP2ConnectResponsePiidAcdSize; }
-static int OffsetPiidAcd(Pcut *part, int ix, const char *whole) { return kP2ConnectResponsePiidAcdOffset; }
-static cp_t ValidPiidAcd(Pcut *part, int ix, const char *whole) 
+static int LenPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponsePiidAcdSize; }
+static int OffsetPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponsePiidAcdOffset; }
+static cp_t ValidPiidAcd(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -46,15 +46,15 @@ static cp_t ValidPiidAcd(Pcut *part, int ix, const char *whole)
 
 // {{{ factory_version
 #define LenFactoryVersion		PcutItemLenBySub	
-static int OffsetFactoryVersion(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseFactoryVersionOffset; }
+static int OffsetFactoryVersion(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseFactoryVersionOffset; }
 #define ValidFactoryVersion		PcutItemValidBySub
 //}}}
 
 
 // {{{ protocol_version
-static int LenProtocolVersion(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseProtocolVersionSize; }
-static int OffsetProtocolVersion(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseProtocolVersionOffset; }
-static cp_t ValidProtocolVersion(Pcut *part, int ix, const char *whole) 
+static int LenProtocolVersion(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseProtocolVersionSize; }
+static int OffsetProtocolVersion(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseProtocolVersionOffset; }
+static cp_t ValidProtocolVersion(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -63,9 +63,9 @@ static cp_t ValidProtocolVersion(Pcut *part, int ix, const char *whole)
 
 // {{{ protocol_conformance
 // todo: 用sub对象来解析protocol_conformance
-static int LenProtocolConformance(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseProtocolConformanceSize; }
-static int OffsetProtocolConformance(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseProtocolConformanceOffset; }
-static cp_t ValidProtocolConformance(Pcut *part, int ix, const char *whole) 
+static int LenProtocolConformance(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseProtocolConformanceSize; }
+static int OffsetProtocolConformance(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseProtocolConformanceOffset; }
+static cp_t ValidProtocolConformance(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -74,9 +74,9 @@ static cp_t ValidProtocolConformance(Pcut *part, int ix, const char *whole)
 
 // {{{ function_conformance
 // todo: 用sub对象来解析function_conformance
-static int LenFunctionConformance(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseFunctionConformanceSize; }
-static int OffsetFunctionConformance(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseFunctionConformanceOffset; }
-static cp_t ValidFunctionConformance(Pcut *part, int ix, const char *whole) 
+static int LenFunctionConformance(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseFunctionConformanceSize; }
+static int OffsetFunctionConformance(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseFunctionConformanceOffset; }
+static cp_t ValidFunctionConformance(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -84,9 +84,9 @@ static cp_t ValidFunctionConformance(Pcut *part, int ix, const char *whole)
 
 
 // {{{ server_tx_size_max
-static int LenServerTxSizeMax(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseServerTxSizeMaxSize; }
-static int OffsetServerTxSizeMax(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseServerTxSizeMaxOffset; }
-static cp_t ValidServerTxSizeMax (Pcut *part, int ix, const char *whole) 
+static int LenServerTxSizeMax(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseServerTxSizeMaxSize; }
+static int OffsetServerTxSizeMax(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseServerTxSizeMaxOffset; }
+static cp_t ValidServerTxSizeMax (Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -94,9 +94,9 @@ static cp_t ValidServerTxSizeMax (Pcut *part, int ix, const char *whole)
 
 
 // {{{ server_rx_size_max
-static int LenServerRxSizeMax(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseServerRxSizeMaxSize; }
-static int OffsetServerRxSizeMax(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseServerRxSizeMaxOffset; }
-static cp_t ValidServerRxSizeMax (Pcut *part, int ix, const char *whole) 
+static int LenServerRxSizeMax(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseServerRxSizeMaxSize; }
+static int OffsetServerRxSizeMax(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseServerRxSizeMaxOffset; }
+static cp_t ValidServerRxSizeMax (Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -104,9 +104,9 @@ static cp_t ValidServerRxSizeMax (Pcut *part, int ix, const char *whole)
 
 
 // {{{ frame_num_max
-static int LenFrameNumMax(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseFrameNumMaxSize; }
-static int OffsetFrameNumMax(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseFrameNumMaxOffset; }
-static cp_t ValidFrameNumMax(Pcut *part, int ix, const char *whole) 
+static int LenFrameNumMax(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseFrameNumMaxSize; }
+static int OffsetFrameNumMax(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseFrameNumMaxOffset; }
+static cp_t ValidFrameNumMax(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -114,9 +114,9 @@ static cp_t ValidFrameNumMax(Pcut *part, int ix, const char *whole)
 
 
 // {{{ frame_size_max
-static int LenFrameSizeMax(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseFrameSizeMaxSize; }
-static int OffsetFrameSizeMax(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseFrameSizeMaxOffset; }
-static cp_t ValidFrameSizeMax(Pcut *part, int ix, const char *whole) 
+static int LenFrameSizeMax(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseFrameSizeMaxSize; }
+static int OffsetFrameSizeMax(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseFrameSizeMaxOffset; }
+static cp_t ValidFrameSizeMax(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -124,9 +124,9 @@ static cp_t ValidFrameSizeMax(Pcut *part, int ix, const char *whole)
 
 
 // {{{ connection_timeout
-static int LenConnectionTimeout(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseConnectionTimeoutSize; }
-static int OffsetConnectionTimeout(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseConnectionTimeoutOffset; }
-static cp_t ValidConnectionTimeout(Pcut *part, int ix, const char *whole) 
+static int LenConnectionTimeout(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseConnectionTimeoutSize; }
+static int OffsetConnectionTimeout(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseConnectionTimeoutOffset; }
+static cp_t ValidConnectionTimeout(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -135,7 +135,7 @@ static cp_t ValidConnectionTimeout(Pcut *part, int ix, const char *whole)
 
 // {{{ connect_response_info
 #define LenConnectResponseInfo			PcutItemLenBySub	
-static int OffsetConnectResponseInfo(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseConnectResponseInfoOffset; }
+static int OffsetConnectResponseInfo(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseConnectResponseInfoOffset; }
 #define ValidConnectResponseInfo		PcutItemValidBySub
 //}}}
 

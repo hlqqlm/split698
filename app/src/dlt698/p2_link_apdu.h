@@ -28,7 +28,7 @@ int P2LinkApduVarSize(const char *whole);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2LinkApduPartIxChoice,
@@ -41,7 +41,7 @@ typedef struct
 	Pcut base;
 	PcutItem items[kP2LinkApduPartNum];
 
-	P2LinkApduChoicePcut choice_part;
+	P2LinkApduChoicePcut choice_cut;
 } P2LinkApduPcut;
 #define kP2LinkApduPcutDef {		\
 	kPcutDef, { kPcutItemDef },	\

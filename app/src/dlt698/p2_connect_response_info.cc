@@ -82,7 +82,7 @@ const char *P2ConnectResultMem(const char *whole)
 
 #define LenConnectResult		PcutItemLenBySub
 //#define OffsetConnectResult	PcutItemOffsetDef
-static int OffsetConnectResult(Pcut *part, int ix, const char *whole) { return kP2ConnectResponseInfoConnectResultOffset; }
+static int OffsetConnectResult(Pcut *cut, int ix, const char *whole) { return kP2ConnectResponseInfoConnectResultOffset; }
 #define ValidConnectResult	PcutItemValidBySub
 //}}}
 

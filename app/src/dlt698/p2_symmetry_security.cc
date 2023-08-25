@@ -35,7 +35,7 @@ DLT698_45报文解析
 
 // {{{ ciphertext1
 #define LenCiphertext1		PcutItemLenBySub
-static int OffsetCiphertext1(Pcut *part, int ix, const char *whole) { return kP2SymmetrySecurityCiphertext1Offset; }
+static int OffsetCiphertext1(Pcut *cut, int ix, const char *whole) { return kP2SymmetrySecurityCiphertext1Offset; }
 #define ValidCiphertext1	PcutItemValidBySub
 //}}}
 

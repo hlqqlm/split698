@@ -33,7 +33,7 @@ typedef struct
 #define kP2TimetagValueDef { kDlt698DatetimeSDef, kDlt698TiDef }
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
 	kP2TimetagCutIxDatetimes,

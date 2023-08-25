@@ -36,9 +36,9 @@ DLT698_45报文解析
 
 
 // {{{ piid
-static int LenPiidAcd(Pcut *part, int ix, const char *whole) { return kP2ProxyResponseTransCommandResponsePiidAcdSize; }
-static int OffsetPiidAcd(Pcut *part, int ix, const char *whole) { return kP2ProxyResponseTransCommandResponsePiidAcdOffset; }
-static cp_t ValidPiidAcd(Pcut *part, int ix, const char *whole) 
+static int LenPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2ProxyResponseTransCommandResponsePiidAcdSize; }
+static int OffsetPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2ProxyResponseTransCommandResponsePiidAcdOffset; }
+static cp_t ValidPiidAcd(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -46,9 +46,9 @@ static cp_t ValidPiidAcd(Pcut *part, int ix, const char *whole)
 
 
 // {{{ oad
-static int LenOad(Pcut *part, int ix, const char *whole) { return kP2ProxyResponseTransCommandResponseOadSize; }
-static int OffsetOad(Pcut *part, int ix, const char *whole) { return kP2ProxyResponseTransCommandResponseOadOffset; }
-static cp_t ValidOad(Pcut *part, int ix, const char *whole) 
+static int LenOad(Pcut *cut, int ix, const char *whole) { return kP2ProxyResponseTransCommandResponseOadSize; }
+static int OffsetOad(Pcut *cut, int ix, const char *whole) { return kP2ProxyResponseTransCommandResponseOadOffset; }
+static cp_t ValidOad(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -57,7 +57,7 @@ static cp_t ValidOad(Pcut *part, int ix, const char *whole)
 
 //{{{ trans_result
 #define LenTransResult		PcutItemLenBySub
-static int OffsetTransResult(Pcut *part, int ix, const char *whole) { return kP2ProxyResponseTransCommandResponseTransResultOffset; }
+static int OffsetTransResult(Pcut *cut, int ix, const char *whole) { return kP2ProxyResponseTransCommandResponseTransResultOffset; }
 //#define OffsetTransResult	PcutItemOffsetDef
 #define ValidTransResult		PcutItemValidBySub
 //}}}

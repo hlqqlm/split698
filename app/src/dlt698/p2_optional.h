@@ -20,20 +20,20 @@ uint8_t P2OptionalValue(const char *whole);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef enum
 {
-	kP2OptionalPartIxOptional,
-	kP2OptionalPartIxVar,				// optional对应的变化部分
-	kP2OptionalPartNum				
-} P2OptionalPartIxT;
+	kP2OptionalCutIxOptional,
+	kP2OptionalCutIxVar,				// optional对应的变化部分
+	kP2OptionalCutNum				
+} P2OptionalCutIxT;
 
 typedef struct
 {
 	Pcut base;		
-	PcutItem items[kP2OptionalPartNum];
+	PcutItem items[kP2OptionalCutNum];
 
-	Pcut *var_part;
+	Pcut *var_cut;
 	const char *var_name;
 } P2OptionalPcut;
 #define kP2OptionalPcutDef {		\
@@ -41,7 +41,7 @@ typedef struct
 	NULL, NULL,						\
 }
 
-cp_t P2OptionalPcutOpen(P2OptionalPcut *m, Pcut *var_part, const char *var_name);
+cp_t P2OptionalPcutOpen(P2OptionalPcut *m, Pcut *var_cut, const char *var_name);
 cp_t P2OptionalPcutClose(P2OptionalPcut *m);
 cp_t P2OptionalPcutValid(const P2OptionalPcut *m);
 //}}}

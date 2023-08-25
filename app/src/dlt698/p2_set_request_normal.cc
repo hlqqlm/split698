@@ -34,9 +34,9 @@ DLT698_45报文解析
 
 
 // {{{ piid
-static int LenPiid(Pcut *part, int ix, const char *whole) { return kP2SetRequestNormalPiidSize; }
-static int OffsetPiid(Pcut *part, int ix, const char *whole) { return kP2SetRequestNormalPiidOffset; }
-static cp_t ValidPiid(Pcut *part, int ix, const char *whole) 
+static int LenPiid(Pcut *cut, int ix, const char *whole) { return kP2SetRequestNormalPiidSize; }
+static int OffsetPiid(Pcut *cut, int ix, const char *whole) { return kP2SetRequestNormalPiidOffset; }
+static cp_t ValidPiid(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }
@@ -44,9 +44,9 @@ static cp_t ValidPiid(Pcut *part, int ix, const char *whole)
 
 
 // {{{ oad
-static int LenOad(Pcut *part, int ix, const char *whole) { return kP2SetRequestNormalOadSize; }
-static int OffsetOad(Pcut *part, int ix, const char *whole) { return kP2SetRequestNormalOadOffset; }
-static cp_t ValidOad(Pcut *part, int ix, const char *whole) 
+static int LenOad(Pcut *cut, int ix, const char *whole) { return kP2SetRequestNormalOadSize; }
+static int OffsetOad(Pcut *cut, int ix, const char *whole) { return kP2SetRequestNormalOadOffset; }
+static cp_t ValidOad(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
 }

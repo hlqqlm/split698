@@ -24,6 +24,8 @@ huanglin 创建.
 
 // var
 #include "p2_connect_response.h"
+#include "p2_release_response.h"
+#include "p2_release_notification.h"
 #include "p2_get_response.h"
 #include "p2_set_response.h"
 #include "p2_action_response.h"
@@ -82,6 +84,9 @@ const char *P2ServerApduChoiceStr(uint8_t choice)
 
 
 //{{{ var_factory_info
+static const P2ConnectResponsePcut kP2ConnectResponsePcutDefVar = kP2ConnectResponsePcutDef;
+static const P2ReleaseResponsePcut kP2ReleaseResponsePcutDefVar = kP2ReleaseResponsePcutDef;
+static const P2ReleaseNotificationPcut kP2ReleaseNotificationPcutDefVar = kP2ReleaseNotificationPcutDef;
 static const P2GetResponsePcut kP2GetResponsePcutDefVar = kP2GetResponsePcutDef;
 static const P2SetResponsePcut kP2SetResponsePcutDefVar = kP2SetResponsePcutDef;
 static const P2ActionResponsePcut kP2ActionResponsePcutDefVar = kP2ActionResponsePcutDef;
@@ -92,9 +97,9 @@ static const P2ErrorResponsePcut kP2ErrorResponsePcutDefVar = kP2ErrorResponsePc
 
 static const PcutFactoryInfo kVarFactoryInfoList[kP2ServerApduChoiceNum] = {
 	// name		size	init	derive_open		derive_close
-	kPcutFactoryInfoDef("CONNECT-Response"),	// 建立应用连接响应 [130] CONNECT-Response，
-	kPcutFactoryInfoDef("RELEASE-Response"),	// 断开应用连接响应 [131] RELEASE-Response，
-	kPcutFactoryInfoDef("RELEASE-Notification"),	// 断开应用连接通知 [132] RELEASE-Notification，
+	{ kP2ConnectResponseName, sizeof(P2ConnectResponsePcut), &kP2ConnectResponsePcutDefVar, P2ConnectResponsePcutOpenBase, P2ConnectResponsePcutCloseBase },	// 建立应用连接响应 [130] CONNECT-Response，
+	{ kP2ReleaseResponseName, sizeof(P2ReleaseResponsePcut), &kP2ReleaseResponsePcutDefVar, P2ReleaseResponsePcutOpenBase, P2ReleaseResponsePcutCloseBase },	// 断开应用连接响应 [131] RELEASE-Response，
+	{ kP2ReleaseNotificationName, sizeof(P2ReleaseNotificationPcut), &kP2ReleaseNotificationPcutDefVar, P2ReleaseNotificationPcutOpenBase, P2ReleaseNotificationPcutCloseBase },	// 断开应用连接通知 [132] RELEASE-Notification，
 	{ kP2GetResponseName, sizeof(P2GetResponsePcut), &kP2GetResponsePcutDefVar, P2GetResponsePcutOpenBase, P2GetResponsePcutCloseBase },	// 读取响应 [133] GET-Response，
 	{ kP2SetResponseName, sizeof(P2SetResponsePcut), &kP2SetResponsePcutDefVar, P2SetResponsePcutOpenBase, P2SetResponsePcutCloseBase },	// 设置响应 [134] SET-Response，
 	{ kP2ActionResponseName, sizeof(P2ActionResponsePcut), &kP2ActionResponsePcutDefVar, P2ActionResponsePcutOpenBase, P2ActionResponsePcutCloseBase },	// 操作响应 [135] ACTION-Response，

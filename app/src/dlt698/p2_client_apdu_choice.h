@@ -70,7 +70,7 @@ const char *P2ClientApduChoiceStr(uint8_t choice);
 //}}}
 
 
-//{{{ part
+//{{{ cut
 typedef struct
 {
 	P2ChoicePcut choice;
