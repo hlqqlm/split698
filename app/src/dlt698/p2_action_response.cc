@@ -23,9 +23,6 @@ huanglin 创建.
 */
 #include <string.h>
 
-#include "qos/qcp.h"
-#include "qos/qtest.h"
-
 // var
 #include "p2_action_response_normal.h"
 #include "p2_action_response_normal_list.h"
