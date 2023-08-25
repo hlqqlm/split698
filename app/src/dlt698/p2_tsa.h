@@ -54,8 +54,8 @@ typedef struct
 } P2TsaValue;
 #define kP2TsaValueDef { 0 }
 
-//{{{ part
-// part_ix
+//{{{ cut
+// cut_ix
 // 各部分索引号
 typedef enum
 {

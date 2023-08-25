@@ -30,13 +30,14 @@ huanglin 创建.
 #include "p2_set_response.h"
 #include "p2_action_response.h"
 #include "p2_proxy_response_choice.h"
+#include "p2_compact_get_response.h"
+#include "p2_compact_set_response.h"
 
 
 #include "p2_error_response.h"
 
 #include "p2_server_apdu_choice.h"
 #include "p2_server_apdu_choice.xcp.h"
-//#define this_file_id	0x05c319b7	// echo -n dlt698_45_server_apdu_choice.c | rhash --simple -
 
 
 #define TEST_EN				(0)
@@ -91,6 +92,8 @@ static const P2GetResponsePcut kP2GetResponsePcutDefVar = kP2GetResponsePcutDef;
 static const P2SetResponsePcut kP2SetResponsePcutDefVar = kP2SetResponsePcutDef;
 static const P2ActionResponsePcut kP2ActionResponsePcutDefVar = kP2ActionResponsePcutDef;
 static const P2ProxyResponseChoicePcut kP2ProxyResponseChoicePcutDefVar = kP2ProxyResponseChoicePcutDef;
+static const P2CompactGetResponsePcut kP2CompactGetResponsePcutDefVar = kP2CompactGetResponsePcutDef;
+static const P2CompactSetResponsePcut kP2CompactSetResponsePcutDefVar = kP2CompactSetResponsePcutDef;
 
 
 static const P2ErrorResponsePcut kP2ErrorResponsePcutDefVar = kP2ErrorResponsePcutDef;
@@ -105,8 +108,8 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2ServerApduChoiceNum] = {
 	{ kP2ActionResponseName, sizeof(P2ActionResponsePcut), &kP2ActionResponsePcutDefVar, P2ActionResponsePcutOpenBase, P2ActionResponsePcutCloseBase },	// 操作响应 [135] ACTION-Response，
 	kPcutFactoryInfoDef("REPORT-Notification"),	// 上报通知 [136] REPORT-Notification，
 	{ kP2ProxyResponseName, sizeof(P2ProxyResponseChoicePcut), &kP2ProxyResponseChoicePcutDefVar, P2ProxyResponseChoicePcutOpenBase, P2ProxyResponseChoicePcutCloseBase },	//  代理响应 [137] PROXY-Response，
-	kPcutFactoryInfoDef("COMPACT-GET-Response"),	// 紧凑读取响应 [197] COMPACT-GET-Response，
-	kPcutFactoryInfoDef("COMPACT-SET-Response"),	// 紧凑设置响应 [198] COMPACT-SET-Response，
+	{ kP2CompactGetResponseName, sizeof(P2CompactGetResponsePcut), &kP2CompactGetResponsePcutDefVar, P2CompactGetResponsePcutOpenBase, P2CompactGetResponsePcutCloseBase },	// 紧凑读取响应 [197] COMPACT-GET-Response，
+	{ kP2CompactSetResponseName, sizeof(P2CompactSetResponsePcut), &kP2CompactSetResponsePcutDefVar, P2CompactSetResponsePcutOpenBase, P2CompactSetResponsePcutCloseBase },	// 紧凑设置响应 [198] COMPACT-SET-Response，
 	kPcutFactoryInfoDef("COMPACT-PROXY-Response"),	// 紧凑代理响应 [201] COMPACT-PROXY-Response，
 	{ kP2ErrorResponseName, sizeof(P2ErrorResponsePcut), &kP2ErrorResponsePcutDefVar, P2ErrorResponsePcutOpenBase, P2ErrorResponsePcutCloseBase },	// 异常响应 [238] ERROR-Response
 	// kPcutFactoryInfoDef("example"),	// 异常响应 [238] ERROR-Response
