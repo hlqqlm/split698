@@ -25,6 +25,7 @@ huanglin 创建.
 
 // var
 #include "p2_compact_get_response_normal.h"
+#include "p2_compact_get_response_normal_list.h"
 
 #include "p2_compact_get_response.h"
 #include "p2_compact_get_response.xcp.h"
@@ -68,9 +69,10 @@ uint8_t P2CompactGetResponseChoice(const char *whole)
 
 //{{{ cut
 static const P2CompactGetResponseNormalPcut kP2CompactGetResponseNormalPcutDefVar = kP2CompactGetResponseNormalPcutDef;
+static const P2CompactGetResponseNormalListPcut kP2CompactGetResponseNormalListPcutDefVar = kP2CompactGetResponseNormalListPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kThisChoiceNum] = {
 	{ kP2CompactGetResponseNormalName, sizeof(P2CompactGetResponseNormalPcut), &kP2CompactGetResponseNormalPcutDefVar, P2CompactGetResponseNormalPcutOpenBase, P2CompactGetResponseNormalPcutCloseBase },	// 紧凑读取一个对象属性的响应 [1] CompactGetResponseNormal，
-	kPcutFactoryInfoDef("CompactGetResponseNormalList"),	// 紧凑读取多个对象属性的响应 [2] CompactGetResponseNormalList，
+	{ kP2CompactGetResponseNormalListName, sizeof(P2CompactGetResponseNormalListPcut), &kP2CompactGetResponseNormalListPcutDefVar, P2CompactGetResponseNormalListPcutOpenBase, P2CompactGetResponseNormalListPcutCloseBase },	// 紧凑读取多个对象属性的响应 [2] CompactGetResponseNormalList，
 	kPcutFactoryInfoDef("CompactGetResponseRecord"),	// 紧凑读取一个记录型对象属性的响应 [3] CompactGetResponseRecord
 };
 cp_t P2CompactGetResponsePcutOpen(P2CompactGetResponsePcut *m)

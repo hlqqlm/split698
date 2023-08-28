@@ -43,11 +43,10 @@ huanglin 创建.
 
 
 #define TEST_EN				(0)
-
+#define kChoiceNum			(kP2ServerApduChoiceNum)
 
 // {{{ choice
 // 必须按大小顺序排
-#define kChoiceNum kP2ServerApduChoiceNum
 static const P2Choice kChoiceList[kChoiceNum] = {
 	// choice	name
 	{ kP2ServerApduChoiceConnectResponse, "connect_response" },	// 建立应用连接响应 [130] CONNECT-Response，
@@ -101,7 +100,7 @@ static const P2CompactSetResponsePcut kP2CompactSetResponsePcutDefVar = kP2Compa
 
 static const P2ErrorResponsePcut kP2ErrorResponsePcutDefVar = kP2ErrorResponsePcutDef;
 
-static const PcutFactoryInfo kVarFactoryInfoList[kP2ServerApduChoiceNum] = {
+static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
 	// name		size	init	derive_open		derive_close
 	{ kP2ConnectResponseName, sizeof(P2ConnectResponsePcut), &kP2ConnectResponsePcutDefVar, P2ConnectResponsePcutOpenBase, P2ConnectResponsePcutCloseBase },	// 建立应用连接响应 [130] CONNECT-Response，
 	{ kP2ReleaseResponseName, sizeof(P2ReleaseResponsePcut), &kP2ReleaseResponsePcutDefVar, P2ReleaseResponsePcutOpenBase, P2ReleaseResponsePcutCloseBase },	// 断开应用连接响应 [131] RELEASE-Response，
@@ -123,7 +122,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2ServerApduChoiceNum] = {
 //{{{ cut
 cp_t P2ServerApduChoicePcutOpen(P2ServerApduChoicePcut *m)
 {
-	return P2ChoicePcutOpen(&m->choice, kP2ServerApduChoiceNameChoice, kChoiceList, kP2ServerApduChoiceNum, kVarFactoryInfoList);
+	return P2ChoicePcutOpen(&m->choice, kP2ServerApduChoiceNameChoice, kChoiceList, kChoiceNum, kVarFactoryInfoList);
 }
 cp_t P2ServerApduChoicePcutClose(P2ServerApduChoicePcut *m)
 {

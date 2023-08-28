@@ -53,7 +53,7 @@ split698_SOURCES = 	\
 	dlt698/p2_action_response.cc dlt698/p2_action_response_normal.cc dlt698/p2_action_response_normal_list.cc dlt698/p2_action_then_get_response_normal_list.cc \
 	dlt698/p2_report_notification.cc	dlt698/p2_report_notification_list.cc	\
 	dlt698/p2_proxy_response_choice.cc dlt698/p2_proxy_response_trans_command_response.cc \
-	dlt698/p2_compact_get_response.cc dlt698/p2_compact_get_response_normal.cc	\
+	dlt698/p2_compact_get_response.cc dlt698/p2_compact_get_response_normal.cc dlt698/p2_compact_get_response_normal_list.cc		\
 	dlt698/p2_compact_set_response.cc dlt698/p2_compact_set_response_normal.cc	\
 	dlt698/p2_compact_proxy_response.cc dlt698/p2_compact_proxy_get_response_normal.cc \
 	dlt698/p2_server_apdu.cc dlt698/p2_server_apdu_choice.cc 	\
@@ -95,7 +95,7 @@ nobase_include_HEADERS = \
 	dlt698/p2_action_response.h dlt698/p2_action_response_normal.h dlt698/p2_action_response_normal_list.h dlt698/p2_action_then_get_response_normal_list.h \
 	dlt698/p2_report_notification.h	dlt698/p2_report_notification_list.h	\
 	dlt698/p2_proxy_response_choice.h dlt698/p2_proxy_response_trans_command_response.h \
-	dlt698/p2_compact_get_response.h dlt698/p2_compact_get_response_normal.h	\
+	dlt698/p2_compact_get_response.h dlt698/p2_compact_get_response_normal.h dlt698/p2_compact_get_response_normal_list.h	\
 	dlt698/p2_compact_set_response.h dlt698/p2_compact_set_response_normal.h	\
 	dlt698/p2_compact_proxy_response.h dlt698/p2_compact_proxy_get_response_normal.h \
 	dlt698/p2_server_apdu.h dlt698/p2_server_apdu_choice.h 	\
