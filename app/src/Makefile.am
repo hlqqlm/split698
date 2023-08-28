@@ -44,7 +44,7 @@ split698_SOURCES = 	\
 	dlt698/p2_proxy_request_choice.cc dlt698/p2_proxy_request_trans_command_request.cc \
 	dlt698/p2_compact_get_request.cc dlt698/p2_get_request_record.cc dlt698/p2_get_record.cc \
 	dlt698/p2_compact_set_request.cc	\
-	dlt698/p2_compact_proxy_request.cc dlt698/p2_compact_proxy_get_request_normal.cc dlt698/p2_compact_proxy_get_request_record.cc	dlt698/p2_compact_proxy_set_request_normal.cc \
+	dlt698/p2_compact_proxy_request.cc dlt698/p2_compact_proxy_get_request_normal.cc dlt698/p2_compact_proxy_get_request_record.cc	dlt698/p2_compact_proxy_set_request_normal.cc dlt698/p2_compact_proxy_set_then_get_request.cc	\
 	dlt698/p2_client_apdu.cc dlt698/p2_client_apdu_choice.cc  \
 	dlt698/p2_connect_response.cc dlt698/p2_factory_version.cc dlt698/p2_connect_response_info.cc dlt698/p2_security_data.cc	\
 	dlt698/p2_release_response.cc \
@@ -87,7 +87,7 @@ nobase_include_HEADERS = \
 	dlt698/p2_proxy_request_choice.h dlt698/p2_proxy_request_trans_command_request.h \
 	dlt698/p2_compact_get_request.h dlt698/p2_get_request_record.h dlt698/p2_get_record.h \
 	dlt698/p2_compact_set_request.h	\
-	dlt698/p2_compact_proxy_request.h dlt698/p2_compact_proxy_get_request_normal.h dlt698/p2_compact_proxy_get_request_record.h	dlt698/p2_compact_proxy_set_request_normal.h \
+	dlt698/p2_compact_proxy_request.h dlt698/p2_compact_proxy_get_request_normal.h dlt698/p2_compact_proxy_get_request_record.h	dlt698/p2_compact_proxy_set_request_normal.h dlt698/p2_compact_proxy_set_then_get_request.h	\
 	dlt698/p2_client_apdu.h dlt698/p2_client_apdu_choice.h   \
 	dlt698/p2_connect_response.h dlt698/p2_factory_version.h dlt698/p2_connect_response_info.h	dlt698/p2_security_data.h \
 	dlt698/p2_release_response.h \
