@@ -28,6 +28,7 @@ huanglin 创建.
 
 // var
 #include "p2_compact_proxy_get_request_normal.h"
+#include "p2_compact_proxy_get_request_record.h"
 
 #include "p2_compact_proxy_request.h"
 #include "p2_compact_proxy_request.xcp.h"
