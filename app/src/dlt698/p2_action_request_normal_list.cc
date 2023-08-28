@@ -50,13 +50,6 @@ static int OffsetSequenceOfOmdData(Pcut *cut, int ix, const char *whole) { retur
 //}}}
 
 
-// {{{ data
-#define LenData		PcutItemLenBySub
-#define OffsetData	PcutItemOffsetDef
-#define ValidData	PcutItemValidBySub
-//}}}
-
-
 //{{{ cut
 // 为了节约内存，const部分集中在一起
 // 固定部分

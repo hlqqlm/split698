@@ -44,6 +44,7 @@ typedef struct
 {
 	Pcut base;
 	PcutItem items[kP2GetRequestNormalListCutNum];
+
 	P2SequenceOfPcut sequence_of_oad;
 } P2GetRequestNormalListPcut;
 #define kP2GetRequestNormalListPcutDef { kPcutDef, { kPcutItemDef }, kP2SequenceOfPcutDef }
