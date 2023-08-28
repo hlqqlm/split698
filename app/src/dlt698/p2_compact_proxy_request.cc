@@ -29,6 +29,7 @@ huanglin 创建.
 // var
 #include "p2_compact_proxy_get_request_normal.h"
 #include "p2_compact_proxy_get_request_record.h"
+#include "p2_compact_proxy_set_request_normal.h"
 
 #include "p2_compact_proxy_request.h"
 #include "p2_compact_proxy_request.xcp.h"
@@ -74,10 +75,12 @@ uint8_t P2CompactProxyRequestChoice(const char *whole)
 
 //{{{ cut
 static const P2CompactProxyGetRequestNormalPcut kP2CompactProxyGetRequestNormalPcutDefVar = kP2CompactProxyGetRequestNormalPcutDef;
+static const P2CompactProxyGetRequestRecordPcut kP2CompactProxyGetRequestRecordPcutDefVar = kP2CompactProxyGetRequestRecordPcutDef;
+static const P2CompactProxySetRequestNormalPcut kP2CompactProxySetRequestNormalPcutDefVar = kP2CompactProxySetRequestNormalPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kThisChoiceNum] = {
 	{ kP2CompactProxyGetRequestNormalName, sizeof(P2CompactProxyGetRequestNormalPcut), &kP2CompactProxyGetRequestNormalPcutDefVar, P2CompactProxyGetRequestNormalPcutOpenBase, P2CompactProxyGetRequestNormalPcutCloseBase },	// 请求紧凑代理读取服务器的若干个对象属性 [1] CompactProxyGetRequestNormal，
-	kPcutFactoryInfoDef("CompactProxyGetRequestRecord"),    // 请求紧凑代理读取服务器的一个记录型对象属性 [2] CompactProxyGetRequestRecord，
-	kPcutFactoryInfoDef("CompactProxySetRequestNormal"),    // 请求紧凑代理设置服务器的若干个对象属性 [3] CompactProxySetRequestNormal，
+	{ kP2CompactProxyGetRequestRecordName, sizeof(P2CompactProxyGetRequestRecordPcut), &kP2CompactProxyGetRequestRecordPcutDefVar, P2CompactProxyGetRequestRecordPcutOpenBase, P2CompactProxyGetRequestRecordPcutCloseBase },	// 请求紧凑代理读取服务器的一个记录型对象属性 [2] CompactProxyGetRequestRecord，
+	{ kP2CompactProxySetRequestNormalName, sizeof(P2CompactProxySetRequestNormalPcut), &kP2CompactProxySetRequestNormalPcutDefVar, P2CompactProxySetRequestNormalPcutOpenBase, P2CompactProxySetRequestNormalPcutCloseBase },	// 请求紧凑代理设置服务器的若干个对象属性 [3] CompactProxySetRequestNormal，
 	kPcutFactoryInfoDef("CompactProxySetThenGetRequest"),    // 请求紧凑代理设置后读取服务器的若干个对象属性 [4] CompactProxySetThenGetRequest，
 	kPcutFactoryInfoDef("CompactProxyActionRequest"),    // 请求紧凑代理操作服务器的若干个对象方法 [5] CompactProxyActionRequest，
 	kPcutFactoryInfoDef("CompactProxyActionThenGetRequest"),    // 请求紧凑代理操作后读取服务器的若干个对象方法和属性 [6] CompactProxyActionThenGetRequest，

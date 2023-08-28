@@ -82,12 +82,6 @@ cp_t P2TsaPcutValid(const P2TsaPcut *m);
 
 cp_t P2TsaPcutOpenBase(Pcut *base);
 cp_t P2TsaPcutCloseBase(Pcut *base);
-
-// 有数据类型的octet-string
-// 如果用在choice中，open/close函数接口必须是这个形式
-//cp_t P2TsaDatatypePcutOpen(P2TsaPcut *m);
-//cp_t P2TsaDatatypePcutClose(P2TsaPcut *m);
-//cp_t P2TsaDatatypePcutValid(const P2TsaPcut *m);
 //}}}
 
 
