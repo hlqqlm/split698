@@ -83,6 +83,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
 	kPcutFactoryInfoDef("ProxyActionThenGetResponseList"),	// 代理操作后读取若干个服务器的若干个对象方法和属性的响应 [6] ProxyActionThenGetResponseList，
 	{ "ProxyTransCommandResponse", sizeof(P2ProxyResponseTransCommandResponsePcut), &kP2ProxyResponseTransCommandResponsePcutDefVar, P2ProxyResponseTransCommandResponsePcutOpenBase, P2ProxyResponseTransCommandResponsePcutCloseBase },	// 代理透明转发命令的响应 [7] ProxyTransCommandResponse
 	kPcutFactoryInfoDef("ProxyInnerTransCommandResponse"),	// 代理终端内部转发命令的响应 [8] ProxyInnerTransCommandResponse
+	// kPcutFactoryInfoDef("example"),			// 
 };
 //}}}
 

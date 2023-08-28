@@ -83,7 +83,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2SecurityApduChoiceNum] = {
 	// name		size	init	derive_open		derive_close
 	{ kP2SecurityRequestName, sizeof(P2SecurityRequestPcut), &kP2SecurityRequestPcutDefVar, P2SecurityRequestPcutOpenBase, P2SecurityRequestPcutCloseBase },	// 安全请求 [16] SECURITY-Request，
 	{ kP2SecurityResponseName, sizeof(P2SecurityResponsePcut), &kP2SecurityResponsePcutDefVar, P2SecurityResponsePcutOpenBase, P2SecurityResponsePcutCloseBase },	// 安全响应 [144] SECURITY-Response
-	// kPcutFactoryInfoDef("example"),				// 安全响应 [144] SECURITY-Response
+	// kPcutFactoryInfoDef("example"),		// 
 };
 //}}}
 

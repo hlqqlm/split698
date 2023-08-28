@@ -74,7 +74,7 @@ static const P2SetRequestNormalListPcut kP2SetRequestNormalListPcutDefVar = kP2S
 static const PcutFactoryInfo kVarFactoryInfoList[kThisChoiceNum] = {
 	{ kP2SetRequestNormalName, sizeof(P2SetRequestNormalPcut), &kP2SetRequestNormalPcutDefVar, P2SetRequestNormalPcutOpenBase, P2SetRequestNormalPcutCloseBase },	// 请求紧凑设置一个对象属性 [1] SetRequestNormal，
 	{ kP2SetRequestNormalListName, sizeof(P2SetRequestNormalListPcut), &kP2SetRequestNormalListPcutDefVar, P2SetRequestNormalListPcutOpenBase, P2SetRequestNormalListPcutCloseBase },	// 请求紧凑设置多个对象属性 [2] SetRequestNormalList
-	//kPcutFactoryInfoDef("LINK-Response"),    //预连接响应 [129] LINK-Response 
+	//kPcutFactoryInfoDef("example"),    //
 };
 cp_t P2CompactSetRequestPcutOpen(P2CompactSetRequestPcut *m)
 {

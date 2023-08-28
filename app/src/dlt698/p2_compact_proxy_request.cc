@@ -80,7 +80,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kThisChoiceNum] = {
 	kPcutFactoryInfoDef("CompactProxySetThenGetRequest"),    // 请求紧凑代理设置后读取服务器的若干个对象属性 [4] CompactProxySetThenGetRequest，
 	kPcutFactoryInfoDef("CompactProxyActionRequest"),    // 请求紧凑代理操作服务器的若干个对象方法 [5] CompactProxyActionRequest，
 	kPcutFactoryInfoDef("CompactProxyActionThenGetRequest"),    // 请求紧凑代理操作后读取服务器的若干个对象方法和属性 [6] CompactProxyActionThenGetRequest，
-	//kPcutFactoryInfoDef("LINK-Response"),    //预连接响应 [129] LINK-Response 
+	//kPcutFactoryInfoDef("example"),    //
 };
 cp_t P2CompactProxyRequestPcutOpen(P2CompactProxyRequestPcut *m)
 {

@@ -23,19 +23,19 @@ DLT698_45报文解析
 
 用来描述dlt698_45中的report_notification_list
 */
-#include "p2_report_notification_list.h"
-#include "p2_report_notification_list.xcp.h"
+#include "p2_compact_proxy_get_response_normal.h"
+#include "p2_compact_proxy_get_response_normal.xcp.h"
 
 
 #define TEST_EN					(0)
 #define PRINT_PACK_IN_TEST_EN	(0)
-#define kThisCutNum				(kP2ReportNotificationListCutNum)
+#define kThisCutNum				(kP2CompactProxyGetResponseNormalCutNum)
 
 
 
 // {{{ piid-acd
-static int LenPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2ReportNotificationListPiidAcdSize; }
-static int OffsetPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2ReportNotificationListPiidAcdOffset; }
+static int LenPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2CompactProxyGetResponseNormalPiidAcdSize; }
+static int OffsetPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2CompactProxyGetResponseNormalPiidAcdOffset; }
 static cp_t ValidPiidAcd(Pcut *cut, int ix, const char *whole) 
 { 
 	return 0; 
@@ -45,7 +45,7 @@ static cp_t ValidPiidAcd(Pcut *cut, int ix, const char *whole)
 
 // {{{ sequence_of_a_result_normal
 #define LenSequenceOf		PcutItemLenBySub
-static int OffsetSequenceOf(Pcut *cut, int ix, const char *whole) { return kP2ReportNotificationListSequenceOfOffset; }
+static int OffsetSequenceOf(Pcut *cut, int ix, const char *whole) { return kP2CompactProxyGetResponseNormalSequenceOfOffset; }
 #define ValidSequenceOf		PcutItemValidBySub
 //}}}
 
@@ -55,59 +55,59 @@ static int OffsetSequenceOf(Pcut *cut, int ix, const char *whole) { return kP2Re
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
-	{ kP2ReportNotificationListNamePiidAcd, LenPiidAcd, OffsetPiidAcd, ValidPiidAcd, NULL },
-	{ kP2ReportNotificationListNameSequenceOf, LenSequenceOf, OffsetSequenceOf, ValidSequenceOf, NULL },
+	{ kP2CompactProxyGetResponseNormalNamePiidAcd, LenPiidAcd, OffsetPiidAcd, ValidPiidAcd, NULL },
+	{ kP2CompactProxyGetResponseNormalNameSequenceOf, LenSequenceOf, OffsetSequenceOf, ValidSequenceOf, NULL },
 };
 	
 
 static const PcutItem kCutItemsPattern[kThisCutNum] = {
-	PCUT_ITEM_NO_SUB(&kCutFix[kP2ReportNotificationListCutIxPiidAcd]),
-	PCUT_ITEM_NO_SUB(&kCutFix[kP2ReportNotificationListCutIxSequenceOf]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2CompactProxyGetResponseNormalCutIxPiidAcd]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2CompactProxyGetResponseNormalCutIxSequenceOf]),
 };
 static void PcutItemsInit(PcutItem items[kThisCutNum])
 {
 	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
 }
 
-cp_t P2ReportNotificationListPcutOpen(P2ReportNotificationListPcut *m)
+cp_t P2CompactProxyGetResponseNormalPcutOpen(P2CompactProxyGetResponseNormalPcut *m)
 {
 	PcutItemsInit(m->items);
 	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
 
-	ifer(P2AResultNormalPcutOpen(&m->a_result_normal));
-	ifer(P2SequenceOfVarLenPcutOpen(&m->sequence_of, &m->a_result_normal.base, kP2ReportNotificationListNameSequenceOf));
-	PcutSubSet(&m->base, kP2ReportNotificationListCutIxSequenceOf, &m->sequence_of.base, NULL);
+	ifer(P2GetResultPcutOpen(&m->get_result));
+	ifer(P2SequenceOfVarLenPcutOpen(&m->sequence_of, &m->get_result.choice.base, kP2CompactProxyGetResponseNormalNameSequenceOf));
+	PcutSubSet(&m->base, kP2CompactProxyGetResponseNormalCutIxSequenceOf, &m->sequence_of.base, NULL);
 	return 0;
 }
-cp_t P2ReportNotificationListPcutClose(P2ReportNotificationListPcut *m)
+cp_t P2CompactProxyGetResponseNormalPcutClose(P2CompactProxyGetResponseNormalPcut *m)
 {
-	dve(P2ReportNotificationListPcutValid(m));
+	dve(P2CompactProxyGetResponseNormalPcutValid(m));
 
-	PcutSubSet(&m->base, kP2ReportNotificationListCutIxSequenceOf, NULL, NULL);
+	PcutSubSet(&m->base, kP2CompactProxyGetResponseNormalCutIxSequenceOf, NULL, NULL);
 	ifer(P2SequenceOfVarLenPcutClose(&m->sequence_of));
-	ifer(P2AResultNormalPcutClose(&m->a_result_normal));
+	ifer(P2GetResultPcutClose(&m->get_result));
 
 	ifer(PcutClose(&m->base));
 	return 0;
 }
-cp_t P2ReportNotificationListPcutValid(const P2ReportNotificationListPcut *m)
+cp_t P2CompactProxyGetResponseNormalPcutValid(const P2CompactProxyGetResponseNormalPcut *m)
 {
 	ifer(PcutValid(&m->base));
 	ifer(P2SequenceOfVarLenPcutValid(&m->sequence_of));
-	ifer(P2AResultNormalPcutValid(&m->a_result_normal));
+	ifer(P2GetResultPcutValid(&m->get_result));
 	return 0;
 }
 
 
-cp_t P2ReportNotificationListPcutOpenBase(Pcut *base)
+cp_t P2CompactProxyGetResponseNormalPcutOpenBase(Pcut *base)
 {
-	P2ReportNotificationListPcut *m = (P2ReportNotificationListPcut*)base;
-	return P2ReportNotificationListPcutOpen(m);
+	P2CompactProxyGetResponseNormalPcut *m = (P2CompactProxyGetResponseNormalPcut*)base;
+	return P2CompactProxyGetResponseNormalPcutOpen(m);
 }
-cp_t P2ReportNotificationListPcutCloseBase(Pcut *base)
+cp_t P2CompactProxyGetResponseNormalPcutCloseBase(Pcut *base)
 {
-	P2ReportNotificationListPcut *m = (P2ReportNotificationListPcut*)base;
-	return P2ReportNotificationListPcutClose(m);
+	P2CompactProxyGetResponseNormalPcut *m = (P2CompactProxyGetResponseNormalPcut*)base;
+	return P2CompactProxyGetResponseNormalPcutClose(m);
 }
 //}}}
 
@@ -124,13 +124,13 @@ static const QtestItem kTestItem[] = {
 	TestPcut,
 };
 #define kTestItemNum	(sizeof(kTestItem)/sizeof(kTestItem[0]))
-cp_t P2ReportNotificationListTest(QTEST_ARG)
+cp_t P2CompactProxyGetResponseNormalTest(QTEST_ARG)
 {
 	return QtestTest(__FILE__, run_times, kTestItem, kTestItemNum, verbose);
 }
 
 #else
-cp_t P2ReportNotificationListTest(QTEST_ARG)
+cp_t P2CompactProxyGetResponseNormalTest(QTEST_ARG)
 {
 	return 0;
 }

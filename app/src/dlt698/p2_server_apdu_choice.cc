@@ -33,6 +33,7 @@ huanglin 创建.
 #include "p2_proxy_response_choice.h"
 #include "p2_compact_get_response.h"
 #include "p2_compact_set_response.h"
+#include "p2_compact_proxy_response.h"
 
 
 #include "p2_error_response.h"

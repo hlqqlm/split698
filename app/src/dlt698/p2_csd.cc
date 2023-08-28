@@ -72,7 +72,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
 	// name		size	init	derive_open		derive_close
 	{ kP2OadName, sizeof(P2OadPcut), &kP2OadPcutDefVar, P2OadPcutOpenBase, P2OadPcutCloseBase },	// 对象属性描述符 [0] OAD，
 	{ kP2RoadName, sizeof(P2RoadPcut), &kP2RoadPcutDefVar, P2RoadPcutOpenBase, P2RoadPcutCloseBase },	// 记录型对象属性描述符 [1] ROAD
-	// kPcutFactoryInfoDef("example"),	// 选择方法 2 [2] Selector2，
+	// kPcutFactoryInfoDef("example"),	// 
 };
 //}}}
 

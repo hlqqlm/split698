@@ -76,7 +76,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2SetRequestChoiceNum] = {
 	{ kP2SetRequestNormalName, sizeof(P2SetRequestNormalPcut), &kP2SetRequestNormalPcutDefVar, P2SetRequestNormalPcutOpenBase, P2SetRequestNormalPcutCloseBase },	// 请求操作一个对象方法 [1] SetRequestNormal，
 	{ kP2SetRequestNormalListName, sizeof(P2SetRequestNormalListPcut), &kP2SetRequestNormalListPcutDefVar, P2SetRequestNormalListPcutOpenBase, P2SetRequestNormalListPcutCloseBase },	// 请求操作若干个对象方法 [2] SetRequestNormalList，
 	{ kP2SetThenGetRequestNormalListName, sizeof(P2SetThenGetRequestNormalListPcut), &kP2SetThenGetRequestNormalListPcutDefVar, P2SetThenGetRequestNormalListPcutOpenBase, P2SetThenGetRequestNormalListPcutCloseBase },	// 请求操作若干个对象方法后读取若干个对象属性 [3] SetThenGetRequestNormalList
-	// kPcutFactoryInfoDef("SetThenGetRequestNormalList"),				// 请求操作若干个对象方法后读取若干个对象属性 [3] SetThenGetRequestNormalList
+	// kPcutFactoryInfoDef("example"),		// 
 };
 //}}}
 

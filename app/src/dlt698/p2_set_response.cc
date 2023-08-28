@@ -74,6 +74,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2SetResponseChoiceNum] = {
 	{ kP2SetResponseNormalName, sizeof(P2SetResponseNormalPcut), &kP2SetResponseNormalPcutDefVar, P2SetResponseNormalPcutOpenBase, P2SetResponseNormalPcutCloseBase },	// 设置一个对象属性的响应 [1] SetResponseNormal，
 	kPcutFactoryInfoDef("SetResponseNormalList"), // 设置若干个对象属性的响应 [2] SetResponseNormalList，
 	kPcutFactoryInfoDef("SetThenGetResponseNormalList"), // 设置的确认信息以及读取的响应 [3] SetThenGetResponseNormalList
+	// kPcutFactoryInfoDef("example"), // 
 };
 cp_t P2SetResponsePcutOpen(P2SetResponsePcut *m)
 {

@@ -78,7 +78,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kThisChoiceNum] = {
 	{ kP2GetRequestNormalName, sizeof(P2GetRequestNormalPcut), &kP2GetRequestNormalPcutDefVar, P2GetRequestNormalPcutOpenBase, P2GetRequestNormalPcutCloseBase },	// 请求紧凑读取一个对象属性 [1] GetRequestNormal，
 	{ kP2GetRequestNormalListName, sizeof(P2GetRequestNormalListPcut), &kP2GetRequestNormalListPcutDefVar, P2GetRequestNormalListPcutOpenBase, P2GetRequestNormalListPcutCloseBase },	// 请求紧凑读取多个对象属性 [2] GetRequestNormalList，
 	{ kP2GetRequestRecordName, sizeof(P2GetRequestRecordPcut), &kP2GetRequestRecordPcutDefVar, P2GetRequestRecordPcutOpenBase, P2GetRequestRecordPcutCloseBase },	// 请求紧凑读取一个记录型对象属性 [3] GetRequestRecord
-	//kPcutFactoryInfoDef("LINK-Response"),    //预连接响应 [129] LINK-Response 
+	//kPcutFactoryInfoDef("example"),   //
 };
 cp_t P2CompactGetRequestPcutOpen(P2CompactGetRequestPcut *m)
 {

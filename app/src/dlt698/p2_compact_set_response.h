@@ -7,8 +7,8 @@
 #include "p2_choice.h"
 
 // name
-#define kP2CompactSetResponseChoiceName	"compact_get_response_choice"
-#define kP2CompactSetResponseName		"compact_get_response"
+#define kP2CompactSetResponseChoiceName	"compact_set_response_choice"
+#define kP2CompactSetResponseName		"compact_set_response"
 
 // basic information
 #define kP2CompactSetResponseChoiceOffset			(0)

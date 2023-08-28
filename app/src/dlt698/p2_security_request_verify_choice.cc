@@ -76,6 +76,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2SecurityRequestVerifyChoiceN
 	{ "rn", sizeof(P2OctetStringPcut), &kP2OctetStringPcutDefVar, P2OctetStringPcutOpenBase, P2OctetStringPcutCloseBase },	// 随机数 [1] RN， RN就是octet-string
 	kPcutFactoryInfoDef("RN_MAC"),	// 随机数+MAC [2] RN_MAC，
 	kPcutFactoryInfoDef("SID"),	// 安全标识 [3] SID
+	// kPcutFactoryInfoDef("example"),	// 
 };
 //}}}
 

@@ -80,7 +80,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2LinkApduChoiceNum] = {
 
 	{ kP2LinkRequestName, sizeof(P2LinkRequestPcut), &kP2LinkRequestPcutDefVar, P2LinkRequestPcutOpenBase, P2LinkRequestPcutCloseBase },	// 预连接请求 [1] LINK-Request，
 	{ kP2LinkResponseName, sizeof(P2LinkResponsePcut), &kP2LinkResponsePcutDefVar, P2LinkResponsePcutOpenBase, P2LinkResponsePcutCloseBase },	// 预连接响应 [129] LINK-Response
-	//kPcutFactoryInfoDef("LINK-Response"),    //预连接响应 [129] LINK-Response 
+	//kPcutFactoryInfoDef("example"),    //
 };
 //}}}
 
