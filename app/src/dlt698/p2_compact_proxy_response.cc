@@ -25,6 +25,7 @@ huanglin 创建.
 
 // var
 #include "p2_compact_proxy_get_response_normal.h"
+#include "p2_compact_proxy_get_response_record.h"
 
 #include "p2_compact_proxy_response.h"
 #include "p2_compact_proxy_response.xcp.h"
@@ -71,9 +72,10 @@ uint8_t P2CompactProxyResponseChoice(const char *whole)
 
 //{{{ cut
 static const P2CompactProxyGetResponseNormalPcut kP2CompactProxyGetResponseNormalPcutDefVar = kP2CompactProxyGetResponseNormalPcutDef;
+static const P2CompactProxyGetResponseRecordPcut kP2CompactProxyGetResponseRecordPcutDefVar = kP2CompactProxyGetResponseRecordPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kThisChoiceNum] = {
 	{ kP2CompactProxyGetResponseNormalName, sizeof(P2CompactProxyGetResponseNormalPcut), &kP2CompactProxyGetResponseNormalPcutDefVar, P2CompactProxyGetResponseNormalPcutOpenBase, P2CompactProxyGetResponseNormalPcutCloseBase },	// 代理精简读取服务器的若干个对象属性的响应 [1] CompactProxyGetResponseNormal，
-	kPcutFactoryInfoDef("CompactProxyGetResponseRecord"),	// 代理精简读取服务器的一个记录型对象属性的响应 [2] CompactProxyGetResponseRecord，
+	{ kP2CompactProxyGetResponseRecordName, sizeof(P2CompactProxyGetResponseRecordPcut), &kP2CompactProxyGetResponseRecordPcutDefVar, P2CompactProxyGetResponseRecordPcutOpenBase, P2CompactProxyGetResponseRecordPcutCloseBase },	// 代理精简读取服务器的一个记录型对象属性的响应 [2] CompactProxyGetResponseRecord，
 	kPcutFactoryInfoDef("CompactProxySetResponse"),	// 代理精简设置服务器的若干个对象属性的响应 [3] CompactProxySetResponse，
 	kPcutFactoryInfoDef("CompactProxySetThenGetResponse"),	// 代理精简设置后读取服务器的若干个对象属性的响应 [4] CompactProxySetThenGetResponse，
 	kPcutFactoryInfoDef("CompactProxyActionResponse"),	// 代理精简操作服务器的若干个对象方法的响应 [5] CompactProxyActionResponse，
