@@ -206,6 +206,8 @@ static cp_t ResponseOad20040200(PfillRepository *fill_repository_life, Pfill *fi
 static cp_t ResponseOad(PfillRepository *fill_repository_life
 		, Pfill *fill_get_result, Pfill *fill_data, OadT oad)
 {
+    return 0;
+
 	// qos_printf("oad=%08x\r\n", oad);
 	switch (oad)
 	{

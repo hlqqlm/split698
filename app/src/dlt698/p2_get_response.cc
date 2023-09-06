@@ -23,11 +23,9 @@ huanglin 创建.
 */
 #include <string.h>
 
-#include "qos/qcp.h"
-#include "qos/qtest.h"
-
 // var
 #include "p2_get_response_normal.h"
+#include "p2_get_response_normal_list.h"
 
 #include "p2_get_response.h"
 #include "p2_get_response.xcp.h"
@@ -74,9 +72,10 @@ uint8_t P2GetResponseChoice(const char *whole)
 
 //{{{ cut
 static const P2GetResponseNormalPcut kP2GetResponseNormalPcutDefVar = kP2GetResponseNormalPcutDef;
+static const P2GetResponseNormalListPcut kP2GetResponseNormalListPcutDefVar = kP2GetResponseNormalListPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kP2GetResponseChoiceNum] = {
 	{ kP2GetResponseNormalName, sizeof(P2GetResponseNormalPcut), &kP2GetResponseNormalPcutDefVar, P2GetResponseNormalPcutOpenBase, P2GetResponseNormalPcutCloseBase },	// 读取一个对象属性的响应 [1] GetResponseNormal，
-	kPcutFactoryInfoDef("GetResponseNormalList"),	// 读取若干个对象属性的响应 [2] GetResponseNormalList，
+	{ kP2GetResponseNormalListName, sizeof(P2GetResponseNormalListPcut), &kP2GetResponseNormalListPcutDefVar, P2GetResponseNormalListPcutOpenBase, P2GetResponseNormalListPcutCloseBase },	// 读取若干个对象属性的响应 [2] GetResponseNormalList，
 	kPcutFactoryInfoDef("GetResponseRecord"),	// 读取一个记录型对象属性的响应 [3] GetResponseRecord，
 	kPcutFactoryInfoDef("GetResponseRecordList"),	// 读取若干个记录型对象属性的响应 [4] GetResponseRecordList，
 	kPcutFactoryInfoDef("GetResponseNext"),	// 读取分帧传输的下一帧的响应 [5] GetResponseNext，

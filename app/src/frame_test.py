@@ -47,7 +47,13 @@ kFrame = (
     ("建立应用连接响应 [130] CONNECT-Response", ""),
     ("断开应用连接响应 [131] RELEASE-Response", ""),
     ("断开应用连接通知 [132] RELEASE-Notification", ""),
-    ("读取响应 [133] GET-Response", "682100c305220300000000005883850101400102000109060000000003220000043a16"),
+    ("读取响应 [133] GET-Response / 读取一个对象属性的响应 [1] GetResponseNormal", "682100c305220300000000005883850101400102000109060000000003220000043a16"),
+    ("读取响应 [133] GET-Response / 读取若干个对象属性的响应 [2] GetResponseNormalList", "685600c30501000000000000e4ba8502130424010200010906100000000001240105000105000000002401060001050000000024010700010105060000000006000000000600000000060000000006000000000000e52b16"),
+    ("读取响应 [133] GET-Response / 读取一个记录型对象属性的响应 [3] GetResponseRecord", ""),
+    ("读取响应 [133] GET-Response / 读取若干个记录型对象属性的响应 [4] GetResponseRecordList", ""),
+    ("读取响应 [133] GET-Response / 读取分帧传输的下一帧的响应 [5] GetResponseNext", ""),
+    ("读取响应 [133] GET-Response / 读取一个对象属性的 MD5 值的响应 [6] GetResponseMD5", ""),
+    ("读取响应 [133] GET-Response / 读取一个精简记录型对象属性请求 [23] GetResponseSimplifyRecord", ""),
     ("设置响应 [134] SET-Response", "681900c305220300000000003dac86010540000200000000e82116"),
     ("操作响应 [135] ACTION-Response", "681a00c305220300000000008e52870106450001000400000079f116"),
     ("上报通知 [136] REPORT-Notification", ""),
@@ -148,7 +154,7 @@ def print_blanks():
 
 def process_one_frame(index, explain, frame):
     print_blanks()
-    print('{}\r\nexplain={}\r\nframe={}'.format(index, explain, frame))
+    print('{}\nexplain={}\nframe={}'.format(index, explain, frame))
     # print('{} explain={} frame={}'.format(index, explain, frame))
     cmd = run_cmd(frame)
     print('run_cmd: {}'.format(cmd))

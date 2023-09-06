@@ -36,6 +36,7 @@ huanglin 创建.
 #include "p2_array.h"
 
 #include "p2_get_response_normal.h"
+#include "p2_get_response_normal_list.h"
 #include "p2_get_response.h"
 
 #include "p2_set_response_normal.h"
@@ -93,6 +94,37 @@ static cp_t PdoGetResponseNormalProcess(struct PdoS *doa, Pcut *cut, int ix, con
 //}}}
 
 
+//{{{ get_response_normal_list
+typedef struct {
+	Pdo doa;
+	PfillRepository *fill_repository_life;
+} PdoGetResponseNormalList;
+static cp_t PdoGetResponseNormalListProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
+{
+	dvb(ix == kP2ChoicePartIxVar);
+	const int kPrintPartEn = 0;		// 打印解帧过程
+	//const int PRINT_FILL_EN = 1;		// 是否打印填充帧过程
+	PdoGetResponseNormalList *derive = (PdoGetResponseNormalList*)doa;
+	PfillRepository * const fill_repository_life = derive->fill_repository_life;
+
+	// 可以确定，当前处在proxy_response_choice中, trans_command_response是当前的choice
+	P2GetResponsePcut *gr = (P2GetResponsePcut*)cut;
+	P2GetResponseNormalListPcut *grnl = (P2GetResponseNormalListPcut*)P2ChoicePcutVar(&gr->choice);
+	dvb(grnl == (void*)PcutFindSubRecursionDepth(&gr->choice.base, kP2GetResponseNormalListName));
+
+	const char * const grnl_mem = PcutIxPtrConst(&gr->choice.base, ix, whole);
+	const int grnl_mem_len = PcutIxLen(&gr->choice.base, ix, whole);
+
+	if (kPrintPartEn)
+		printf_hex_ex("get_response_normal_list mem: ", "\r\n", grnl_mem, grnl_mem_len, "");
+
+	// 解帧，得到piid + omd + data
+	// todo: 解帧，执行
+	return 0;
+}
+//}}}
+
+
 //{{{ get_response
 typedef struct {
 	Pdo doa;
@@ -132,10 +164,12 @@ static cp_t PdoGetResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const cha
 
 	PdoGetResponseNormal do_get_response_normal = { 
 		PDO_INIT(PdoGetResponseNormalProcess), derive->fill_repository_life };
+	PdoGetResponseNormalList do_get_response_normal_list = { 
+		PDO_INIT(PdoGetResponseNormalListProcess), derive->fill_repository_life };
 	PdoGetResponseFail do_fail = kPdoGetResponseFailDef;
 	Pdo* const kDoTable[kP2GetResponseChoiceNum] = {
 		&do_get_response_normal.doa,	// 读取一个对象属性的响应 [1] GetResponseNormal，
-		&do_fail.doa,	// 读取若干个对象属性的响应 [2] GetResponseNormalList，
+		&do_get_response_normal_list.doa,	// 读取若干个对象属性的响应 [2] GetResponseNormalList，
 		&do_fail.doa,	// 读取一个记录型对象属性的响应 [3] GetResponseRecord，
 		&do_fail.doa,	// 读取若干个记录型对象属性的响应 [4] GetResponseRecordList，
 		&do_fail.doa,	// 读取分帧传输的下一帧的响应 [5] GetResponseNext，

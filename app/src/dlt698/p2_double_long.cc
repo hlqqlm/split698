@@ -51,6 +51,13 @@ static cp_t ValidMain(Pcut *cut, int ix, const char *whole)
 {
 	return 0;
 }
+static cp_t ExplainMain(Pcut *cut, int ix, const char *whole) 
+{
+	//const uint16_t value = P2LinkRequestHeartbeatIntervalValue(whole);
+	const int32_t value = P2DoubleLongToValue(whole);
+	qos_printf("%dD", value);
+	return 0;
+}
 //}}}
 
 
@@ -69,7 +76,7 @@ int32_t P2DoubleLongToValue(const char *whole)
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
-	{ kP2DoubleLongName, LenMain, OffsetMain, ValidMain, NULL },
+	{ kP2DoubleLongName, LenMain, OffsetMain, ValidMain, ExplainMain },
 };
 	
 

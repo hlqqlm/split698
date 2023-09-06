@@ -42,11 +42,92 @@ DLT698_45报文解析
 
 #include "p2_get_response_normal_list.h"
 #include "p2_get_response_normal_list.xcp.h"
-//#define this_file_id	0x140164e0 // echo -n dlt698_45_get_response_normal_list.c | rhash --simple -
 
 
 #define TEST_EN						(1)
 #define TEST_PRINT_FILL_EN			(0)
+#define kThisCutNum				(kP2GetResponseNormalListCutNum)
+
+
+
+// {{{ piid-acd
+static int LenPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2GetResponseNormalListPiidAcdSize; }
+static int OffsetPiidAcd(Pcut *cut, int ix, const char *whole) { return kP2GetResponseNormalListPiidAcdOffset; }
+static cp_t ValidPiidAcd(Pcut *cut, int ix, const char *whole) 
+{ 
+	return 0; 
+}
+//}}}
+
+
+// {{{ sequence_of_a_result_normal
+#define LenSequenceOf		PcutItemLenBySub
+static int OffsetSequenceOf(Pcut *cut, int ix, const char *whole) { return kP2GetResponseNormalListSequenceOfAResultNormalOffset; }
+#define ValidSequenceOf		PcutItemValidBySub
+//}}}
+
+
+//{{{ cut
+// 为了节约内存，const部分集中在一起
+// 固定部分
+static const PcutItemFix kCutFix[kThisCutNum] = {
+	// name len offset valid explain
+	{ kP2GetResponseNormalListNamePiidAcd, LenPiidAcd, OffsetPiidAcd, ValidPiidAcd, NULL },
+	{ kP2GetResponseNormalListNameSequenceOfAResultNormal, LenSequenceOf, OffsetSequenceOf, ValidSequenceOf, NULL },
+};
+	
+
+static const PcutItem kCutItemsPattern[kThisCutNum] = {
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2GetResponseNormalListCutIxPiidAcd]),
+	PCUT_ITEM_NO_SUB(&kCutFix[kP2GetResponseNormalListCutIxSequenceOf]),
+};
+static void PcutItemsInit(PcutItem items[kThisCutNum])
+{
+	memcpy(items, kCutItemsPattern, sizeof(kCutItemsPattern));
+}
+
+cp_t P2GetResponseNormalListPcutOpen(P2GetResponseNormalListPcut *m)
+{
+	PcutItemsInit(m->items);
+	ifer(PcutOpen(&m->base, m->items, kThisCutNum));
+
+	ifer(P2AResultNormalPcutOpen(&m->a_result_normal));
+	ifer(P2SequenceOfVarLenPcutOpen(&m->sequence_of, &m->a_result_normal.base, kP2GetResponseNormalListNameSequenceOfAResultNormal));
+	PcutSubSet(&m->base, kP2GetResponseNormalListCutIxSequenceOf, &m->sequence_of.base, NULL);
+	return 0;
+}
+cp_t P2GetResponseNormalListPcutClose(P2GetResponseNormalListPcut *m)
+{
+	dve(P2GetResponseNormalListPcutValid(m));
+
+	PcutSubSet(&m->base, kP2GetResponseNormalListCutIxSequenceOf, NULL, NULL);
+	ifer(P2SequenceOfVarLenPcutClose(&m->sequence_of));
+	ifer(P2AResultNormalPcutClose(&m->a_result_normal));
+
+	ifer(PcutClose(&m->base));
+	return 0;
+}
+cp_t P2GetResponseNormalListPcutValid(const P2GetResponseNormalListPcut *m)
+{
+	ifer(PcutValid(&m->base));
+	ifer(P2SequenceOfVarLenPcutValid(&m->sequence_of));
+	ifer(P2AResultNormalPcutValid(&m->a_result_normal));
+	return 0;
+}
+
+
+cp_t P2GetResponseNormalListPcutOpenBase(Pcut *base)
+{
+	P2GetResponseNormalListPcut *m = (P2GetResponseNormalListPcut*)base;
+	return P2GetResponseNormalListPcutOpen(m);
+}
+cp_t P2GetResponseNormalListPcutCloseBase(Pcut *base)
+{
+	P2GetResponseNormalListPcut *m = (P2GetResponseNormalListPcut*)base;
+	return P2GetResponseNormalListPcutClose(m);
+}
+//}}}
+
 
 
 //{{{ fill
@@ -65,7 +146,7 @@ static cp_t FillItemProcessPiidAcd(struct PfillS *fill, int level, int ix, char 
 	return 0;
 }
 #define kFillItemPiidAcdDef {			\
-	PFILL_ITEM(kP2GetResponseNormalListPiidAcd, PfillItemOffsetFix, FillItemProcessPiidAcd, kP2GetResponseNormalListPiidAcdOffset, NULL),			\
+	PFILL_ITEM(kP2GetResponseNormalListNamePiidAcd, PfillItemOffsetFix, FillItemProcessPiidAcd, kP2GetResponseNormalListPiidAcdOffset, NULL),			\
 	kP2PiidAcdDef,			\
 }
 
@@ -75,7 +156,7 @@ typedef struct
 	PfillItem base;
 } FillItemSequenceOfAResultNormal;
 #define kFillItemSequenceOfAResultNormalDef(_sub) {			\
-	PFILL_ITEM(kP2GetResponseNormalListSequenceOfAResultNormal, PfillItemOffsetFix, PfillItemProcessBySub, kP2GetResponseNormalListSequenceOfAResultNormalOffset, (_sub)),	\
+	PFILL_ITEM(kP2GetResponseNormalListNameSequenceOfAResultNormal, PfillItemOffsetFix, PfillItemProcessBySub, kP2GetResponseNormalListSequenceOfAResultNormalOffset, (_sub)),	\
 }
 
 

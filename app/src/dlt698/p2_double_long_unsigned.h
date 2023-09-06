@@ -14,24 +14,28 @@
 #define kP2DoubleLongUnsignedNameContent		"content"
 
 // offset-size
-#define kP2DoubleLongUnsignedDatatypeOffset						(0)
-#define kP2DoubleLongUnsignedDatatypeSize(_datatype_size)		(_datatype_size)
+//#define kP2DoubleLongUnsignedDatatypeOffset						(0)
+//#define kP2DoubleLongUnsignedDatatypeSize(_datatype_size)		(_datatype_size)
 
-#define kP2DoubleLongUnsignedContentOffset(_datatype_size)		(kP2DoubleLongUnsignedDatatypeOffset + kP2DoubleLongUnsignedDatatypeSize(_datatype_size))
+//#define kP2DoubleLongUnsignedContentOffset(_datatype_size)		(kP2DoubleLongUnsignedDatatypeOffset + kP2DoubleLongUnsignedDatatypeSize(_datatype_size))
+#define kP2DoubleLongUnsignedContentOffset						(0)
 #define kP2DoubleLongUnsignedContentSize						(kDlt698DoubleLongUnsignedSize)
 
-#define kP2DoubleLongUnsignedWholeSize(_datatype_size)			(kP2DoubleLongUnsignedContentOffset(_datatype_size) + kP2DoubleLongUnsignedContentSize)
+#define kP2DoubleLongUnsignedWholeSize		\
+	(kP2DoubleLongUnsignedContentOffset + kP2DoubleLongUnsignedContentSize)
 
 // all
-int P2DoubleLongUnsignedCutSize(bool datatype_exist);
-uint32_t P2DoubleLongUnsignedToValue(bool datatype_exist, const char *whole);
+//int P2DoubleLongUnsignedCutSize(bool datatype_exist);
+//uint32_t P2DoubleLongUnsignedToValue(bool datatype_exist, const char *whole);
+int P2DoubleLongUnsignedCutSize(void);
+uint32_t P2DoubleLongUnsignedToValue(const char *whole);
 
 //{{{ cut
 // cut_ix
 // 各部分索引号
 typedef enum
 {
-	kP2DoubleLongUnsignedCutIxDatatype,
+	//kP2DoubleLongUnsignedCutIxDatatype,
 	kP2DoubleLongUnsignedCutIxContent,
 	kP2DoubleLongUnsignedCutNum				
 } P2DoubleLongUnsignedCutIxT;
@@ -42,17 +46,18 @@ typedef struct
 {
 	Pcut base;
 	PcutItem items[kP2DoubleLongUnsignedCutNum];
-	bool datatype_exist;
+	//bool datatype_exist;
 } P2DoubleLongUnsignedPcut;
 // 缺省的是没有datatype的
-#define kP2DoubleLongUnsignedPcutDef { kPcutDef, { kPcutItemDef }, false }
+//#define kP2DoubleLongUnsignedPcutDef { kPcutDef, { kPcutItemDef }, false }
+#define kP2DoubleLongUnsignedPcutDef { kPcutDef, { kPcutItemDef } }
 
 cp_t P2DoubleLongUnsignedPcutOpen(P2DoubleLongUnsignedPcut *m);
 cp_t P2DoubleLongUnsignedPcutClose(P2DoubleLongUnsignedPcut *m);
 cp_t P2DoubleLongUnsignedPcutValid(const P2DoubleLongUnsignedPcut *m);
 
 // 配置数据类型字节是否存在
-void P2DoubleLongUnsignedPcutConfigDatatypeExist(P2DoubleLongUnsignedPcut *m, bool exist);
+//void P2DoubleLongUnsignedPcutConfigDatatypeExist(P2DoubleLongUnsignedPcut *m, bool exist);
 
 cp_t P2DoubleLongUnsignedPcutOpenBase(Pcut *base);
 cp_t P2DoubleLongUnsignedPcutCloseBase(Pcut *base);

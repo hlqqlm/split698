@@ -42,13 +42,10 @@ static const P2DoubleLongUnsignedPcut *ToDerive(const Pcut *cut)
 {
 	return (P2DoubleLongUnsignedPcut*)(cut);
 }
-static int GetDatatypeSize(bool datatype_exist)
-{
-	return datatype_exist ? kDlt698DatatypeSize : 0;
-}
 //}}}
 
 
+#if 0
 //{{{ datatype
 static int DatatypeSize(const Pcut *cut, const char *whole) 
 {
@@ -78,6 +75,7 @@ static cp_t ValidDatatype(Pcut *cut, int ix, const char *whole)
 	return 0; 
 }
 //}}}
+#endif
 
 
 //{{{ content
@@ -87,18 +85,25 @@ static int LenContent(Pcut *cut, int ix, const char *whole)
 }
 static int OffsetContent(Pcut *cut, int ix, const char *whole) 
 { 
-	const int datatype_size = DatatypeSize(cut, whole);
-	const int content_offset = kP2DoubleLongUnsignedContentOffset(datatype_size);
+	const int content_offset = kP2DoubleLongUnsignedContentOffset;
 	return content_offset;
 }
 static cp_t ValidContent(Pcut *cut, int ix, const char *whole) 
 {
 	return 0;
 }
+static cp_t ExplainContent(Pcut *cut, int ix, const char *whole) 
+{
+	//const uint16_t value = P2LinkRequestHeartbeatIntervalValue(whole);
+	const uint32_t value = P2DoubleLongUnsignedToValue(whole);
+	qos_printf("%uD", value);
+	return 0;
+}
 //}}}
 
 
 //{{{ all
+#if 0
 int P2DoubleLongUnsignedCutSize(bool datatype_exist)
 {
 	const int datatype_size = GetDatatypeSize(datatype_exist);
@@ -111,6 +116,18 @@ uint32_t P2DoubleLongUnsignedToValue(bool datatype_exist, const char *whole)
 	const char value[kP2DoubleLongUnsignedContentSize] = { src[3], src[2], src[1], src[0] };
 	return *((uint32_t*)value);
 }
+#endif
+int P2DoubleLongUnsignedCutSize(void)
+{
+	return kP2DoubleLongUnsignedWholeSize;
+}
+uint32_t P2DoubleLongUnsignedToValue(const char *whole)
+{
+	const int content_offset = kP2DoubleLongUnsignedContentOffset;
+	const char *src = whole + content_offset;
+	const char value[kP2DoubleLongUnsignedContentSize] = { src[3], src[2], src[1], src[0] };
+	return *((uint32_t*)value);
+}
 //}}}
 
 
@@ -119,13 +136,13 @@ uint32_t P2DoubleLongUnsignedToValue(bool datatype_exist, const char *whole)
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
-	{ "datatype", LenDatatype, OffsetDatatype, ValidDatatype, NULL },
-	{ "content", LenContent, OffsetContent, ValidContent, NULL },
+	//{ "datatype", LenDatatype, OffsetDatatype, ValidDatatype, NULL },
+	{ "content", LenContent, OffsetContent, ValidContent, ExplainContent },
 };
 	
 
 static const PcutItem kCutItemsPattern[kThisCutNum] = {
-	PCUT_ITEM_NO_SUB(&kCutFix[kP2DoubleLongUnsignedCutIxDatatype]),
+	//PCUT_ITEM_NO_SUB(&kCutFix[kP2DoubleLongUnsignedCutIxDatatype]),
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2DoubleLongUnsignedCutIxContent]),
 };
 static void PcutItemsInit(PcutItem items[kThisCutNum])
@@ -151,12 +168,14 @@ cp_t P2DoubleLongUnsignedPcutValid(const P2DoubleLongUnsignedPcut *m)
 	ifer(PcutValid(&m->base));
 	return 0;
 }
+/*
 void P2DoubleLongUnsignedPcutConfigDatatypeExist(P2DoubleLongUnsignedPcut *m, bool exist)
 {
 	dve(P2DoubleLongUnsignedPcutValid(m));
 	m->datatype_exist = exist;
 	return;
 }
+*/
 
 cp_t P2DoubleLongUnsignedPcutOpenBase(Pcut *base)
 {
@@ -170,7 +189,7 @@ cp_t P2DoubleLongUnsignedPcutCloseBase(Pcut *base)
 }
 //}}}
 
-
+#if 0
 //{{{ cut-datatype
 // 有数据类型的pcut
 cp_t P2DoubleLongUnsignedDatatypePcutOpen(P2DoubleLongUnsignedPcut *m)
@@ -191,9 +210,11 @@ cp_t P2DoubleLongUnsignedDatatypePcutValid(const P2DoubleLongUnsignedPcut *m)
 	return 0;
 }
 //}}}
+#endif
 
 
 //{{{ fill_by_string
+#define kP2DoubleLongUnsignedDatatypeOffset		(0)
 typedef struct 
 {
 	PfillItem base;

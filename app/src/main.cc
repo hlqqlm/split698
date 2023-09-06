@@ -81,7 +81,8 @@ int main()
 	// std::string line = "683500430502000020114310f42b10001105020003001002002000020020040200000110087406efe4e8900cda5d3ec56df93d3a2b8b16";
 	std::string line;
 
-	while (std::getline(std::cin, line) && !line.empty()) {
+	//while (std::getline(std::cin, line) && !line.empty()) {
+	while (std::getline(std::cin, line)) {
 		const std::string only_hex_char = Filter(line) ;
 		const std::string mem = HexStr2Mem(only_hex_char);
 		printf_hex_ex("rx: ", "\r\n", mem.data(), mem.size(), "");

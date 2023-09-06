@@ -80,6 +80,7 @@ static cp_t NvarClose(P2ArrayPcut *m)
 //}}}
 
 
+#if 0
 //{{{ datatype
 static int DatatypeSize(const char *whole) 
 {
@@ -100,6 +101,7 @@ static cp_t ValidDatatype(Pcut *cut, int ix, const char *whole)
 	return 0;
 }
 //}}}
+#endif
 
 
 //{{{ var_len
@@ -190,14 +192,14 @@ int P2ArrayNum(const char *whole)
 // 固定部分
 static const PcutItemFix kCutFix[kThisCutNum] = {
 	// name len offset valid explain
-	{ kP2ArrayNameDatatype, LenDatatype, OffsetDatatype, ValidDatatype, NULL },
+	//{ kP2ArrayNameDatatype, LenDatatype, OffsetDatatype, ValidDatatype, NULL },
 	{ kP2ArrayNameVarlen, LenVarlen, OffsetVarlen, ValidVarlen, ExplainVarlen },
 	{ kP2ArrayNameContent, LenContent, OffsetContent, ValidContent, NULL },
 };
 	
 
 static const PcutItem kCutItemsPattern[kThisCutNum] = {
-	PCUT_ITEM_NO_SUB(&kCutFix[kP2ArrayCutIxDatatype]),
+	//PCUT_ITEM_NO_SUB(&kCutFix[kP2ArrayCutIxDatatype]),
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2ArrayCutIxVarlen]),
 	PCUT_ITEM_NO_SUB(&kCutFix[kP2ArrayCutIxContent]),
 };
@@ -278,6 +280,7 @@ cp_t P2ArrayPcutIxValid(P2ArrayPcut *m, int ix, const char *whole)
 
 
 //{{{ fill
+#define kP2ArrayDatatypeOffset		(0)
 typedef struct 
 {
 	PfillItem base;

@@ -19,12 +19,13 @@
 
 // datatype
 // datatype，如果是在“数据类型定义”中，则没有datatype
-#define kP2ArrayDatatypeOffset					(0)
-#define kP2ArrayDatatypeSize					(kDlt698DatatypeSize)
+//#define kP2ArrayDatatypeOffset					(0)
+//#define kP2ArrayDatatypeSize					(kDlt698DatatypeSize)
 
 // var_len
 // 长度是变长的，按照标准编码： DL/T 790.6-2010  采用配电线载波系统的配电自动化 第6部分 A-XDR编码规则	
-#define kP2ArrayVarlenOffset					(kP2ArrayDatatypeOffset + kP2ArrayDatatypeSize)
+//#define kP2ArrayVarlenOffset					(kP2ArrayDatatypeOffset + kP2ArrayDatatypeSize)
+#define kP2ArrayVarlenOffset					(0)
 #define kP2ArrayVarlenSize(_varlen_size)		(_varlen_size)
 
 // content
@@ -55,7 +56,7 @@ int P2ArrayNum(const char *whole);
 // 各部分索引号
 typedef enum
 {
-	kP2ArrayCutIxDatatype,
+//	kP2ArrayCutIxDatatype,
 	kP2ArrayCutIxVarlen,
 	kP2ArrayCutIxContent,
 	kP2ArrayCutNum				

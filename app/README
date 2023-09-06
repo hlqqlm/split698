@@ -59,6 +59,10 @@ Saves result into text file
 	echo "frame" | ./split698 | tee result.txt
 	cat result.txt
 
+Split frames that are from log file
+
+	cat my.log | ./split698 | tee result.txt
+
 Split multiplies frames, input frames one by one
 
 	./split698
