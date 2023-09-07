@@ -93,6 +93,24 @@ void Dlt698Uint32Mem(char *mem, uint32_t value)
 //}}}
 
 
+//{{{ oi
+// 698报文转换成oi
+OiT Dlt698Mem2Oi(const char mem[])
+{
+	const unsigned char * const um = (const unsigned char *)mem;
+	OiT oi = (OiT)(um[0]) << 8;
+	oi += (OiT)(um[1]) ;
+	return oi;
+	//return Dlt698Uint32((const unsigned char *)mem);
+}
+void Dlt698Oi2Mem(char mem[OI_MEM_SIZE], OiT oi)
+{
+	mem[0] = (uint8_t)((oi >> 8) & 0xff);
+	mem[1] = (uint8_t)(oi & 0xff);
+}
+//}}}
+
+
 //{{{ oad
 // 698报文转换成oad
 OadT Dlt698Mem2Oad(const char mem[])
@@ -473,11 +491,12 @@ cp_t Dlt698TimeInRange(const Dlt698Time &time, const Dlt698Time &start, const Dl
 
 
 //{{{ bit-string
-int Qdlt698BitStringContentBit(const unsigned char *mem)
+int Qdlt698BitStringContentBit(const char *mem)
 {
-	return mem[0];
+	return VariableLenIntValue(mem);
+	// return mem[0];
 }
-int Qdlt698BitStringContentByte(const unsigned char *mem)
+int Qdlt698BitStringContentByte(const char *mem)
 {
 	const int bit = Qdlt698BitStringContentBit(mem);
 	const int tail = (0 == (bit % 8)) ? 0 : 1;
@@ -485,22 +504,23 @@ int Qdlt698BitStringContentByte(const unsigned char *mem)
 	return byte;
 }
 // 长度域字节数
-int Qdlt698BitStringLenByte(const unsigned char *mem)
+int Qdlt698BitStringLenByte(const char *mem)
 {
-	return 1;
+	return VariableLenIntByteNum(*mem);
+	// return 1;
 }
-int Qdlt698BitStringLenContentByte(const unsigned char *mem)
+int Qdlt698BitStringLenContentByte(const char *mem)
 {
 	return Qdlt698BitStringLenByte(mem) + Qdlt698BitStringContentByte(mem);
 }
-int Qdlt698BitStringParse(unsigned char *dst, int dst_size, const unsigned char *mem)
+int Qdlt698BitStringParse(char *dst, int dst_size, const char *mem)
 {
 	const int byte = Qdlt698BitStringContentByte(mem);
 	// const int copy = min(byte, dst_size);
 	const int copy = byte > dst_size ? dst_size : byte;
 
 	const int len_byte = Qdlt698BitStringLenByte(mem);
-	const unsigned char *bit_start = mem + len_byte;
+	const char *bit_start = mem + len_byte;
 	memcpy(dst, bit_start, copy);
 	return copy;
 }

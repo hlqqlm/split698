@@ -51,16 +51,11 @@ date 26 octet-string（SIZE（5））
 */
 	kDlt698DataTypeTime = 27,		// time 27 octet-string（SIZE（3））
 	kDlt698DataTypeDatetimeS = 28,		// date_time_s 28 octet-string（SIZE（7））
-	/*
-保留 29-79
-OI 80 见 0
-*/
+	/* 保留 29-79 */
+	kDlt698DataTypeOi = 80,			// OI 80 见 0
 	kDlt698DataTypeOad = 81,		// OAD 81 见 0
 	kDlt698DataTypeRoad = 82,		// ROAD 82 见 0
 /*
-Q/GDW XXXXX—XXXX
-15
-类型描述 标记 定义 数值范围
 OMD 83 见 0
 TI 84 见 0
 */
@@ -101,12 +96,20 @@ typedef uint8_t RelaysSwitchStatusT;	// 所有继电器开关状态, 0合1分, T
 
 // int
 #define kDlt698UnsignedSize				(1)
+#define kDlt698IntegerSize				(1)
 #define kDlt698LongUnsignedSize			(2)
 #define kDlt698DoubleLongUnsignedSize	(4)
 uint16_t Dlt698Uint16(const char *mem);
 uint32_t Dlt698Uint32(const char *mem);
 void Dlt698Uint16Mem(char *mem, uint16_t value);
 void Dlt698Uint32Mem(char *mem, uint32_t value);
+
+// oi
+#define OI_MEM_SIZE			(2)
+#define kDlt698OiInvalid	(0xffff)
+OiT Dlt698Mem2Oi(const char mem[]);
+void Dlt698Oi2Mem(char mem[OI_MEM_SIZE], OiT oi);
+
 
 // oad
 #define OAD_MEM_SIZE		(4)
@@ -250,15 +253,15 @@ cp_t Dlt698TimeInRange(const Dlt698Time &time, const Dlt698Time &start, const Dl
 // 示例：04 08 c0 类型4,8bit
 // 这里只考虑长度为一字节情况。
 // bit数
-int Qdlt698BitStringContentBit(const unsigned char *mem);
+int Qdlt698BitStringContentBit(const char *mem);
 // 字节数
-int Qdlt698BitStringContentByte(const unsigned char *mem);
+int Qdlt698BitStringContentByte(const char *mem);
 // 长度域字节数
-int Qdlt698BitStringLenByte(const unsigned char *mem);
+int Qdlt698BitStringLenByte(const char *mem);
 // 长度域 + 内容域字节数
-int Qdlt698BitStringLenContentByte(const unsigned char *mem);
+int Qdlt698BitStringLenContentByte(const char *mem);
 // 将bit位拷贝到dst，返回拷贝的长度。如果dst_size小于mem字节数，只拷贝前面一部分。
-int Qdlt698BitStringParse(unsigned char *dst, int dst_size, const unsigned char *mem);
+int Qdlt698BitStringParse(char *dst, int dst_size, const char *mem);
 
 
 

@@ -31,8 +31,11 @@ DLT698_45 data choice 变化部分报文解析
 // var
 #include "p2_null.h"
 #include "p2_array.h"
+#include "p2_bit_string.h"
 #include "p2_double_long.h"
 #include "p2_double_long_unsigned.h"
+#include "p2_unsigned.h"
+#include "p2_integer.h"
 #include "p2_long_unsigned.h"
 #include "p2_long64.h"
 #include "p2_enum.h"
@@ -42,6 +45,7 @@ DLT698_45 data choice 变化部分报文解析
 #include "p2_datetime.h"
 #include "p2_time.h"
 #include "p2_datetimes.h"
+#include "p2_oi.h"
 #include "p2_oad.h"
 #include "p2_road.h"
 #include "p2_tsa.h"
@@ -117,16 +121,11 @@ date 26 octet-string（SIZE（5））
 */
 	{ kDlt698DataTypeTime, "time" },		// time 27 octet-string（SIZE（3））
 	{ kDlt698DataTypeDatetimeS, "date_time_s" },		// date_time_s 28 octet-string（SIZE（7））
-	/*
-保留 29-79
-OI 80 见 0
-*/
+	/* 保留 29-79 */
+	{ kDlt698DataTypeOi, "oi" },		// OI 80 见 0
 	{ kDlt698DataTypeOad, "oad" },		// OAD 81 见 0
 	{ kDlt698DataTypeRoad, "road" },		// ROAD 82 见 0
 /*
-Q/GDW XXXXX—XXXX
-15
-类型描述 标记 定义 数值范围
 OMD 83 见 0
 TI 84 见 0
 */
@@ -173,16 +172,20 @@ cp_t P2DataChoiceValid(uint8_t choice)
 static const P2NullPcut kP2NullPcutVar = kP2NullPcutDef;
 static const P2ArrayPcut kP2ArrayPcutVar = kP2ArrayPcutDef;
 static const P2StructPcut kP2StructPcutVar = kP2StructPcutDef;
+static const P2OctetStringPcut kP2OctetStringPcutVar = kP2OctetStringPcutDef;
 static const P2DoubleLongPcut kP2DoubleLongPcutVar = kP2DoubleLongPcutDef;
 static const P2DoubleLongUnsignedPcut kP2DoubleLongUnsignedPcutVar = kP2DoubleLongUnsignedPcutDef;
+static const P2IntegerPcut kP2IntegerPcutVar = kP2IntegerPcutDef;
+static const P2UnsignedPcut kP2UnsignedPcutVar = kP2UnsignedPcutDef;
 static const P2LongUnsignedPcut kP2LongUnsignedPcutVar = kP2LongUnsignedPcutDef;
 static const P2Long64Pcut kP2Long64PcutVar = kP2Long64PcutDef;
 static const P2EnumOnePcut kP2EnumOnePcutVar = kP2EnumOnePcutDef;
-static const P2OctetStringPcut kP2OctetStringPcutVar = kP2OctetStringPcutDef;
+static const P2BitStringPcut kP2BitStringPcutVar = kP2BitStringPcutDef;
 static const P2VisibleStringPcut kP2VisibleStringPcutVar = kP2VisibleStringPcutDef;
 static const P2DatetimePcut kP2DatetimePcutVar = kP2DatetimePcutDef;
 static const P2TimePcut kP2TimePcutVar = kP2TimePcutDef;
 static const P2DatetimesPcut kP2DatetimesPcutVar = kP2DatetimesPcutDef;
+static const P2OiPcut kP2OiPcutVar = kP2OiPcutDef;
 static const P2OadPcut kP2OadPcutVar = kP2OadPcutDef;
 static const P2RoadPcut kP2RoadPcutVar = kP2RoadPcutDef;
 static const P2TsaPcut kP2TsaPcutVar = kP2TsaPcutDef;
@@ -194,7 +197,7 @@ static const PcutFactoryInfo kVarFactoryInfoList[kP2DataTypeNum] = {
 	{ "array", sizeof(kP2ArrayPcutVar), &kP2ArrayPcutVar, P2ArrayPcutOpenBase, P2ArrayPcutCloseBase },	// array 1 SEQUENCE OF Data（见 7.3.1 ） 数组的元素在对象属性或方法的描述中定义
 	{ "structure", sizeof(kP2StructPcutVar), &kP2StructPcutVar, P2StructPcutOpenBase, P2StructPcutCloseBase },	// structure 2 SEQUENCE OF Data（见 7.3.1 ） 结构的元素在对象属性或方法的描述中定义
 	kPcutFactoryInfoDef("bool"),	// bool 3 布尔值 1 或 0
-	kPcutFactoryInfoDef("bit-string"),	// bit-string 4 位串
+	{ "bit-string", sizeof(kP2BitStringPcutVar), &kP2BitStringPcutVar, P2BitStringPcutOpenBase, P2BitStringPcutCloseBase },	// bit-string 4 位串
 	{ "double-long", sizeof(kP2DoubleLongPcutVar), &kP2DoubleLongPcutVar, P2DoubleLongPcutOpenBase, P2DoubleLongPcutCloseBase },	// double-long 5 32 位整数 -2^31…2^31-1
 	{ "double-long-unsigned", sizeof(kP2DoubleLongUnsignedPcutVar), &kP2DoubleLongUnsignedPcutVar, P2DoubleLongUnsignedPcutOpenBase, P2DoubleLongUnsignedPcutCloseBase },	//double-long-unsigned 6 32 位正整数 0…2^32-1
 											// 保留 7-8
@@ -206,9 +209,9 @@ UTF8-string 12 UTF-8 编码的字符串
 保留 13-14
 */
 
-	kPcutFactoryInfoDef("integer"),		// integer 15 8 位整数 -128…127
+	{ "integer", sizeof(kP2IntegerPcutVar), &kP2IntegerPcutVar, P2IntegerPcutOpenBase, P2IntegerPcutCloseBase },	// integer 15 8 位整数 -128…127
 	kPcutFactoryInfoDef("long"),			// long 16 16 位整数 -32768…32767
-	kPcutFactoryInfoDef("unsigned"),		// unsigned 17 8 位正整数 0…255
+	{ "unsigned", sizeof(kP2UnsignedPcutVar), &kP2UnsignedPcutVar, P2UnsignedPcutOpenBase, P2UnsignedPcutCloseBase },	// unsigned 17 8 位正整数 0…255
 	{ "long-unsigned", sizeof(kP2LongUnsignedPcutVar), &kP2LongUnsignedPcutVar, P2LongUnsignedPcutOpenBase, P2LongUnsignedPcutCloseBase },						// long-unsigned 18 16 位正整数 0…65535
 
 	/*
@@ -229,10 +232,8 @@ date 26 octet-string（SIZE（5））
 */
 	{ "time", sizeof(kP2TimePcutVar), &kP2TimePcutVar, P2TimePcutOpenBase, P2TimePcutCloseBase },	// time 27 octet-string（SIZE（3））
 	{ "date_time_s", sizeof(kP2DatetimesPcutVar), &kP2DatetimesPcutVar, P2DatetimesPcutOpenBase, P2DatetimesPcutCloseBase },	// date_time_s 28 octet-string（SIZE（7））
-	/*
-保留 29-79
-OI 80 见 0
-*/
+	/* 保留 29-79 */
+	{ "oi", sizeof(kP2OiPcutVar), &kP2OiPcutVar, P2OiPcutOpenBase, P2OiPcutCloseBase },	// OI 80 见 0
 	{ "oad", sizeof(kP2OadPcutVar), &kP2OadPcutVar, P2OadPcutOpenBase, P2OadPcutCloseBase },	// OAD 81 见 0
 	{ "road", sizeof(kP2RoadPcutVar), &kP2RoadPcutVar, P2RoadPcutOpenBase, P2RoadPcutCloseBase },	// ROAD 82 见 0
 	/*

@@ -9,7 +9,7 @@
 
 
 // name
-#define kP2OadName				"double_long"
+#define kP2OadName				"oad"
 
 // offset-size
 #define kP2OadOffset			(0)

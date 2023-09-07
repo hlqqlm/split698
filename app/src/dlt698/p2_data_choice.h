@@ -69,16 +69,11 @@ date 26 octet-string（SIZE（5））
 */
 	kDlt698DataTypeIxTime,		// time 27 octet-string（SIZE（3））
 	kDlt698DataTypeIxDatetimeS,		// date_time_s 28 octet-string（SIZE（7））
-	/*
-保留 29-79
-OI 80 见 0
-*/
+	/* 保留 29-79 */
+	kDlt698DataTypeIxOi,		// OI 80 见 0
 	kDlt698DataTypeIxOad,		// OAD 81 见 0
 	kDlt698DataTypeIxRoad,		// ROAD 82 见 0
 /*
-Q/GDW XXXXX—XXXX
-15
-类型描述 标记 定义 数值范围
 OMD 83 见 0
 TI 84 见 0
 */
