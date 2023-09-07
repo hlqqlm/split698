@@ -160,7 +160,7 @@ void Dlt698TiMem(char mem[DLT698_TI_SIZE], const Dlt698Ti *ti)
 //{{{ datetimes
 cp_t Dlt698DatetimesValid(const char mem[kDlt698DatetimeSSize])
 {
-	qos_printf("Dlt698DatetimesValid todo\r\n");
+	qos_printf("Dlt698DatetimesValid todo\n");
 	return 0;
 }
 void Dlt698DatetimesValue(Dlt698DatetimeS *dts, const char mem[kDlt698DatetimeSSize])

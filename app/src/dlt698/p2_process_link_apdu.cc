@@ -64,21 +64,21 @@ static cp_t PdoLinkRequestLoginProcess(struct PdoS *doa, Pcut *cut, int ix, cons
 	const int type_mem_len = PcutIxLen(&type_enum->base, ix, whole);
 	dvb(kP2EnumSize == type_mem_len);
 
-	//qos_printf("grn_mem_len=%d\r\n", grn_mem_len);
+	//qos_printf("grn_mem_len=%d\n", grn_mem_len);
 	//printf_hex(grn_mem, grn_mem_len, " ");
-	//qos_printf("\r\n");
+	//qos_printf("\n");
 	if (kPrintPartEn)
-		printf_hex_ex("type_mem_len: ", "\r\n", type_mem, type_mem_len, "");
+		printf_hex_ex("type_mem_len: ", "\n", type_mem, type_mem_len, "");
 
 	// 解帧，得到type
 	const uint8_t type = *type_mem;
 	ifbr(kP2LinkRequestTypeEnumLogin == type);
 
 	if (kPrintPartEn)
-		qos_printf("link_request_login.type_value=%02xH\r\n", type);
+		qos_printf("link_request_login.type_value=%02xH\n", type);
 
 	
-	//qos_printf("todo: answer link_request_login\r\n");
+	//qos_printf("todo: answer link_request_login\n");
 	return 0;
 }
 //}}}
@@ -91,7 +91,7 @@ typedef struct {
 } PdoLinkRequestHeartbeat;
 static cp_t PdoLinkRequestHeartbeatProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
-	qos_printf("todo: answer link_request.heartbeat\r\n");
+	qos_printf("todo: answer link_request.heartbeat\n");
 	return 0;
 }
 //}}}
@@ -104,7 +104,7 @@ typedef struct {
 } PdoLinkRequestLogout;
 static cp_t PdoLinkRequestLogoutProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
-	qos_printf("todo: answer link_request.logout\r\n");
+	qos_printf("todo: answer link_request.logout\n");
 	return 0;
 }
 //}}}
@@ -133,7 +133,7 @@ static cp_t PdoLinkRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const cha
 	//const char * const type_mem = P2LinkRequestTypeMem(link_request_mem);
 	const char * const type_mem = PcutIxPtrConst(&lr->base, kP2LinkRequestCutIxType, link_request_mem);
 
-	//printf_hex_ex("get_request_mem: ", "\r\n", get_request_mem, get_request_mem_len, "");
+	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按link_request来解析+执行link_request_mem.
 
 
@@ -178,7 +178,7 @@ cp_t P2ProcessLinkApdu(PfillRepository *fill_repository_life, const char *apdu, 
 	ifer(PcutIxValid(&la.base, kPcutIxAll, apdu));
 	ifbr(apdu_size == PcutIxLen(&la.base, kPcutIxAll, apdu));
 
-	printf_hex_ex("\r\nlink_apdu mem: ", "\r\n", apdu, apdu_size, "");
+	printf_hex_ex("\nlink_apdu mem: ", "\n", apdu, apdu_size, "");
 	PcutAllPrint(&la.base, 0, apdu);
 
 

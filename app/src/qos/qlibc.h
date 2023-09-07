@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+#define LINEND		"\n"
 #define qos_printf 	printf
 
 

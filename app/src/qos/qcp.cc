@@ -146,7 +146,7 @@ void DeDefaultDo(cp_t cp, const char *msg)
 	// std::cout << msg  << " " << CpStr(cp) << std::endl;
 	//std::cout << CpStr(cp) << std::endl;
 	char str_cp[CPSTR_SIZE];
-	qos_printf("%s %s\r\n", msg, CpStr(str_cp, cp));
+	qos_printf("%s %s" LINEND, msg, CpStr(str_cp, cp));
 	return;
 }
 // 打印调用位置
@@ -156,7 +156,7 @@ void DeCall(cp_t ret_cp, cp_t call_cp, const char *msg)
 	//std::cout << CpStr(cp) << std::endl;
 	char buf_ret_cp[CPSTR_SIZE];
 	char buf_call_cp[CPSTR_SIZE];
-	qos_printf("%s%s, call at %s\r\n", msg, CpStr(buf_ret_cp, ret_cp), CpStr(buf_call_cp, call_cp));
+	qos_printf("%s%s, call at %s" LINEND, msg, CpStr(buf_ret_cp, ret_cp), CpStr(buf_call_cp, call_cp));
 	return;
 }
 //}}}
@@ -182,7 +182,7 @@ void dve_do(cp_t e, cp_t call_cp)
 
 	char str_e[CPSTR_SIZE];
 	char str_call_cp[CPSTR_SIZE];
-	qos_printf("dve() FAIL, call at %s, error at %s.\r\n", CpStr(str_call_cp, call_cp), CpStr(str_e, e));
+	qos_printf("dve() FAIL, call at %s, error at %s." LINEND, CpStr(str_call_cp, call_cp), CpStr(str_e, e));
 	return;
 }
 //}}}

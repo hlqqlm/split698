@@ -34,6 +34,8 @@ DLT698_45 data choice 变化部分报文解析
 #include "p2_double_long.h"
 #include "p2_double_long_unsigned.h"
 #include "p2_long_unsigned.h"
+#include "p2_long64.h"
+#include "p2_enum.h"
 #include "p2_octet_string.h"
 #include "p2_visible_string.h"
 #include "p2_struct.h"
@@ -98,9 +100,13 @@ UTF8-string 12 UTF-8 编码的字符串
 
 /*
 保留 19
-long64 20 64 位整数 -2 63…2^63-1
+*/
+	{ kDlt698DataTypeLong64, "long64" },	// long64 20 64 位整数 -2 63…2^63-1
+	/*
 long64-unsigned 21 64 位正整数 0…2^64-1
-enum 22 枚举的元素在对象属性或方法的描述中定义 0…255
+*/
+	{ kDlt698DataTypeEnum, "enum" },	// enum 22 枚举的元素在对象属性或方法的描述中定义 0…255
+	/*
 float32 23 32 位浮点数
 float64 24 64 位浮点数
 */
@@ -169,6 +175,8 @@ static const P2StructPcut kP2StructPcutVar = kP2StructPcutDef;
 static const P2DoubleLongPcut kP2DoubleLongPcutVar = kP2DoubleLongPcutDef;
 static const P2DoubleLongUnsignedPcut kP2DoubleLongUnsignedPcutVar = kP2DoubleLongUnsignedPcutDef;
 static const P2LongUnsignedPcut kP2LongUnsignedPcutVar = kP2LongUnsignedPcutDef;
+static const P2Long64Pcut kP2Long64PcutVar = kP2Long64PcutDef;
+static const P2EnumOnePcut kP2EnumOnePcutVar = kP2EnumOnePcutDef;
 static const P2OctetStringPcut kP2OctetStringPcutVar = kP2OctetStringPcutDef;
 static const P2VisibleStringPcut kP2VisibleStringPcutVar = kP2VisibleStringPcutDef;
 static const P2DatetimePcut kP2DatetimePcutVar = kP2DatetimePcutDef;
@@ -203,9 +211,13 @@ UTF8-string 12 UTF-8 编码的字符串
 
 	/*
 保留 19
-long64 20 64 位整数 -2 63…2^63-1
+*/
+	{ "long64", sizeof(kP2Long64PcutVar), &kP2Long64PcutVar, P2Long64PcutOpenBase, P2Long64PcutCloseBase },						// long64 20 64 位整数 -2 63…2^63-1
+	/*
 long64-unsigned 21 64 位正整数 0…2^64-1
-enum 22 枚举的元素在对象属性或方法的描述中定义 0…255
+*/
+	{ "enum", sizeof(kP2EnumOnePcutVar), &kP2EnumOnePcutVar, P2EnumOnePcutOpenBase, P2EnumOnePcutCloseBase },						// enum 22 枚举的元素在对象属性或方法的描述中定义 0…255
+	/*
 float32 23 32 位浮点数
 float64 24 64 位浮点数
 */

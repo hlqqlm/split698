@@ -84,8 +84,8 @@ OadT P2GetRequestNormalOad(const char *whole)
 {
 	const char *mem = whole + kP2GetRequestNormalOadOffset;
 	const OadT oad = Dlt698Mem2Oad(mem);
-printf_hex_ex("oad_mem: ", "\r\n", mem, 4, "");
-qos_printf("oad_out=%08x\r\n", oad);
+printf_hex_ex("oad_mem: ", "\n", mem, 4, "");
+qos_printf("oad_out=%08x\n", oad);
 	return oad;
 }
 

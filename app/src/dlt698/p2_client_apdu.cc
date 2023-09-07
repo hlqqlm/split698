@@ -165,7 +165,7 @@ static cp_t TestPcut(void)
 	const uint8_t piid = P2GetRequestNormalPiid(mem_get_request_normal);
 	ifbr(0 == piid);
 	const OadT oad = P2GetRequestNormalOad(mem_get_request_normal);
-	//qos_printf("oad=%08x\r\n", oad);
+	//qos_printf("oad=%08x\n", oad);
 	ifbr(0x40010200 == oad);
 
 	if (PRINT_PART_IN_TEST_EN)
@@ -209,7 +209,7 @@ static cp_t TestQpack(void)
 
 	ifer(QpackDo(pack, mem, sizeof(mem)));
 	const int fill_size = QpackIxLen(pack, kQpackIxAll);
-	// qos_printf("fill_size=%d result_size=%d\r\n", fill_size, result_size);
+	// qos_printf("fill_size=%d result_size=%d\n", fill_size, result_size);
 	ifbr(fill_size == result_size);
 	ifbr(0 == memcmp(mem, result, result_size));
 

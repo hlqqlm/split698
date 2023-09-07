@@ -138,7 +138,7 @@ static cp_t ProcessApduCp(PfillRepository *fill_repository_life, uint8_t apdu_ch
 	}
 	else
 	{
-		qos_printf("This apdu_choice can NOT be processed. apdu_choice=%02x\r\n", apdu_choice);
+		qos_printf("This apdu_choice can NOT be processed. apdu_choice=%02x\n", apdu_choice);
 		return cph;
 	}
 
@@ -150,7 +150,7 @@ static cp_t ProcessApdu(PfillRepository *fill_repository_life, uint8_t apdu_choi
 	const int num = PfillRepositoryNum(fill_repository_life);
 	if (0 == num)
 	{
-		qos_printf("Note: No answer for this rxing frame.\r\n");
+		qos_printf("Note: No answer for this rxing frame.\n");
 		return 0;
 	}
 
@@ -196,7 +196,7 @@ static cp_t ProcessApdu(PfillRepository *fill_repository_life, uint8_t apdu_choi
 	m_tx_info.tx_size = fill_size; 
 
 	if (PRINT_FILL_EN)
-		printf_hex_ex("tx_buf: ", "\r\n", m_tx_info.tx_buf, fill_size, "");
+		printf_hex_ex("tx_buf: ", "\n", m_tx_info.tx_buf, fill_size, "");
 
 	ifer(P2PfillClose(&fill_frame));
 	return 0;
@@ -224,21 +224,21 @@ static cp_t Process(P2Process *m)
 	const int malloc_cnt_old = MallocCnt();
 	PfillRepository fill_repository_life = kPfillRepositoryDef;	// 用来调用fill的close和qfree
 #if CHECK_MEM_LEAK_EN > 0
-		qos_printf("Before process_apdu()\r\n");
+		qos_printf("Before process_apdu()\n");
 		QmemtablePrintAllGlobal();
 #endif
 	ifer(PfillRepositoryOpen(&fill_repository_life));
 	const cp_t cp = ProcessApdu(&fill_repository_life, apdu_choice, apdu, apdu_size);
 
 	if (QmemtableCheckBarrier(QmemtableGlobal()) > 0)
-		qos_printf("ERROR: Memory barrier WRONG.\r\n");
+		qos_printf("ERROR: Memory barrier WRONG.\n");
 
 	ifer(PfillRepositoryClose(&fill_repository_life));
 	const int malloc_cnt_curr = MallocCnt();
 	if (malloc_cnt_old != malloc_cnt_curr)
 	{
-		qos_printf("WARNING: Memory maybe leaked. malloc_cnt old=%d curr=%d\r\n", malloc_cnt_old, malloc_cnt_curr);
-		qos_printf("After process_apdu()\r\n");
+		qos_printf("WARNING: Memory maybe leaked. malloc_cnt old=%d curr=%d\n", malloc_cnt_old, malloc_cnt_curr);
+		qos_printf("After process_apdu()\n");
 		QmemtablePrintAllGlobal();
 	}
 
@@ -256,7 +256,7 @@ static cp_t Process(P2Process *m)
 // 方法3：增加一个电表esam卡，需要更改硬件。
 static void PlcTaskTx(const char *tx_buf, int tx_size)
 {
-	printf_hex_ex("tx: ", "\r\n", tx_buf, tx_size, "");
+	printf_hex_ex("tx: ", "\n", tx_buf, tx_size, "");
 	return;
 }
 cp_t P2ProcessInput(P2Process *m, const char *rx_buf, int rx_len, char *tx_buf, int tx_buf_size)
@@ -302,8 +302,8 @@ cp_t P2ProcessInput(P2Process *m, const char *rx_buf, int rx_len, char *tx_buf, 
 			if (0 != cp)
 			{
 				char cp_buf[CPSTR_SIZE];
-				qos_printf("Hplc process frame FAILED. at %s\r\n", CpStr(cp_buf, cp));
-				printf_hex_ex("the failed rx: ", "\r\n", rx_buf, rx_len, "");
+				qos_printf("Hplc process frame FAILED. at %s\n", CpStr(cp_buf, cp));
+				printf_hex_ex("the failed rx: ", "\n", rx_buf, rx_len, "");
 				// 这里失败，会导致main()返回负值，从而知道解析错误
 				return cp;
 			}

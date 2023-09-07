@@ -79,7 +79,7 @@ void QmemtablePrintNormal(const struct QmemtableS *m, const char *action, int ix
 {
 	qos_printf("Memtable: %s,%d,<", action, ix);
 	QmemtableItemPrint(item);
-	qos_printf(">,%d\r\n", QarrayCount(&m->array));
+	qos_printf(">,%d" LINEND, QarrayCount(&m->array));
 	return;
 }
 static void Print(const Qmemtable *m, const char *action, int ix, const QmemtableItem *item)
@@ -95,13 +95,13 @@ QmemtablePrintT QmemtableSetPrint(Qmemtable *m, QmemtablePrintT print)
 void QmemtablePrintAll(const Qmemtable *m)
 {
 	const int num = QarrayCount(&m->array);
-	qos_printf("memtable total %d, malloc_cnt=%d:\r\n", num, MallocCnt());
+	qos_printf("memtable total %d, malloc_cnt=%d:" LINEND, num, MallocCnt());
 	for (int i = 0; i < num; ++i)
 	{
 		const QmemtableItem *item = QarrayItemIxConst(&m->array, i);
 		qos_printf("%d\t", i);
 		QmemtableItemPrint(item);
-		qos_printf("\r\n");
+		qos_printf(LINEND);
 	}
 }
 //}}}
@@ -151,7 +151,7 @@ void *QmemtableRegister(Qmemtable *m, size_t size, cp_t cp_malloc)
 	{
 		char cp_buf[CPSTR_SIZE];
 		CpStr(cp_buf, cp);
-		qos_printf("ERROR: QmemtableRegister failed. at %s\r\n", cp_buf);
+		qos_printf("ERROR: QmemtableRegister failed. at %s" LINEND, cp_buf);
 		return item.ptr;
 	}
 

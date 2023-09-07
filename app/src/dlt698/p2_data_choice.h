@@ -53,9 +53,13 @@ UTF8-string 12 UTF-8 编码的字符串
 
 /*
 保留 19
-long64 20 64 位整数 -2 63…2^63-1
+*/
+	kDlt698DataTypeIxLong64,	// long64 20 64 位整数 -2 63…2^63-1
+	/*
 long64-unsigned 21 64 位正整数 0…2^64-1
-enum 22 枚举的元素在对象属性或方法的描述中定义 0…255
+*/
+	kDlt698DataTypeIxEnum,	// enum 22 枚举的元素在对象属性或方法的描述中定义 0…255
+	/*
 float32 23 32 位浮点数
 float64 24 64 位浮点数
 */

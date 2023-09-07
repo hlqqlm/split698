@@ -221,7 +221,7 @@ static cp_t TestFillPos(void)
 	char mem[5] = { 0 };
 	ifer(PfillDo(m, 0, mem, 5));
 	ifbr(5 == PfillIxLen(m, kPfillIxAll));
-	// printf_hex_ex("mem:", "\r\n", mem, 5, "");
+	// printf_hex_ex("mem:", "\n", mem, 5, "");
 	ifbr(0 == memcmp(mem, whole, 5));
 
 	ifer(PfillClose(m));

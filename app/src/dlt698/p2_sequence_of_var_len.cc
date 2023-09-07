@@ -189,11 +189,11 @@ static cp_t FillItemProcessNum(struct PfillS *fill, int level, int ix, char *mem
 cp_t P2SequenceOfVarLenFillInit(Pfill *m, PfillRepository *fill_repository)
 {
 	const int num = PfillRepositoryNum(fill_repository);
-	// qos_printf("fill_repository num=%d sizeof(PfillItem)=%d sizeof(FillItemNum)=%d\r\n", num, sizeof(PfillItem), sizeof(FillItemNum));
+	// qos_printf("fill_repository num=%d sizeof(PfillItem)=%d sizeof(FillItemNum)=%d\n", num, sizeof(PfillItem), sizeof(FillItemNum));
 	const FillItemNum kFiNum = kFillItemNumDef(num);
-	// qos_printf("kFiNum.num=%d\r\n", kFiNum.num);
+	// qos_printf("kFiNum.num=%d\n", kFiNum.num);
 	const FillItemNum *fi_num = (const FillItemNum *)PfillItemFactory(m, sizeof(kFiNum), &kFiNum);
-	// qos_printf("fi_num=%p num=%d\r\n", fi_num, fi_num->num);
+	// qos_printf("fi_num=%p num=%d\n", fi_num, fi_num->num);
 	ifbr(NULL != fi_num);
 
 	for (int i = 0; i < num; ++i)

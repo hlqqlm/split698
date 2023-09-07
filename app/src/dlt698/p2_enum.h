@@ -76,9 +76,25 @@ cp_t P2EnumPcutValid(const P2EnumPcut *m);
 uint16_t P2EnumPcutLastEnum(P2EnumPcut *m);
 // 某个enum选择后，要执行的动作
 cp_t P2EnumDoTableSet(P2EnumPcut *m, Pdo * const *do_table);
+//}}}
 
 
+//{{{ enum-one
+// 在data解析时，遇到的enum，只有一个字节长
+typedef struct
+{
+	P2EnumPcut base;
+} P2EnumOnePcut;
+#define kP2EnumOnePcutDef {			\
+	kP2EnumPcutDef					\
+}
 
+cp_t P2EnumOnePcutOpen(P2EnumOnePcut *m);
+cp_t P2EnumOnePcutClose(P2EnumOnePcut *m);
+cp_t P2EnumOnePcutValid(const P2EnumOnePcut *m);
+
+cp_t P2EnumOnePcutOpenBase(Pcut *base);
+cp_t P2EnumOnePcutCloseBase(Pcut *base);
 //}}}
 
 

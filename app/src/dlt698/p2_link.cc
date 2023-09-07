@@ -157,13 +157,13 @@ void P2LinkFramePrint(P2Link *m)
 
 	// 下面补充重要信息
 #if 0	// 已经由pcut.Explain代替
-	qos_printf("\r\nMore explain:\r\n");
+	qos_printf("\nMore explain:\n");
 	qos_printf("control: ");
 	P2ControlPrint(control);
-	qos_printf("\r\n");
+	qos_printf("\n");
 
 	const uint8_t apdu_choice = P2LudChoice(frame);
-	qos_printf("apdu_choice: %02x\r\n", apdu_choice);
+	qos_printf("apdu_choice: %02x\n", apdu_choice);
 #endif
 	return;
 }
@@ -318,7 +318,7 @@ cp_t P2LinkPrintRxErrorDisable(const P2Link *m)
 #if TEST_EN > 0
 static cp_t TestOneValidFrame(void)
 {
-	// qos_printf("dlt698_45_link will test one valid frame.\r\n");
+	// qos_printf("dlt698_45_link will test one valid frame.\n");
 
 	// 68 17 00 43 45 01 23 45 67 89 0a 00 7a 4e 05 01 00 40 01 02 00 00 ed 03 16
 	const char frame[] = "\x68\x17\x00\x43\x45\x01\x23\x45\x67\x89\x0a\x00\x7a\x4e\x05\x01\x00\x40\x01\x02\x00\x00\xed\x03\x16";
@@ -357,12 +357,12 @@ static cp_t TestOneValidFrame(void)
 	ifbr(0 != P2LinkFrameValid(&m));
 
 	ifer(P2LinkClose(&m));
-	// qos_printf("dlt698_45_link one valid frame ok.\r\n");
+	// qos_printf("dlt698_45_link one valid frame ok.\n");
 	return 0;
 }
 static cp_t TestTwoValidFrame(void)
 {
-	// qos_printf("dlt698_45_link will test two valid frame.\r\n");
+	// qos_printf("dlt698_45_link will test two valid frame.\n");
 
 	// 68 17 00 43 45 01 23 45 67 89 0a 00 7a 4e 05 01 00 40 01 02 00 00 ed 03 16
 	const char two_frame[] = "\x68\x17\x00\x43\x45\x01\x23\x45\x67\x89\x0a\x00\x7a\x4e\x05\x01\x00\x40\x01\x02\x00\x00\xed\x03\x16" "\x68\x17\x00\x43\x45\x01\x23\x45\x67\x89\x0a\x00\x7a\x4e\x05\x01\x00\x40\x01\x02\x00\x00\xed\x03\x16";
@@ -397,12 +397,12 @@ static cp_t TestTwoValidFrame(void)
 	ifbr(0 != P2LinkFrameValid(&m));
 
 	ifer(P2LinkClose(&m));
-	// qos_printf("dlt698_45_link two valid frame ok.\r\n");
+	// qos_printf("dlt698_45_link two valid frame ok.\n");
 	return 0;
 }
 static cp_t TestHcsInvalidFrame(void)
 {
-	// qos_printf("dlt698_45_link will test hcs invalid frame.\r\n");
+	// qos_printf("dlt698_45_link will test hcs invalid frame.\n");
 
 	// 68 17 00 43 45 01 23 45 67 89 0a 00 7a 4e 05 01 00 40 01 02 00 00 ed 03 16
 	const char frame[] = "\x68\x17\x00\x43\x45\x01\x23\x45\x67\x89\x0a\x00\x8a\x4e\x05\x01\x00\x40\x01\x02\x00\x00\xed\x03\x16";
@@ -424,12 +424,12 @@ static cp_t TestHcsInvalidFrame(void)
 	ifbr(0 == P2LinkRxSize(&m));
 
 	ifer(P2LinkClose(&m));
-	// qos_printf("dlt698_45_link hcs invalid frame ok.\r\n");
+	// qos_printf("dlt698_45_link hcs invalid frame ok.\n");
 	return 0;
 }
 static cp_t TestTimeout(void)
 {
-	// qos_printf("dlt698_45_link will test timeout.\r\n");
+	// qos_printf("dlt698_45_link will test timeout.\n");
 
 	// 68 17 00 43 45 01 23 45 67 89 0a 00 7a 4e 05 01 00 40 01 02 00 00 ed 03 16
 	const char frame[] = "\x68\x17\x00\x43\x45\x01\x23\x45\x67\x89\x0a\x00\x7a\x4e\x05\x01\x00\x40\x01\x02\x00\x00\xed\x03\x16";
@@ -473,7 +473,7 @@ static cp_t TestTimeout(void)
 	ifbr(P2LinkUpdate(&m));
 
 	ifer(P2LinkClose(&m));
-	// qos_printf("dlt698_45_link timeout ok.\r\n");
+	// qos_printf("dlt698_45_link timeout ok.\n");
 	return 0;
 }
 

@@ -239,7 +239,7 @@ static cp_t TestPfill(void)
 
 	Pfill fill_a_result_normal = kPfillDef;
 	ifer(PfillOpen(&fill_a_result_normal));
-//qos_printf("oad=%08x\r\n", grn_value.oad);
+//qos_printf("oad=%08x\n", grn_value.oad);
 	ifer(P2AResultNormalFillInit(&fill_a_result_normal, grn_value.oad, &fill_get_result));
 	*/
 
@@ -265,7 +265,7 @@ static cp_t TestPfill(void)
 	Pfill fill_sequence_of_a_result_normal = kPfillDef;
 	ifer(PfillOpen(&fill_sequence_of_a_result_normal));
 	// QarraySetPrint(&fill_sequence_of_a_result_normal.array, QarrayPrintFull);
-	//qos_printf("oad=%08x\r\n", grn_value.oad);
+	//qos_printf("oad=%08x\n", grn_value.oad);
 	ifer(P2SequenceOfVarLenFillInit(&fill_sequence_of_a_result_normal, &fill_repository_a_result_normal));
 
 
@@ -295,7 +295,7 @@ static cp_t TestPfill(void)
 	const int fill_size = PfillIxLen(&fill_server_apdu, kPfillIxAll);
 
 	if (TEST_PRINT_FILL_EN)
-		printf_hex_ex("mem: ", "\r\n", mem, fill_size, "");
+		printf_hex_ex("mem: ", "\n", mem, fill_size, "");
 
 	const char expect[] = "\x85\x02\x05\x03\x00\x10\x02\x00\x01\x09\x01\x31\x20\x00\x02\x00\x01\x09\x02\x32\x33\x20\x04\x02\x00\x01\x09\x03\x34\x35\x36\x00\x00";
 	//85 02 05 03 00 10 02 00 01 09 01 31 20 00 02 00 01 09 02 32 33 20 04 02 00 01 09 03 34 35 36 00 00 

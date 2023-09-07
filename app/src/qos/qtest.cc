@@ -38,11 +38,11 @@ static cp_t QtestCp(const char *name, const QtestItem *item_list, int num, int v
 	for (int i = 0; i < num; ++i)
 	{
 		if (verbose > 2)
-			qos_printf( "Test item will start. ix=%d/%d name=%s.\r\n", i + 1, num, name);
+			qos_printf( "Test item will start. ix=%d/%d name=%s." LINEND, i + 1, num, name);
 		const QtestItem item = item_list[i];
 		const cp_t cp = item();
 		if (verbose > 2)
-			qos_printf( "Test item is end. ix=%d/%d name=%s\r\n", i + 1, num, name);
+			qos_printf( "Test item is end. ix=%d/%d name=%s" LINEND, i + 1, num, name);
 		ifer(cp);
 	}
 	return 0;
@@ -52,7 +52,7 @@ static cp_t QtestCpNTime(const char *name, int run_times, const QtestItem *item_
 	for (int i = 0; i < run_times; ++i)
 	{
 		if (verbose > 1)
-			qos_printf("Testing. times=%d/%d name=%s.\r\n", i+1, run_times, name);
+			qos_printf("Testing. times=%d/%d name=%s." LINEND, i+1, run_times, name);
 		ifer(QtestCp(name, item_list, num, verbose));
 	}
 	return 0;
@@ -60,16 +60,16 @@ static cp_t QtestCpNTime(const char *name, int run_times, const QtestItem *item_
 cp_t QtestTest(const char *name, int run_times, const QtestItem *item_list, int num, int verbose)
 {
 	if (verbose > 0)
-		qos_printf("Unittest is loading. name=%s run_times=%d item_num=%d\r\n", name, run_times, num);
+		qos_printf("Unittest is loading. name=%s run_times=%d item_num=%d" LINEND, name, run_times, num);
 	const cp_t cp = QtestCpNTime(name, run_times, item_list, num, verbose);
 	if (0 != cp)
 	{
 		char cp_str[CPSTR_SIZE];
-		qos_printf("Test FAILED. name=%s cp=%s\r\n", name, CpStr(cp_str, cp));
+		qos_printf("Test FAILED. name=%s cp=%s" LINEND, name, CpStr(cp_str, cp));
 	}
 	else
 		if (verbose > 0)
-			qos_printf("Test ok. name=%s\r\n", name);
+			qos_printf("Test ok. name=%s" LINEND, name);
 	return cp;
 }
 //}}}
@@ -164,9 +164,9 @@ cp_t QtestEntry(QTEST_ARG)
 	const int malloc_cnt_end = MallocCnt();
 
 	// 看堆栈情况
-	qos_printf("a=%d b=%d &b-&a=%d\r\n", a, b, &b - &a);
-	qos_printf("malloc_cnt start=%d end=%d\r\n", malloc_cnt_start, malloc_cnt_end);
-	qos_printf("\r\n\r\n\r\n\r\nQtestEntry exit ***************************************\r\n\r\n\r\n\r\n");
+	qos_printf("a=%d b=%d &b-&a=%d" LINEND, a, b, &b - &a);
+	qos_printf("malloc_cnt start=%d end=%d" LINEND, malloc_cnt_start, malloc_cnt_end);
+	qos_printf(LINEND LINEND LINEND LINEND "QtestEntry exit ***************************************" LINEND LINEND LINEND LINEND);
 	rt_thread_mdelay(1000);  
 	return cp;
 }

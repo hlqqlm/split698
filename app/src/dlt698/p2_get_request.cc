@@ -158,7 +158,7 @@ static cp_t TestQpack(void)
 
 	ifer(QpackDo(pack, mem, sizeof(mem)));
 	const int fill_size = QpackIxLen(pack, kQpackIxAll);
-	// qos_printf("fill_size=%d result_size=%d\r\n", fill_size, result_size);
+	// qos_printf("fill_size=%d result_size=%d\n", fill_size, result_size);
 	ifbr(fill_size == result_size);
 	ifbr(0 == memcmp(mem, result, result_size));
  

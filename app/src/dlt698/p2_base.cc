@@ -275,7 +275,7 @@ int P2AddrSaCutSize(const char *addr_sa_cut)
 {
 	const uint8_t sa_feature = P2AddrSaCutFeature(addr_sa_cut);
 	const uint8_t len_value = sa_feature & kP2SaLenMask;
-	// qos_printf("len_value = %d.\r\n", (int)len_value);
+	// qos_printf("len_value = %d.\n", (int)len_value);
 	const int size = (int)len_value + 1 + 1;	// len_value 0对应1字节，加1字节特征字节
 												// len_value取值范围：0…15，对应表示 1…16 个字节长度；
 	return size;
@@ -339,7 +339,7 @@ int P2AddrSizeCut(const char *addr_cut)
 {
 	const char *sa = P2AddrSaCut(addr_cut);
 	const int sa_size = P2AddrSaCutSize(sa);
-	// qos_printf("sa_size = %d.\r\n", sa_size);
+	// qos_printf("sa_size = %d.\n", sa_size);
 	const int addr_size = sa_size + P2_ADDR_CA_SIZE;
 	return addr_size;
 }
@@ -392,7 +392,7 @@ uint16_t P2HcsInFrame(const char *frame)
 	// 注：const uint16_t v = (uint16_t)high << 8 + low; 写法错误
 	// 当addr_size=8 offset=12 low=7aH high=4eH v=0000，+优先级高于<<
 	const uint16_t v = ((uint16_t)high << 8) + low;
-	// qos_printf("addr_size=%d offset=%d low=%02xH high=%02xH v=%04x\r\n", addr_size, offset, low, high, v);
+	// qos_printf("addr_size=%d offset=%d low=%02xH high=%02xH v=%04x\n", addr_size, offset, low, high, v);
 	return v;
 }
 uint16_t P2HcsCalc(const char *frame)
@@ -418,7 +418,7 @@ static cp_t HcsValid(const char *frame)
 {
 	const uint16_t in_frame = P2HcsInFrame(frame);
 	const uint16_t calc = P2HcsCalc(frame);
-	// qos_printf("in_frame=%04x calc=%04x\r\n", in_frame, calc);
+	// qos_printf("in_frame=%04x calc=%04x\n", in_frame, calc);
 	ifbr(in_frame == calc);
 	return 0;
 }
@@ -900,7 +900,7 @@ static cp_t TestPcut(void)
 	ifbr(1 ==  PcutIxLen(m, kP2CutIxHead, whole));
 	ifbr(2 ==  PcutIxLen(m, kP2CutIxL, whole));
 	ifbr(1 ==  PcutIxLen(m, kP2CutIxC, whole));
-	// qos_printf("addr_len: %d\r\n", PcutIxLen(kP2CutIxA, whole));
+	// qos_printf("addr_len: %d\n", PcutIxLen(kP2CutIxA, whole));
 	ifbr(8 ==  PcutIxLen(m, kP2CutIxA, whole));
 	ifbr(2 ==  PcutIxLen(m, kP2CutIxHcs, whole));
 	ifbr(8 ==  PcutIxLen(m, kP2CutIxLud, whole));
@@ -1064,10 +1064,10 @@ static cp_t TestFill(void)
 	const int frame_size = P2FrameSize(mem);
 	//qos_printf("frame_size=%d frame=", frame_size);
 	//printf_hex(mem, frame_size, "");
-	//qos_printf("\r\n");
+	//qos_printf("\n");
 	// frame_size=19 frame=681100009501020304050678fa463132354116
 	if (PRINT_FILL_IN_TEST_EN)
-		printf_hex_ex("frame: ", "\r\n", mem, frame_size, "");
+		printf_hex_ex("frame: ", "\n", mem, frame_size, "");
 	
 	// 不是一个合法帧，在解帧软件上，解不出来
 	ifbr(19 == frame_size);

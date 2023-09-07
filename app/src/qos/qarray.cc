@@ -150,16 +150,16 @@ void QarrayPrintNormal(const struct QarrayS *m, const char *action, int ix)
 	if (ix >= 0)
 	{
 		const char *mem = (const char*)ItemIxConst(m, ix);
-		printf_hex_ex(" ", "\r\n", mem, m->item_size, "");
+		printf_hex_ex(" ", LINEND, mem, m->item_size, "");
 	}
 	else
-		qos_printf("\r\n");
+		qos_printf(LINEND);
 }
 void QarrayPrintFull(const struct QarrayS *m, const char *action, int ix)
 {
 	qos_printf("%s <", action);
 	QarrayPrint(m);
-	qos_printf("> ix=%d\r\n", ix);
+	qos_printf("> ix=%d" LINEND, ix);
 	QarrayPrintItems(m);
 	return;
 }
@@ -170,7 +170,7 @@ void QarrayPrintItems(const Qarray *m)
 	{
 		const char *mem = (const char *)ItemIxConst(m, i);
 		qos_printf("%d\t", i);
-		printf_hex_ex("", "\r\n", mem, m->item_size, "");
+		printf_hex_ex("", LINEND, mem, m->item_size, "");
 	}
 	return;
 }
@@ -195,12 +195,12 @@ void QarrayPrintIx(const Qarray *m, int ix)
 void QarrayPrintAll(const Qarray *m)
 {
 	QarrayPrint(m);
-	qos_printf("\r\n");
+	qos_printf(LINEND);
 	for (int i = 0; i < m->count; ++i)
 	{
 		qos_printf("%d\t", i);
 		QarrayPrintIx(m, i);
-		qos_printf("\r\n");
+		qos_printf(LINEND);
 	}
 	return;
 }
@@ -277,7 +277,7 @@ static cp_t QarrayResize(Qarray *m, int new_capacity)
 		dvb(NULL != mem);
 		qos_printf("ERROR: Qarray realloc FAILED. new_size=%d <", new_size);
 		QarrayPrint(m);
-		qos_printf(">\r\n");
+		qos_printf(">" LINEND);
 		return cph;
 	}
 	m->mem = mem;

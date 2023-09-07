@@ -85,7 +85,7 @@ static cp_t PdoGetResponseNormalProcess(struct PdoS *doa, Pcut *cut, int ix, con
 	const int grn_mem_len = PcutIxLen(&gr->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("get_response_normal mem: ", "\r\n", grn_mem, grn_mem_len, "");
+		printf_hex_ex("get_response_normal mem: ", "\n", grn_mem, grn_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -116,7 +116,7 @@ static cp_t PdoGetResponseNormalListProcess(struct PdoS *doa, Pcut *cut, int ix,
 	const int grnl_mem_len = PcutIxLen(&gr->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("get_response_normal_list mem: ", "\r\n", grnl_mem, grnl_mem_len, "");
+		printf_hex_ex("get_response_normal_list mem: ", "\n", grnl_mem, grnl_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -132,7 +132,7 @@ typedef struct {
 static cp_t PdoGetResponseProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t get_response_choice = (uint8_t)(*whole);
-	qos_printf("This get_response_choice is to be implemented. get_response_choice=%02xH\r\n", get_response_choice);
+	qos_printf("This get_response_choice is to be implemented. get_response_choice=%02xH\n", get_response_choice);
 	return cph;
 }
 #define kPdoGetResponseFailDef { PDO_INIT(PdoGetResponseProcessFail) }
@@ -158,7 +158,7 @@ static cp_t PdoGetResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const cha
 	const char * const get_response_mem = PcutIxPtrConst(&sac->choice.base, ix, whole);
 	const int get_response_mem_len = PcutIxLen(&sac->choice.base, ix, whole);
 
-	//printf_hex_ex("get_response_mem: ", "\r\n", get_response_mem, get_response_mem_len, "");
+	//printf_hex_ex("get_response_mem: ", "\n", get_response_mem, get_response_mem_len, "");
 	// 再按get_response来解析+执行get_response_mem.
 
 
@@ -206,7 +206,7 @@ static cp_t PdoSetResponseNormalProcess(struct PdoS *doa, Pcut *cut, int ix, con
 	const int srn_mem_len = PcutIxLen(&sr->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("set_response_normal mem: ", "\r\n", srn_mem, srn_mem_len, "");
+		printf_hex_ex("set_response_normal mem: ", "\n", srn_mem, srn_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -222,7 +222,7 @@ typedef struct {
 static cp_t PdoSetResponseProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t set_response_choice = (uint8_t)(*whole);
-	qos_printf("This set_response_choice is to be implemented. set_response_choice=%02xH\r\n", set_response_choice);
+	qos_printf("This set_response_choice is to be implemented. set_response_choice=%02xH\n", set_response_choice);
 	return cph;
 }
 #define kPdoSetResponseFailDef { PDO_INIT(PdoSetResponseProcessFail) }
@@ -248,7 +248,7 @@ static cp_t PdoSetResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const cha
 	const char * const set_response_mem = PcutIxPtrConst(&sac->choice.base, ix, whole);
 	const int set_response_mem_len = PcutIxLen(&sac->choice.base, ix, whole);
 
-	//printf_hex_ex("get_response_mem: ", "\r\n", get_response_mem, get_response_mem_len, "");
+	//printf_hex_ex("get_response_mem: ", "\n", get_response_mem, get_response_mem_len, "");
 	// 再按get_response来解析+执行get_response_mem.
 
 
@@ -290,7 +290,7 @@ static cp_t PdoActionResponseNormalProcess(struct PdoS *doa, Pcut *cut, int ix, 
 	const int arn_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("action_response_normal mem: ", "\r\n", arn_mem, arn_mem_len, "");
+		printf_hex_ex("action_response_normal mem: ", "\n", arn_mem, arn_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -321,7 +321,7 @@ static cp_t PdoActionResponseNormalListProcess(struct PdoS *doa, Pcut *cut, int 
 	const int arnl_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("action_response_normal_list mem: ", "\r\n", arnl_mem, arnl_mem_len, "");
+		printf_hex_ex("action_response_normal_list mem: ", "\n", arnl_mem, arnl_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -352,7 +352,7 @@ static cp_t PdoActionThenGetResponseNormalListProcess(struct PdoS *doa, Pcut *cu
 	const int atgrnl_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("action_then_get_response_normal_list mem: ", "\r\n", atgrnl_mem, atgrnl_mem_len, "");
+		printf_hex_ex("action_then_get_response_normal_list mem: ", "\n", atgrnl_mem, atgrnl_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -368,7 +368,7 @@ typedef struct {
 static cp_t PdoActionResponseProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t action_response_choice = (uint8_t)(*whole);
-	qos_printf("This action_response_choice is to be implemented. action_response_choice=%02xH\r\n", action_response_choice);
+	qos_printf("This action_response_choice is to be implemented. action_response_choice=%02xH\n", action_response_choice);
 	return cph;
 }
 #define kPdoActionResponseFailDef { PDO_INIT(PdoActionResponseProcessFail) }
@@ -394,7 +394,7 @@ static cp_t PdoActionResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const 
 	const char * const action_response_mem = PcutIxPtrConst(&sac->choice.base, ix, whole);
 	const int action_response_mem_len = PcutIxLen(&sac->choice.base, ix, whole);
 
-	//printf_hex_ex("get_response_mem: ", "\r\n", get_response_mem, get_response_mem_len, "");
+	//printf_hex_ex("get_response_mem: ", "\n", get_response_mem, get_response_mem_len, "");
 	// 再按get_response来解析+执行get_response_mem.
 
 
@@ -440,7 +440,7 @@ static cp_t PdoProxyResponseTransCommandResponseProcess(struct PdoS *doa, Pcut *
 	const int prtcr_mem_len = PcutIxLen(&pr->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("proxy_response.trans_command_response_mem: ", "\r\n", prtcr_mem, prtcr_mem_len, "");
+		printf_hex_ex("proxy_response.trans_command_response_mem: ", "\n", prtcr_mem, prtcr_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -456,7 +456,7 @@ typedef struct {
 static cp_t PdoProxyResponseProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t proxy_response_choice = (uint8_t)(*whole);
-	qos_printf("This proxy_response_choice is to be implemented. proxy_response_choice=%02xH\r\n", proxy_response_choice);
+	qos_printf("This proxy_response_choice is to be implemented. proxy_response_choice=%02xH\n", proxy_response_choice);
 	return cph;
 }
 #define kPdoProxyResponseFailDef { PDO_INIT(PdoProxyResponseProcessFail) }
@@ -482,7 +482,7 @@ static cp_t PdoProxyResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const c
 	const char * const proxy_response_mem = PcutIxPtrConst(&sac->choice.base, ix, whole);
 	const int proxy_response_mem_len = PcutIxLen(&sac->choice.base, ix, whole);
 
-	//printf_hex_ex("get_response_mem: ", "\r\n", get_response_mem, get_response_mem_len, "");
+	//printf_hex_ex("get_response_mem: ", "\n", get_response_mem, get_response_mem_len, "");
 	// 再按get_response来解析+执行get_response_mem.
 
 
@@ -516,7 +516,7 @@ typedef struct {
 static cp_t PdoServerApduProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t server_apdu_choice = (uint8_t)(*whole);
-	qos_printf("Server apdu: this choice is to be implemented. server_apdu_choice=%02xH=%dD(%s)\r\n"
+	qos_printf("Server apdu: this choice is to be implemented. server_apdu_choice=%02xH=%dD(%s)\n"
 			, server_apdu_choice, server_apdu_choice, P2ServerApduChoiceStr(server_apdu_choice));
 	return cph;
 }
@@ -526,7 +526,7 @@ cp_t P2ProcessServerApdu(PfillRepository *fill_repository_life, const char *apdu
 	P2ServerApduPcut sa = kP2ServerApduPcutDef;
 
 	ifer(P2ServerApduPcutOpen(&sa));
-	printf_hex_ex("\r\nserver_apdu mem: ", "\r\n", apdu, apdu_size, "");
+	printf_hex_ex("\nserver_apdu mem: ", "\n", apdu, apdu_size, "");
 	PcutAllPrint(&sa.base, 0, apdu);
 
 	PdoGetResponse do_get_response = { PDO_INIT(PdoGetResponseProcess), fill_repository_life };

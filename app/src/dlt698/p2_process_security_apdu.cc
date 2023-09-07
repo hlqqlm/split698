@@ -68,7 +68,7 @@ typedef struct {
 } PdoSecurityRequestDataPlain;
 static cp_t PdoSecurityRequestDataPlainProcess(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
-	// qos_printf("plain\r\n");
+	// qos_printf("plain\n");
 	dvb(ix == kP2ChoicePartIxVar);
 	PdoSecurityRequestDataPlain *derive = (PdoSecurityRequestDataPlain*)doa;
 	PfillRepository *fill_repository_life = derive->fill_repository_life;
@@ -84,7 +84,7 @@ static cp_t PdoSecurityRequestDataPlainProcess(struct PdoS *doa, Pcut *cut, int 
 	const char * const content = PcutIxPtrConst(&os->base, kP2OctetStringCutIxContent, octet_string_mem);
 	const int content_len = PcutIxLen(&os->base, kP2OctetStringCutIxContent, octet_string_mem);
 
-	// printf_hex_ex("security request data plain content: ", "\r\n", content, content_len, "");
+	// printf_hex_ex("security request data plain content: ", "\n", content, content_len, "");
 	// 再按client_apdu来解析+执行content。
 	ifer(P2ProcessClientApdu(fill_repository_life, content, content_len));
 	
@@ -182,7 +182,7 @@ static cp_t PdoProcessSecurityApduRequest(struct PdoS *doa, Pcut *cut, int ix, c
 	ifbr(whole_len == derive->lud_size);
 	const int invalid_ix = PcutInvalidIx(cut, whole);
 	ifbr(-1 == invalid_ix);
-	printf_hex_ex("\r\nsecurity_apdu_request mem: ", "\r\n", whole, whole_len, "");
+	printf_hex_ex("\nsecurity_apdu_request mem: ", "\n", whole, whole_len, "");
 	PcutAllPrint(cut, 0, whole);
 	
 	PdoSecurityRequestDataPlain do_plain = { PDO_INIT(PdoSecurityRequestDataPlainProcess), fill_repository_life };

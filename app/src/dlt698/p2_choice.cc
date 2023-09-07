@@ -130,7 +130,7 @@ static int LenVar(Pcut *cut, int ix, const char *whole)
 { 
 	P2ChoicePcut * const p2cp = (P2ChoicePcut*)cut;
 	const uint8_t choice = P2ChoiceValue(whole);
-	// qos_printf("choice=%02xH ix=%d\r\n", choice, ix);
+	// qos_printf("choice=%02xH ix=%d\n", choice, ix);
 	// printf_hex(whole, 10, " ");
 	if (0 != PcutChoiceValid(p2cp, choice))
 		return -1;

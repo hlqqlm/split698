@@ -199,7 +199,7 @@ static cp_t TestPfill(void)
 
 	Pfill fill_a_result_normal = kPfillDef;
 	ifer(PfillOpen(&fill_a_result_normal));
-//qos_printf("oad=%08x\r\n", grn_value.oad);
+//qos_printf("oad=%08x\n", grn_value.oad);
 	ifer(P2AResultNormalFillInit(&fill_a_result_normal, grn_value.oad, &fill_get_result));
 
 	Pfill fill_get_response_normal = kPfillDef;
@@ -228,7 +228,7 @@ static cp_t TestPfill(void)
 	const int fill_size = PfillIxLen(&fill_server_apdu, kPfillIxAll);
 
 	if (TEST_PRINT_FILL_EN)
-		printf_hex_ex("mem: ", "\r\n", mem, fill_size, "");
+		printf_hex_ex("mem: ", "\n", mem, fill_size, "");
 
 	const char expect[] = "\x85\x01\x01\x40\x01\x02\x00\x01\x09\x06\x12\x34\x56\x78\x90\x19\x00\x00";
 	// 85 01 01 01 02 00 00 01 09 06 12 34 56 78 90 19 00 00

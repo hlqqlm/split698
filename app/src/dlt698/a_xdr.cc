@@ -272,7 +272,7 @@ static cp_t TestN2AXdr(void)
 	ifbr(0 == memcmp("\x83\x00\x80\x00", mem, 4));
 
 	memset(mem, 0, mem_size);
-	// qos_printf("N2AXdr(mem, k2Pow23) = %d\r\n", N2AXdr(mem, k2Pow23));
+	// qos_printf("N2AXdr(mem, k2Pow23) = %d\n", N2AXdr(mem, k2Pow23));
 	ifbr(5 == N2AXdr(mem, k2Pow23));
     ifbr(0 == memcmp("\x84\x00\x80\x00\x00", mem, 5));
 	return 0;

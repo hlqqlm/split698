@@ -208,7 +208,7 @@ static cp_t ResponseOad(PfillRepository *fill_repository_life
 {
     return 0;
 
-	// qos_printf("oad=%08x\r\n", oad);
+	// qos_printf("oad=%08x\n", oad);
 	switch (oad)
 	{
 		case 0x40010200:  // |-OAD	40 01 02 00	* OI=0x4001:通信地址 属性2:参见文档 特征0 索引0 	
@@ -221,7 +221,7 @@ static cp_t ResponseOad(PfillRepository *fill_repository_life
 			return ResponseOad20040200(fill_repository_life, fill_get_result, fill_data);
 			//return FillOadOctetString(fill_get_result, fill_data, "456", 3);
 		default:
-			qos_printf("I can NOT response this oad in ResponseOad(). oad=%08xH\r\n", oad);
+			qos_printf("I can NOT response this oad in ResponseOad(). oad=%08xH\n", oad);
 			break;
 	}
 
@@ -275,11 +275,11 @@ static cp_t PdoGetRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, cons
 	const char * const grn_mem = PcutIxPtrConst(&gr->choice.base, ix, whole);
 	const int grn_mem_len = PcutIxLen(&gr->choice.base, ix, whole);
 
-	//qos_printf("grn_mem_len=%d\r\n", grn_mem_len);
+	//qos_printf("grn_mem_len=%d\n", grn_mem_len);
 	//printf_hex(grn_mem, grn_mem_len, " ");
-	//qos_printf("\r\n");
+	//qos_printf("\n");
 	if (kPrintPartEn)
-		printf_hex_ex("grn_mem_len: ", "\r\n", grn_mem, grn_mem_len, "");
+		printf_hex_ex("grn_mem_len: ", "\n", grn_mem, grn_mem_len, "");
 
 	// 解帧，得到piid + oad
 	P2GetRequestNormalValue grn_value = kP2GetRequestNormalValueDef;
@@ -288,7 +288,7 @@ static cp_t PdoGetRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, cons
 	//P2PiidPart(&piid, grn_value.piid);
 
 	if (kPrintPartEn)
-		qos_printf("get_request_normal_value.[oad=%08xH piid=%02xH]\r\n", grn_value.oad, grn_value.piid);
+		qos_printf("get_request_normal_value.[oad=%08xH piid=%02xH]\n", grn_value.oad, grn_value.piid);
 
 	// 《698面向对象的用电信息数据交换协议（20210910）_有标签.pdf》附录H3有oad40010200的应答报文
 	// 主站问地址，报文示例：
@@ -371,7 +371,7 @@ static cp_t PdoGetRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, cons
 	m_tx_info.tx_size = fill_size; 
 
 	if (PRINT_FILL_EN)
-		printf_hex_ex("tx_buf: ", "\r\n", m_tx_info.tx_buf, fill_size, "");
+		printf_hex_ex("tx_buf: ", "\n", m_tx_info.tx_buf, fill_size, "");
 
 	ifer(P2PfillClose(&fill_frame));
 	ifer(PfillClose(&fill_server_apdu));
@@ -413,7 +413,7 @@ static cp_t PdoGetRequestNormalListProcess(struct PdoS *doa, Pcut *cut, int ix, 
 	const int grnl_mem_len = PcutIxLen(&gr->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("get_request_normal_list_mem: ", "\r\n", grnl_mem, grnl_mem_len, "");
+		printf_hex_ex("get_request_normal_list_mem: ", "\n", grnl_mem, grnl_mem_len, "");
 
 	// 得到传入的请求数据
 	P2GetRequestNormalListValue grnl_value = kP2GetRequestNormalListValueDef;
@@ -450,7 +450,7 @@ static cp_t PdoGetRequestNormalListProcess(struct PdoS *doa, Pcut *cut, int ix, 
 	Pfill *fill_sequence_of_a_result_normal = PfillRepositoryFactory(fill_repository_life, "sequence_of_a_result_normal");
 	ifbr(NULL != fill_sequence_of_a_result_normal);
 	// QarraySetPrint(&fill_sequence_of_a_result_normal.array, QarrayPrintFull);
-	//qos_printf("oad=%08x\r\n", grn_value.oad);
+	//qos_printf("oad=%08x\n", grn_value.oad);
 	ifer(P2SequenceOfVarLenFillInit(fill_sequence_of_a_result_normal, &fill_repository_a_result_normal));
 
 	P2Piid piid_split = kP2PiidDef;
@@ -504,7 +504,7 @@ static cp_t PdoConnectRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const 
 	const int connect_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("connect_request_mem: ", "\r\n", connect_request_mem, connect_request_mem_len, "");
+		printf_hex_ex("connect_request_mem: ", "\n", connect_request_mem, connect_request_mem_len, "");
 	// 再按connect_request来解析+执行connect_request_mem.
 
 	// todo: execute frame
@@ -520,7 +520,7 @@ typedef struct {
 static cp_t PdoGetRequestProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t get_request_choice = (uint8_t)(*whole);
-	qos_printf("This get_request_choice is to be implemented. get_request_choice=%02xH\r\n", get_request_choice);
+	qos_printf("This get_request_choice is to be implemented. get_request_choice=%02xH\n", get_request_choice);
 	return cph;
 }
 #define kPdoGetRequestFailDef { PDO_INIT(PdoGetRequestProcessFail) }
@@ -547,7 +547,7 @@ static cp_t PdoGetRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char
 	const char * const get_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
 	const int get_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
 
-	//printf_hex_ex("get_request_mem: ", "\r\n", get_request_mem, get_request_mem_len, "");
+	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按get_request来解析+执行get_request_mem.
 
 
@@ -595,7 +595,7 @@ static cp_t PdoSetRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, cons
 	const int srn_mem_len = PcutIxLen(&sr->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("set_request_normal_mem: ", "\r\n", srn_mem, srn_mem_len, "");
+		printf_hex_ex("set_request_normal_mem: ", "\n", srn_mem, srn_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -611,7 +611,7 @@ typedef struct {
 static cp_t PdoSetRequestProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t set_request_choice = (uint8_t)(*whole);
-	qos_printf("This set_request_choice is to be implemented. set_request_choice=%02xH\r\n", set_request_choice);
+	qos_printf("This set_request_choice is to be implemented. set_request_choice=%02xH\n", set_request_choice);
 	return cph;
 }
 #define kPdoSetRequestFailDef { PDO_INIT(PdoSetRequestProcessFail) }
@@ -638,7 +638,7 @@ static cp_t PdoSetRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char
 	const char * const set_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
 	const int set_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
 
-	//printf_hex_ex("get_request_mem: ", "\r\n", get_request_mem, get_request_mem_len, "");
+	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按get_request来解析+执行get_request_mem.
 
 
@@ -680,7 +680,7 @@ static cp_t PdoActionRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, c
 	const int arn_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("action_request_normal_mem: ", "\r\n", arn_mem, arn_mem_len, "");
+		printf_hex_ex("action_request_normal_mem: ", "\n", arn_mem, arn_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -711,7 +711,7 @@ static cp_t PdoActionRequestNormalListProcess(struct PdoS *doa, Pcut *cut, int i
 	const int arnl_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("action_request_normal_list_mem: ", "\r\n", arnl_mem, arnl_mem_len, "");
+		printf_hex_ex("action_request_normal_list_mem: ", "\n", arnl_mem, arnl_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -742,7 +742,7 @@ static cp_t PdoActionThenGetRequestNormalListProcess(struct PdoS *doa, Pcut *cut
 	const int atgrnl_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("action_then_get_request_normal_list_mem: ", "\r\n", atgrnl_mem, atgrnl_mem_len, "");
+		printf_hex_ex("action_then_get_request_normal_list_mem: ", "\n", atgrnl_mem, atgrnl_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -758,7 +758,7 @@ typedef struct {
 static cp_t PdoActionRequestProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t action_request_choice = (uint8_t)(*whole);
-	qos_printf("This action_request_choice is to be implemented. action_request_choice=%02xH\r\n", action_request_choice);
+	qos_printf("This action_request_choice is to be implemented. action_request_choice=%02xH\n", action_request_choice);
 	return cph;
 }
 #define kPdoActionRequestFailDef { PDO_INIT(PdoActionRequestProcessFail) }
@@ -785,7 +785,7 @@ static cp_t PdoActionRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const c
 	const char * const action_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
 	const int action_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
 
-	//printf_hex_ex("get_request_mem: ", "\r\n", get_request_mem, get_request_mem_len, "");
+	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按get_request来解析+执行get_request_mem.
 
 
@@ -831,7 +831,7 @@ static cp_t PdoReportResponseRecordListProcess(struct PdoS *doa, Pcut *cut, int 
 	const int rrrl_mem_len = PcutIxLen(&rr->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("report_response.record_list mem: ", "\r\n", rrrl_mem, rrrl_mem_len, "");
+		printf_hex_ex("report_response.record_list mem: ", "\n", rrrl_mem, rrrl_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -847,7 +847,7 @@ typedef struct {
 static cp_t PdoReportResponseProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t report_response_choice = (uint8_t)(*whole);
-	qos_printf("This report_response_choice is to be implemented. report_response_choice=%02xH\r\n", report_response_choice);
+	qos_printf("This report_response_choice is to be implemented. report_response_choice=%02xH\n", report_response_choice);
 	return cph;
 }
 #define kPdoReportResponseFailDef { PDO_INIT(PdoReportResponseProcessFail) }
@@ -874,7 +874,7 @@ static cp_t PdoReportResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const 
 	const char * const report_response_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
 	const int report_response_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
 
-	//printf_hex_ex("get_request_mem: ", "\r\n", get_request_mem, get_request_mem_len, "");
+	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按get_request来解析+执行get_request_mem.
 
 
@@ -918,7 +918,7 @@ static cp_t PdoProxyRequestTransCommandRequestProcess(struct PdoS *doa, Pcut *cu
 	const int prtcr_mem_len = PcutIxLen(&pr->choice.base, ix, whole);
 
 	if (kPrintPartEn)
-		printf_hex_ex("proxy_request.trans_command_request_mem: ", "\r\n", prtcr_mem, prtcr_mem_len, "");
+		printf_hex_ex("proxy_request.trans_command_request_mem: ", "\n", prtcr_mem, prtcr_mem_len, "");
 
 	// 解帧，得到piid + omd + data
 	// todo: 解帧，执行
@@ -934,7 +934,7 @@ typedef struct {
 static cp_t PdoProxyRequestProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t proxy_request_choice = (uint8_t)(*whole);
-	qos_printf("This proxy_request_choice is to be implemented. proxy_request_choice=%02xH\r\n", proxy_request_choice);
+	qos_printf("This proxy_request_choice is to be implemented. proxy_request_choice=%02xH\n", proxy_request_choice);
 	return cph;
 }
 #define kPdoProxyRequestFailDef { PDO_INIT(PdoProxyRequestProcessFail) }
@@ -960,7 +960,7 @@ static cp_t PdoProxyRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const ch
 	const char * const proxy_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
 	const int proxy_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
 
-	//printf_hex_ex("get_request_mem: ", "\r\n", get_request_mem, get_request_mem_len, "");
+	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按get_request来解析+执行get_request_mem.
 
 
@@ -993,7 +993,7 @@ typedef struct {
 static cp_t PdoClientApduProcessFail(struct PdoS *doa, Pcut *cut, int ix, const char *whole)
 {
 	const uint8_t client_apdu_choice = (uint8_t)(*whole);
-	qos_printf("This client_apdu_choice is to be implemented. client_apdu_choice=%02xH\r\n", client_apdu_choice);
+	qos_printf("This client_apdu_choice is to be implemented. client_apdu_choice=%02xH\n", client_apdu_choice);
 	return cph;
 }
 #define kPdoClientApduFailDef { PDO_INIT(PdoClientApduProcessFail) }
@@ -1002,7 +1002,7 @@ cp_t P2ProcessClientApdu(PfillRepository *fill_repository_life, const char *apdu
 	P2ClientApduPcut ca = kP2ClientApduPcutDef;
 
 	ifer(P2ClientApduPcutOpen(&ca));
-	printf_hex_ex("\r\nclient_apdu mem: ", "\r\n", apdu, apdu_size, "");
+	printf_hex_ex("\nclient_apdu mem: ", "\n", apdu, apdu_size, "");
 	PcutAllPrint(&ca.base, 0, apdu);
 
 	PdoConnectRequest do_connect_request = { PDO_INIT(PdoConnectRequestProcess), fill_repository_life };
