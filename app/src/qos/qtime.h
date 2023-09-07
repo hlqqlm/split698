@@ -280,7 +280,7 @@ int WeekOfDateTimeS(const DateTimeS &dts);
 int WeekOfDay(unsigned int year, unsigned char month, unsigned char day);
 
 
-
+#if 0
 //时间数据类型time struct Time
 //时间数据类型time
 typedef struct 
@@ -297,6 +297,7 @@ Dlt698Time DateTimeS2Time(const DateTimeS &dts);
 uint32_t Dlt698Time2Sec(const Dlt698Time &time);
 // 时间是否在范围内，左闭右开，返回0表示在范围内
 cp_t Dlt698TimeInRange(const Dlt698Time &time, const Dlt698Time &start, const Dlt698Time &stop);
+#endif
 
 
 

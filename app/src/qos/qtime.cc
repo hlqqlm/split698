@@ -1327,7 +1327,7 @@ int WeekOfDay(unsigned int year, unsigned char month, unsigned char day)
 //}}}
 
 
-
+#if 0
 //{{{ Time
 const Dlt698Time kTimeInvalid = {0xff, 0xff, 0xff};
 cp_t Dlt698TimeValid(const Dlt698Time &time)
@@ -1383,7 +1383,7 @@ cp_t Dlt698TimeInRange(const Dlt698Time &time, const Dlt698Time &start, const Dl
 
 
 //}}}
-
+#endif
 
 
 //{{{ day

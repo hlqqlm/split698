@@ -348,6 +348,130 @@ std::ostream & operator<<(std::ostream &os, const Dlt698Datetime &dt)
 //}}}
 
 
+//{{{ time
+const Dlt698Time kTimeInvalid = {0xff, 0xff, 0xff};
+cp_t Dlt698TimeValid(const Dlt698Time &time)
+{
+	if (0xff != time.hour)
+	{
+		ifbr(0 <= time.hour);
+		ifbr(time.hour < 24);
+	}
+	if (0xff != time.minute)
+	{
+		ifbr(0 <= time.minute);
+		ifbr(time.minute < 60);
+	}
+	if (0xff != time.second)
+	{
+		ifbr(0 <= time.second);
+		ifbr(time.second < 60);
+	}
+	return 0;
+}
+cp_t Dlt698TimeValid(const char mem[kDlt698TimeSize])
+{
+	Dlt698Time time;
+	Dlt698TimeValue(&time, mem);
+	ifer(Dlt698TimeValid(time));
+	return 0;
+}
+void Dlt698TimeValue(Dlt698Time *time, const char mem[kDlt698TimeSize])
+{
+	time->hour = mem[0];
+	time->minute = mem[1];
+	time->second = mem[2];
+}
+void Dlt698TimeMem(char mem[kDlt698TimeSize], const Dlt698Time *time)
+{
+	mem[0] = time->hour;		
+	mem[1] = time->minute;	
+	mem[2] = time->second;	
+}
+
+
+cp_t Dlt698TimePtrEqual(const Dlt698Time *p, const Dlt698Time *q)
+{   
+	ifbr(NULL != p);
+	ifbr(NULL != q);
+	const Dlt698Time &x = *((const Dlt698Time *)p);
+	const Dlt698Time &y = *((const Dlt698Time *)q);
+	return Dlt698TimeEqual(x, y);
+}
+cp_t Dlt698TimeEqual(const Dlt698Time &x, const Dlt698Time &y)
+{   
+	ifbr(x.hour == y.hour);			// unsigned，
+	ifbr(x.minute == y.minute);			// unsigned，
+	ifbr(x.second == y.second);			// unsigned，
+	return 0;
+}
+bool operator==(const Dlt698Time &x, const Dlt698Time &y)
+{   
+	return (0 == Dlt698TimeEqual(x, y)); 
+}   
+
+
+/*
+static std::ostream &TimePrintUint8(std::ostream &os, uint8_t x)
+{       
+	if (0xff == x)
+		return os << "xx";
+
+	return os << (int)x;
+}   
+*/
+cp_t Dlt698TimePrint(std::ostream &os, const Dlt698Time *time)
+{
+	ifbr(NULL != time);
+	const Dlt698Time &r = *time;
+	/*
+	os << std::dec << std::right << std::setfill(' ') << std::setw(4);
+	TimePrintUint8(os, r.hour) << ":" << std::right << std::setfill('0') << std::setw(2);
+	TimePrintUint8(os, r.minute) << ":" << std::right << std::setfill('0') << std::setw(2);
+	TimePrintUint8(os, r.second) << ":" << std::right << std::setfill('0') << std::setw(4);
+	*/
+
+	os << std::setfill('0') << std::setw(2) << (unsigned int)(r.hour)
+		<< ":" << std::setfill('0') << std::setw(2) << (unsigned int)(r.minute)
+		<< ":" << std::setfill('0') << std::setw(2) << (unsigned int)r.second;
+	return 0;
+}
+std::ostream & operator<<(std::ostream &os, const Dlt698Time &time)
+{
+	if (0 != Dlt698TimePrint(os, &time))
+		os << "Error in print Dlt698Time.";
+	return os;
+}
+
+
+
+Dlt698Time DateTimeS2Time(const DateTimeS &dts)
+{
+	const Dlt698Time time = {dts.hour, dts.minute, dts.second};
+	return time;
+}
+// 返回距离当天0点的秒数
+uint32_t Dlt698Time2Sec(const Dlt698Time &time)
+{
+	return (uint32_t)time.hour * 60 * 60 + (uint32_t)time.minute * 60 + (uint32_t)time.second;
+}
+cp_t Dlt698TimeInRange(const Dlt698Time &time, const Dlt698Time &start, const Dlt698Time &stop)
+{
+	dve(Dlt698TimeValid(time));
+	dve(Dlt698TimeValid(start));
+	dve(Dlt698TimeValid(stop));
+	
+	const uint32_t time_sec = Dlt698Time2Sec(time);
+	const uint32_t start_sec = Dlt698Time2Sec(start);
+	ifbr(start_sec <= time_sec);
+
+	const uint32_t stop_sec = Dlt698Time2Sec(stop);
+	ifbr(time_sec < stop_sec);
+	return 0;
+}
+//}}}
+
+
 //{{{ bit-string
 int Qdlt698BitStringContentBit(const unsigned char *mem)
 {

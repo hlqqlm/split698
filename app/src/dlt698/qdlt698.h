@@ -48,8 +48,8 @@ float64 24 64 位浮点数
 	kDlt698DataTypeDatetime = 25,	// date_time 25 octet-string（SIZE（10））
 /*
 date 26 octet-string（SIZE（5））
-time 27 octet-string（SIZE（3））
 */
+	kDlt698DataTypeTime = 27,		// time 27 octet-string（SIZE（3））
 	kDlt698DataTypeDatetimeS = 28,		// date_time_s 28 octet-string（SIZE（7））
 	/*
 保留 29-79
@@ -208,6 +208,38 @@ bool operator==(const Dlt698Datetime &x, const Dlt698Datetime &y);
 cp_t Dlt698DatetimePrint(std::ostream &os, const Dlt698Datetime *dt);
 std::ostream & operator<<(std::ostream &os, const Dlt698Datetime &dt);
 std::string Dlt698DatetimeStr(const Dlt698Datetime &dt);
+
+
+// Time
+#define kDlt698TimeSize		(3)
+cp_t Dlt698TimeValid(const char mem[kDlt698TimeSize]);
+typedef struct Dlt698TimeStruct
+{
+	uint8_t hour;			// unsigned，
+	uint8_t minute;			// unsigned，
+	uint8_t second;			// unsigned，
+} Dlt698Time;
+#define kDlt698TimeDef { 0, 0, 0 }
+extern const Dlt698Time kTimeInvalid;
+cp_t Dlt698TimeValid(const Dlt698Time &time);
+//example:              |-Data: (u8,u8,u8)	1B 17 3B 3B	类型:27,值:23:59:59
+void Dlt698TimeValue(Dlt698Time *dt, const char mem[kDlt698TimeSize]);
+void Dlt698TimeMem(char mem[kDlt698TimeSize], const Dlt698Time *dt);
+
+//cp_t Dlt698TimeEqual(const Dlt698Time *x, const Dlt698Time *y);
+cp_t Dlt698TimePtrEqual(const Dlt698Time *p, const Dlt698Time *q);
+cp_t Dlt698TimeEqual(const Dlt698Time &x, const Dlt698Time &y);
+bool operator==(const Dlt698Time &x, const Dlt698Time &y);
+
+cp_t Dlt698TimePrint(std::ostream &os, const Dlt698Time *time);
+std::ostream & operator<<(std::ostream &os, const Dlt698Time &time);
+std::string Dlt698TimeStr(const Dlt698Time &time);
+
+Dlt698Time DateTimeS2Time(const DateTimeS &dts);
+// 返回距离当天0点的秒数
+uint32_t Dlt698Time2Sec(const Dlt698Time &time);
+cp_t Dlt698TimeInRange(const Dlt698Time &time, const Dlt698Time &start, const Dlt698Time &stop);
+
 
 // 约定： 报文变量名
 // 如果为mem，表示不包括类型字节

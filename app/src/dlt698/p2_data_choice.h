@@ -66,8 +66,8 @@ float64 24 64 位浮点数
 	kDlt698DataTypeIxDatetime,		// date_time 25 octet-string（SIZE（10））
 /*
 date 26 octet-string（SIZE（5））
-time 27 octet-string（SIZE（3））
 */
+	kDlt698DataTypeIxTime,		// time 27 octet-string（SIZE（3））
 	kDlt698DataTypeIxDatetimeS,		// date_time_s 28 octet-string（SIZE（7））
 	/*
 保留 29-79

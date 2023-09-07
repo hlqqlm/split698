@@ -56,6 +56,7 @@ test/**/*.trs
 
 
 # in <src>
+example.log
 result.txt
 *.xcp.h
 *.fni

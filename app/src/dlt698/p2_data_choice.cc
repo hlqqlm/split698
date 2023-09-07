@@ -40,6 +40,7 @@ DLT698_45 data choice 变化部分报文解析
 #include "p2_visible_string.h"
 #include "p2_struct.h"
 #include "p2_datetime.h"
+#include "p2_time.h"
 #include "p2_datetimes.h"
 #include "p2_oad.h"
 #include "p2_road.h"
@@ -113,8 +114,8 @@ float64 24 64 位浮点数
 	{ kDlt698DataTypeDatetime, "datetime"},		// date_time 25 octet-string（SIZE（10））
 	/*
 date 26 octet-string（SIZE（5））
-time 27 octet-string（SIZE（3））
 */
+	{ kDlt698DataTypeTime, "time" },		// time 27 octet-string（SIZE（3））
 	{ kDlt698DataTypeDatetimeS, "date_time_s" },		// date_time_s 28 octet-string（SIZE（7））
 	/*
 保留 29-79
@@ -180,6 +181,7 @@ static const P2EnumOnePcut kP2EnumOnePcutVar = kP2EnumOnePcutDef;
 static const P2OctetStringPcut kP2OctetStringPcutVar = kP2OctetStringPcutDef;
 static const P2VisibleStringPcut kP2VisibleStringPcutVar = kP2VisibleStringPcutDef;
 static const P2DatetimePcut kP2DatetimePcutVar = kP2DatetimePcutDef;
+static const P2TimePcut kP2TimePcutVar = kP2TimePcutDef;
 static const P2DatetimesPcut kP2DatetimesPcutVar = kP2DatetimesPcutDef;
 static const P2OadPcut kP2OadPcutVar = kP2OadPcutDef;
 static const P2RoadPcut kP2RoadPcutVar = kP2RoadPcutDef;
@@ -224,8 +226,8 @@ float64 24 64 位浮点数
 	{ "datetime", sizeof(kP2DatetimePcutVar), &kP2DatetimePcutVar, P2DatetimePcutOpenBase, P2DatetimePcutCloseBase },	// date_time 25 octet-string（SIZE（10））
 /*
 date 26 octet-string（SIZE（5））
-time 27 octet-string（SIZE（3））
 */
+	{ "time", sizeof(kP2TimePcutVar), &kP2TimePcutVar, P2TimePcutOpenBase, P2TimePcutCloseBase },	// time 27 octet-string（SIZE（3））
 	{ "date_time_s", sizeof(kP2DatetimesPcutVar), &kP2DatetimesPcutVar, P2DatetimesPcutOpenBase, P2DatetimesPcutCloseBase },	// date_time_s 28 octet-string（SIZE（7））
 	/*
 保留 29-79

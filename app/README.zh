@@ -58,7 +58,7 @@ Usage
 	cat result.txt
 
 将日志中记录的报文，批量进行解析
-	cat my.log | ./split698 | tee result.txt
+	cat example.log | ./split698 > result.txt
 
 解析多条命令，手工输入
 
