@@ -380,15 +380,15 @@ static cp_t TestPcutDatatypeNotExist(void)
 	// 15 05 02 00 04 20 00 02 00 20 01 02 00 20 04 02 00 00 10 02 00 00 
 	const char whole[] = "\x15\x05\x02\x00\x04\x20\x00\x02\x00\x20\x01\x02\x00\x20\x04\x02\x00\x00\x10\x02\x00\x00";
 
-	//ifbr(0 == PcutIxLen(m, kP2VisibleStringCutIxDatatype, whole));
-	ifbr(1 == PcutIxLen(m, kP2VisibleStringCutIxVarlen, whole));
-	ifbr(21 == PcutIxLen(m, kP2VisibleStringCutIxContent, whole));
-	ifbr(22 == PcutIxLen(m, kPcutIxAll, whole));
+	//ifbr(0 == PcutIxLen(m, 0, kP2VisibleStringCutIxDatatype, whole));
+	ifbr(1 == PcutIxLen(m, 0, kP2VisibleStringCutIxVarlen, whole));
+	ifbr(21 == PcutIxLen(m, 0, kP2VisibleStringCutIxContent, whole));
+	ifbr(22 == PcutIxLen(m, 0, kPcutIxAll, whole));
 
 	//ifbr(0 == PcutIxOffset(m, kP2VisibleStringCutIxDatatype, whole));
 	//ifbr(0 == PcutIxOffset(m, kP2VisibleStringCutIxVarlen, whole));
-	ifbr(1 == PcutIxOffset(m, kP2VisibleStringCutIxContent, whole));
-	ifbr(22 == PcutIxOffset(m, kPcutIxAll, whole));
+	ifbr(1 == PcutIxOffset(m, 0, kP2VisibleStringCutIxContent, whole));
+	ifbr(22 == PcutIxOffset(m, 0, kPcutIxAll, whole));
 
 	//ifer(PcutIxValid(m, kP2VisibleStringCutIxDatatype, whole));
 	ifer(PcutIxValid(m, kP2VisibleStringCutIxVarlen, whole));
@@ -416,16 +416,16 @@ static cp_t TestPcutDatatypeExist(void)
 	// 09 06 10 00 00 00 22 21
 	const char whole[] = "\x09\x06\x10\x00\x00\x00\x22\x21";
 
-	ifbr(1 == PcutIxLen(m, kP2DatatypeWithContentCutIxDatatype, whole));
-	ifbr(7 == PcutIxLen(m, kP2DatatypeWithContentCutIxContent, whole));
+	ifbr(1 == PcutIxLen(m, 0, kP2DatatypeWithContentCutIxDatatype, whole));
+	ifbr(7 == PcutIxLen(m, 0, kP2DatatypeWithContentCutIxContent, whole));
 	const char *os_mem = PcutIxPtrConst(m, kP2DatatypeWithContentCutIxContent, whole);		// const版本
-	ifbr(1 == PcutIxLen(&pcut.base, kP2VisibleStringCutIxVarlen, os_mem));
-	ifbr(6 == PcutIxLen(&pcut.base, kP2VisibleStringCutIxContent, os_mem));
-	ifbr(8 == PcutIxLen(m, kPcutIxAll, whole));
+	ifbr(1 == PcutIxLen(&pcut.base, 0, kP2VisibleStringCutIxVarlen, os_mem));
+	ifbr(6 == PcutIxLen(&pcut.base, 0, kP2VisibleStringCutIxContent, os_mem));
+	ifbr(8 == PcutIxLen(m, 0, kPcutIxAll, whole));
 
-	ifbr(0 == PcutIxOffset(m, kP2DatatypeWithContentCutIxDatatype, whole));
-	ifbr(1 == PcutIxOffset(m, kP2DatatypeWithContentCutIxContent, whole));
-	ifbr(8 == PcutIxOffset(m, kPcutIxAll, whole));
+	ifbr(0 == PcutIxOffset(m, 0, kP2DatatypeWithContentCutIxDatatype, whole));
+	ifbr(1 == PcutIxOffset(m, 0, kP2DatatypeWithContentCutIxContent, whole));
+	ifbr(8 == PcutIxOffset(m, 0, kPcutIxAll, whole));
 
 	ifer(PcutIxValid(m, kP2DatatypeWithContentCutIxDatatype, whole));
 	ifer(PcutIxValid(m, kP2DatatypeWithContentCutIxContent, whole));

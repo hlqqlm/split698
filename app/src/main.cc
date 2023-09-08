@@ -27,6 +27,7 @@ Huanglin创建.
 
 #include <iostream>
 
+#include "qos/qlibc.h"
 #include "qos/fileid.h"
 #include "qos/qcp.h"
 #include "qos/qstr.h"
@@ -78,14 +79,16 @@ int main()
 	P2Process p2_process = kP2ProcessDef;
 	ifed(P2ProcessOpen(&p2_process));
 #endif
-	// std::string line = "683500430502000020114310f42b10001105020003001002002000020020040200000110087406efe4e8900cda5d3ec56df93d3a2b8b16";
+	//std::string line = "683500430502000020114310f42b10001105020003001002002000020020040200000110087406efe4e8900cda5d3ec56df93d3a2b8b16";
+	// std::string line = "685500430503000000000010baa71000310503085004020002202102001c07e509180000001c07e50918173b3b5403000103002021020000001002000000200200000110f0d55698838e08158f013b87d49a8cd72f6316";
 	std::string line;
 
 	//while (std::getline(std::cin, line) && !line.empty()) {
+	// while (!line.empty()) {
 	while (std::getline(std::cin, line)) {
 		const std::string only_hex_char = Filter(line) ;
 		const std::string mem = HexStr2Mem(only_hex_char);
-		printf_hex_ex("rx: ", "\r\n", mem.data(), mem.size(), "");
+		printf_hex_ex("rx: ", LINEND, mem.data(), mem.size(), "");
 		
 #if P2_PROCESS_EN > 0
 		char tx_buf[4096];
@@ -95,6 +98,7 @@ int main()
 
 		//std::cout << "mem is: " << HexStr(mem) << std::endl;
 		// std::cout << line << std::endl;
+		// line = "";
 	}
 			  
 

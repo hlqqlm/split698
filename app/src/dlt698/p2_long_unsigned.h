@@ -27,6 +27,8 @@
 //int P2LongUnsignedPartSize(bool datatype_exist);
 //uint16_t P2LongUnsignedToValue(bool datatype_exist, const char *whole);
 uint16_t P2LongUnsignedToValue(const char *whole);
+void P2LongUnsignedExplain(const char *whole);
+
 
 //{{{ cut
 // cut_ix

@@ -191,7 +191,7 @@ int P2StructCutSize(const char *whole)
 		return 0;
 	}
 
-	const int size = PcutIxLen(&array.base, kPcutIxAll, whole);
+	const int size = PcutIxLen(&array.base, 0, kPcutIxAll, whole);
 	ifed(P2StructPcutClose(&array));
 	return size;
 }
@@ -276,7 +276,7 @@ int P2StructPcutIxLen(P2StructPcut *m, int ix, const char *whole)
 	dve(P2StructPcutStructIxValid(ix, whole));
 	// const int content_offset = P2StructContentOffset(whole);
 	const char *content = PcutIxPtrConst(&m->base, kP2StructCutIxContent, whole);
-	return PcutIxLen(&m->nvar_cut.base, ix, content);
+	return PcutIxLen(&m->nvar_cut.base, 0, ix, content);
 }
 int P2StructPcutIxOffset(P2StructPcut *m, int ix, const char *whole)
 {
@@ -284,7 +284,7 @@ int P2StructPcutIxOffset(P2StructPcut *m, int ix, const char *whole)
 	// const int content_offset = kP2StructContentOffset(P2StructVarlenSize(whole));
 	const int content_offset = P2StructContentOffset(whole);
 	const char *content = PcutIxPtrConst(&m->base, kP2StructCutIxContent, whole);
-	return content_offset + PcutIxOffset(&m->nvar_cut.base, ix, content);
+	return content_offset + PcutIxOffset(&m->nvar_cut.base, 0, ix, content);
 }
 cp_t P2StructPcutIxValid(P2StructPcut *m, int ix, const char *whole)
 {

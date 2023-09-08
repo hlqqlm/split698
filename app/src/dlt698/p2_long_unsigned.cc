@@ -67,10 +67,15 @@ static cp_t ValidContent(Pcut *cut, int ix, const char *whole)
 {
 	return 0;
 }
-static cp_t ExplainContent(Pcut *cut, int ix, const char *whole) 
+void P2LongUnsignedExplain(const char *whole)
 {
 	const uint16_t value = P2LongUnsignedToValue(whole);
 	qos_printf("%uD", value);
+	return;
+}
+static cp_t ExplainContent(Pcut *cut, int ix, const char *whole) 
+{
+	P2LongUnsignedExplain(whole);
 	return 0;
 }
 //}}}
@@ -222,8 +227,8 @@ static cp_t TestPcut(void)
 	Pcut *m = &lu.base;
 
 	ifbr(3 == whole_size);
-	ifbr(3 == PcutIxLen(m, kPcutIxAll, whole));
-	ifbr(3 == PcutIxOffset(m, kPcutIxAll, whole));
+	ifbr(3 == PcutIxLen(m, 0, kPcutIxAll, whole));
+	ifbr(3 == PcutIxOffset(m, 0, kPcutIxAll, whole));
 	ifer(PcutIxValid(m, kPcutIxAll, whole));
 
 	ifer(P2LongUnsignedPcutClose(&lu));

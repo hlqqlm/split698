@@ -82,7 +82,7 @@ static cp_t PdoGetResponseNormalProcess(struct PdoS *doa, Pcut *cut, int ix, con
 	dvb(grn == (void*)PcutFindSubRecursionDepth(&gr->choice.base, kP2GetResponseNormalName));
 
 	const char * const grn_mem = PcutIxPtrConst(&gr->choice.base, ix, whole);
-	const int grn_mem_len = PcutIxLen(&gr->choice.base, ix, whole);
+	const int grn_mem_len = PcutIxLen(&gr->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("get_response_normal mem: ", "\n", grn_mem, grn_mem_len, "");
@@ -113,7 +113,7 @@ static cp_t PdoGetResponseNormalListProcess(struct PdoS *doa, Pcut *cut, int ix,
 	dvb(grnl == (void*)PcutFindSubRecursionDepth(&gr->choice.base, kP2GetResponseNormalListName));
 
 	const char * const grnl_mem = PcutIxPtrConst(&gr->choice.base, ix, whole);
-	const int grnl_mem_len = PcutIxLen(&gr->choice.base, ix, whole);
+	const int grnl_mem_len = PcutIxLen(&gr->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("get_response_normal_list mem: ", "\n", grnl_mem, grnl_mem_len, "");
@@ -156,7 +156,7 @@ static cp_t PdoGetResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const cha
 	dvb(pr == (void*)PcutFindSubRecursionDepth(&sac->choice.base, kP2GetResponseName));
 
 	const char * const get_response_mem = PcutIxPtrConst(&sac->choice.base, ix, whole);
-	const int get_response_mem_len = PcutIxLen(&sac->choice.base, ix, whole);
+	const int get_response_mem_len = PcutIxLen(&sac->choice.base, 0, ix, whole);
 
 	//printf_hex_ex("get_response_mem: ", "\n", get_response_mem, get_response_mem_len, "");
 	// 再按get_response来解析+执行get_response_mem.
@@ -203,7 +203,7 @@ static cp_t PdoSetResponseNormalProcess(struct PdoS *doa, Pcut *cut, int ix, con
 	dvb(srn == (void*)PcutFindSubRecursionDepth(&sr->choice.base, kP2SetResponseNormalName));
 
 	const char * const srn_mem = PcutIxPtrConst(&sr->choice.base, ix, whole);
-	const int srn_mem_len = PcutIxLen(&sr->choice.base, ix, whole);
+	const int srn_mem_len = PcutIxLen(&sr->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("set_response_normal mem: ", "\n", srn_mem, srn_mem_len, "");
@@ -246,7 +246,7 @@ static cp_t PdoSetResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const cha
 	dvb(pr == (void*)PcutFindSubRecursionDepth(&sac->choice.base, kP2SetResponseName));
 
 	const char * const set_response_mem = PcutIxPtrConst(&sac->choice.base, ix, whole);
-	const int set_response_mem_len = PcutIxLen(&sac->choice.base, ix, whole);
+	const int set_response_mem_len = PcutIxLen(&sac->choice.base, 0, ix, whole);
 
 	//printf_hex_ex("get_response_mem: ", "\n", get_response_mem, get_response_mem_len, "");
 	// 再按get_response来解析+执行get_response_mem.
@@ -287,7 +287,7 @@ static cp_t PdoActionResponseNormalProcess(struct PdoS *doa, Pcut *cut, int ix, 
 	dvb(arn == (void*)PcutFindSubRecursionDepth(&ar->choice.base, kP2ActionResponseNormalName));
 
 	const char * const arn_mem = PcutIxPtrConst(&ar->choice.base, ix, whole);
-	const int arn_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
+	const int arn_mem_len = PcutIxLen(&ar->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("action_response_normal mem: ", "\n", arn_mem, arn_mem_len, "");
@@ -318,7 +318,7 @@ static cp_t PdoActionResponseNormalListProcess(struct PdoS *doa, Pcut *cut, int 
 	dvb(arnl == (void*)PcutFindSubRecursionDepth(&ar->choice.base, kP2ActionResponseNormalListName));
 
 	const char * const arnl_mem = PcutIxPtrConst(&ar->choice.base, ix, whole);
-	const int arnl_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
+	const int arnl_mem_len = PcutIxLen(&ar->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("action_response_normal_list mem: ", "\n", arnl_mem, arnl_mem_len, "");
@@ -349,7 +349,7 @@ static cp_t PdoActionThenGetResponseNormalListProcess(struct PdoS *doa, Pcut *cu
 	dvb(atgrnl == (void*)PcutFindSubRecursionDepth(&ar->choice.base, kP2ActionThenGetResponseNormalListName));
 
 	const char * const atgrnl_mem = PcutIxPtrConst(&ar->choice.base, ix, whole);
-	const int atgrnl_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
+	const int atgrnl_mem_len = PcutIxLen(&ar->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("action_then_get_response_normal_list mem: ", "\n", atgrnl_mem, atgrnl_mem_len, "");
@@ -392,7 +392,7 @@ static cp_t PdoActionResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const 
 	dvb(pr == (void*)PcutFindSubRecursionDepth(&sac->choice.base, kP2ActionResponseName));
 
 	const char * const action_response_mem = PcutIxPtrConst(&sac->choice.base, ix, whole);
-	const int action_response_mem_len = PcutIxLen(&sac->choice.base, ix, whole);
+	const int action_response_mem_len = PcutIxLen(&sac->choice.base, 0, ix, whole);
 
 	//printf_hex_ex("get_response_mem: ", "\n", get_response_mem, get_response_mem_len, "");
 	// 再按get_response来解析+执行get_response_mem.
@@ -437,7 +437,7 @@ static cp_t PdoProxyResponseTransCommandResponseProcess(struct PdoS *doa, Pcut *
 	dvb(prtcr == (void*)PcutFindSubRecursionDepth(&pr->choice.base, kP2ProxyResponseTransCommandResponseName));
 
 	const char * const prtcr_mem = PcutIxPtrConst(&pr->choice.base, ix, whole);
-	const int prtcr_mem_len = PcutIxLen(&pr->choice.base, ix, whole);
+	const int prtcr_mem_len = PcutIxLen(&pr->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("proxy_response.trans_command_response_mem: ", "\n", prtcr_mem, prtcr_mem_len, "");
@@ -480,7 +480,7 @@ static cp_t PdoProxyResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const c
 	dvb(pr == (void*)PcutFindSubRecursionDepth(&sac->choice.base, kP2ProxyResponseName));
 
 	const char * const proxy_response_mem = PcutIxPtrConst(&sac->choice.base, ix, whole);
-	const int proxy_response_mem_len = PcutIxLen(&sac->choice.base, ix, whole);
+	const int proxy_response_mem_len = PcutIxLen(&sac->choice.base, 0, ix, whole);
 
 	//printf_hex_ex("get_response_mem: ", "\n", get_response_mem, get_response_mem_len, "");
 	// 再按get_response来解析+执行get_response_mem.
@@ -527,7 +527,7 @@ cp_t P2ProcessServerApdu(PfillRepository *fill_repository_life, const char *apdu
 
 	ifer(P2ServerApduPcutOpen(&sa));
 	printf_hex_ex("\nserver_apdu mem: ", "\n", apdu, apdu_size, "");
-	PcutAllPrint(&sa.base, 0, apdu);
+	PcutAllPrint(&sa.base, 0, 0, apdu);
 
 	PdoGetResponse do_get_response = { PDO_INIT(PdoGetResponseProcess), fill_repository_life };
 	PdoSetResponse do_set_response = { PDO_INIT(PdoSetResponseProcess), fill_repository_life };

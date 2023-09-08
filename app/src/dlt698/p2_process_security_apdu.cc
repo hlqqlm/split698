@@ -79,10 +79,10 @@ static cp_t PdoSecurityRequestDataPlainProcess(struct PdoS *doa, Pcut *cut, int 
 	dvb(os == (void*)PcutFindSubRecursionDepth(&srdc->choice.base, kP2SecurityRequestDataNamePlain));
 
 	const char * const octet_string_mem = PcutIxPtrConst(&srdc->choice.base, ix, whole);
-	//const int octet_string_len = PcutIxLen(&srdc->choice.base, ix, whole);
+	//const int octet_string_len = PcutIxLen(&srdc->choice.base, 0, ix, whole);
 
 	const char * const content = PcutIxPtrConst(&os->base, kP2OctetStringCutIxContent, octet_string_mem);
-	const int content_len = PcutIxLen(&os->base, kP2OctetStringCutIxContent, octet_string_mem);
+	const int content_len = PcutIxLen(&os->base, 0, kP2OctetStringCutIxContent, octet_string_mem);
 
 	// printf_hex_ex("security request data plain content: ", "\n", content, content_len, "");
 	// 再按client_apdu来解析+执行content。
@@ -178,12 +178,12 @@ static cp_t PdoProcessSecurityApduRequest(struct PdoS *doa, Pcut *cut, int ix, c
 	
 
 	dvb(cut == derive->cut);
-	const int whole_len = PcutIxLen(cut, kPcutIxAll, whole);
+	const int whole_len = PcutIxLen(cut, 0, kPcutIxAll, whole);
 	ifbr(whole_len == derive->lud_size);
 	const int invalid_ix = PcutInvalidIx(cut, whole);
 	ifbr(-1 == invalid_ix);
 	printf_hex_ex("\nsecurity_apdu_request mem: ", "\n", whole, whole_len, "");
-	PcutAllPrint(cut, 0, whole);
+	PcutAllPrint(cut, 0, 0, whole);
 	
 	PdoSecurityRequestDataPlain do_plain = { PDO_INIT(PdoSecurityRequestDataPlainProcess), fill_repository_life };
 	PdoSecurityRequestDataCipher do_cipher = kPdoSecurityRequestDataCipherDef;

@@ -173,8 +173,8 @@ static cp_t TestPcut(void)
 	Pcut *m = &dwc.base;
 
 	ifbr(11 == whole_size);
-	ifbr(11 == PcutIxLen(m, kPcutIxAll, whole));
-	ifbr(11 == PcutIxOffset(m, kPcutIxAll, whole));
+	ifbr(11 == PcutIxLen(m, 0, kPcutIxAll, whole));
+	ifbr(11 == PcutIxOffset(m, 0, kPcutIxAll, whole));
 	ifer(PcutIxValid(m, kPcutIxAll, whole));
 
 	ifer(P2DatetimePcutClose(&lu));

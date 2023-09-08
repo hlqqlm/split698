@@ -74,9 +74,20 @@ static const P2ActionRequestNormalListPcut kP2ActionRequestNormalListPcutDefVar 
 static const P2ActionThenGetRequestNormalListPcut kP2ActionThenGetRequestNormalListPcutDefVar = kP2ActionThenGetRequestNormalListPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
 	// name		size	init	derive_open		derive_close
-	{ kP2ActionRequestNormalName, sizeof(P2ActionRequestNormalPcut), &kP2ActionRequestNormalPcutDefVar, P2ActionRequestNormalPcutOpenBase, P2ActionRequestNormalPcutCloseBase },	// 请求操作一个对象方法 [1] ActionRequestNormal，
-	{ kP2ActionRequestNormalListName, sizeof(P2ActionRequestNormalListPcut), &kP2ActionRequestNormalListPcutDefVar, P2ActionRequestNormalListPcutOpenBase, P2ActionRequestNormalListPcutCloseBase },	// 请求操作若干个对象方法 [2] ActionRequestNormalList，
-	{ kP2ActionThenGetRequestNormalListName, sizeof(P2ActionThenGetRequestNormalListPcut), &kP2ActionThenGetRequestNormalListPcutDefVar, P2ActionThenGetRequestNormalListPcutOpenBase, P2ActionThenGetRequestNormalListPcutCloseBase },	// 请求操作若干个对象方法后读取若干个对象属性 [3] ActionThenGetRequestNormalList
+	{ kP2ActionRequestNormalName
+		, sizeof(P2ActionRequestNormalPcut), &kP2ActionRequestNormalPcutDefVar
+		, P2ActionRequestNormalPcutOpenBase, P2ActionRequestNormalPcutCloseBase },	
+	// 请求操作一个对象方法 [1] ActionRequestNormal，
+
+	{ kP2ActionRequestNormalListName
+		, sizeof(P2ActionRequestNormalListPcut), &kP2ActionRequestNormalListPcutDefVar
+		, P2ActionRequestNormalListPcutOpenBase, P2ActionRequestNormalListPcutCloseBase },	
+	// 请求操作若干个对象方法 [2] ActionRequestNormalList，
+
+	{ kP2ActionThenGetRequestNormalListName
+		, sizeof(P2ActionThenGetRequestNormalListPcut), &kP2ActionThenGetRequestNormalListPcutDefVar
+		, P2ActionThenGetRequestNormalListPcutOpenBase, P2ActionThenGetRequestNormalListPcutCloseBase },	
+	// 请求操作若干个对象方法后读取若干个对象属性 [3] ActionThenGetRequestNormalList
 };
 //}}}
 

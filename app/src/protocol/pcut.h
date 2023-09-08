@@ -44,6 +44,7 @@ typedef struct
 	// PcutItemValueT value;
 } PcutItemFix;
 #define kPcutItemFixDef { "no_name", PcutItemLenDef, PcutItemOffsetDef, PcutItemValidDef, PcutItemExplainNull }
+void PcutItemFixPrint(const PcutItemFix *cif);
 //}}}
 
 
@@ -65,6 +66,7 @@ typedef struct PcutItemS
 }
 #define PCUT_ITEM_NO_SUB(_fix) { (_fix), NULL, NULL, NULL }
 #define PCUT_ITEM_WITH_SUB(_fix, _sub) { (_fix), NULL, NULL, (_sub) }
+void PcutItemPrint(const PcutItem *ci);
 //}}}
 
 
@@ -103,12 +105,12 @@ const char *PcutIxStr(const Pcut *m, int ix);
 cp_t PcutNameSetIx(Pcut *m, int ix, const char *name);
 
 // len
-int PcutIxLen(Pcut *m, int ix, const char *whole);
+int PcutIxLen(Pcut *m, int verbose, int ix, const char *whole);
 // 一段范围内的长度，范围为：[start_ix, end_ix)
-int PcutRangeLen(Pcut *m, int start_ix, int end_ix, const char *whole);
+int PcutRangeLen(Pcut *m, int verbose, int start_ix, int end_ix, const char *whole);
 
 // offset
-int PcutIxOffset(Pcut *m, int ix, const char *whole);
+int PcutIxOffset(Pcut *m, int verbose, int ix, const char *whole);
 char *PcutIxPtr(Pcut *m, int ix, char *whole);						// 非const版本
 const char *PcutIxPtrConst(Pcut *m, int ix, const char *whole);		// const版本
 
@@ -143,9 +145,9 @@ const char *PcutFindMem(Pcut *m, const char *name, const char *whole, PcutItem *
 
 // print
 int PcutHexIx(Pcut *m, char *buf, int buf_size, int ix, const char *whole);
-void PcutIxPrint(Pcut *m, int level, int ix, const char *whole);
-void PcutRangePrint(Pcut *m, int level, int start_ix, int end_ix, const char *whole);
-void PcutAllPrint(Pcut *m, int level, const char *whole);
+void PcutIxPrint(Pcut *m, int verbose, int level, int ix, const char *whole);
+void PcutRangePrint(Pcut *m, int verbose, int level, int start_ix, int end_ix, const char *whole);
+void PcutAllPrint(Pcut *m, int verbose, int level, const char *whole);
 //}}}
 
 

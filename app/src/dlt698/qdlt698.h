@@ -57,8 +57,8 @@ date 26 octet-string（SIZE（5））
 	kDlt698DataTypeRoad = 82,		// ROAD 82 见 0
 /*
 OMD 83 见 0
-TI 84 见 0
 */
+	kDlt698DataTypeTi = 84,			// TI 84 见 0
 	kDlt698DataTypeTsa = 85,		// TSA 85 见 0
 /*
 MAC 86 见 0

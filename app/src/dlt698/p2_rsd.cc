@@ -25,6 +25,7 @@ huanglin 创建.
 // var
 #include "p2_null.h"
 #include "p2_selector1.h"
+#include "p2_selector2.h"
 
 #include "p2_rsd.h"
 #include "p2_rsd.xcp.h"
@@ -77,11 +78,23 @@ const char *P2RsdStr(uint8_t choice)
 //{{{ var_factory_info
 static const P2NullPcut kP2NullPcutDefVar = kP2NullPcutDef;
 static const P2Selector1Pcut kP2Selector1PcutDefVar = kP2Selector1PcutDef;
+static const P2Selector2Pcut kP2Selector2PcutDefVar = kP2Selector2PcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
 	// name		size	init	derive_open		derive_close
-	{ kP2NullName, sizeof(P2NullPcut), &kP2NullPcutDefVar, P2NullPcutOpenBase, P2NullPcutCloseBase },	// 不选择 [0] NULL，
-	{ kP2Selector1Name, sizeof(P2Selector1Pcut), &kP2Selector1PcutDefVar, P2Selector1PcutOpenBase, P2Selector1PcutCloseBase },	// 选择方法 1 [1] Selector1，
-	kPcutFactoryInfoDef("Selector2"),	// 选择方法 2 [2] Selector2，
+	{ kP2NullName
+		, sizeof(P2NullPcut), &kP2NullPcutDefVar
+		, P2NullPcutOpenBase, P2NullPcutCloseBase },	
+	// 不选择 [0] NULL，
+
+	{ kP2Selector1Name
+		, sizeof(P2Selector1Pcut), &kP2Selector1PcutDefVar
+		, P2Selector1PcutOpenBase, P2Selector1PcutCloseBase },	
+	// 选择方法 1 [1] Selector1，
+
+	{ kP2Selector2Name
+		, sizeof(P2Selector2Pcut), &kP2Selector2PcutDefVar
+		, P2Selector2PcutOpenBase, P2Selector2PcutCloseBase },	
+	// 选择方法 2 [2] Selector2，
 	kPcutFactoryInfoDef("Selector3"),	// 选择方法 3 [3] Selector3，
 	kPcutFactoryInfoDef("Selector4"),	// 选择方法 4 [4] Selector4，
 	kPcutFactoryInfoDef("Selector5"),	// 选择方法 5 [5] Selector5，

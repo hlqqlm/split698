@@ -61,7 +61,7 @@ static cp_t PdoLinkRequestLoginProcess(struct PdoS *doa, Pcut *cut, int ix, cons
 	P2EnumPcut *type_enum = (P2EnumPcut*)cut;
 
 	const char * const type_mem = PcutIxPtrConst(&type_enum->base, ix, whole);
-	const int type_mem_len = PcutIxLen(&type_enum->base, ix, whole);
+	const int type_mem_len = PcutIxLen(&type_enum->base, 0, ix, whole);
 	dvb(kP2EnumSize == type_mem_len);
 
 	//qos_printf("grn_mem_len=%d\n", grn_mem_len);
@@ -127,7 +127,7 @@ static cp_t PdoLinkRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const cha
 	dvb(lr == (void*)PcutFindSubRecursionDepth(&lac->choice.base, kP2LinkRequestName));
 
 	const char * const link_request_mem = PcutIxPtrConst(&lac->choice.base, ix, whole);
-	// const int link_request_mem_len = PcutIxLen(&lac->choice.base, ix, whole);
+	// const int link_request_mem_len = PcutIxLen(&lac->choice.base, 0, ix, whole);
 
 	// ../protocol/pcut.h
 	//const char * const type_mem = P2LinkRequestTypeMem(link_request_mem);
@@ -176,10 +176,10 @@ cp_t P2ProcessLinkApdu(PfillRepository *fill_repository_life, const char *apdu, 
 
 	ifer(P2LinkApduPcutOpen(&la));
 	ifer(PcutIxValid(&la.base, kPcutIxAll, apdu));
-	ifbr(apdu_size == PcutIxLen(&la.base, kPcutIxAll, apdu));
+	ifbr(apdu_size == PcutIxLen(&la.base, 0, kPcutIxAll, apdu));
 
 	printf_hex_ex("\nlink_apdu mem: ", "\n", apdu, apdu_size, "");
-	PcutAllPrint(&la.base, 0, apdu);
+	PcutAllPrint(&la.base, 0, 0, apdu);
 
 
 	PdoLinkRequest do_link_request = { PDO_INIT(PdoLinkRequestProcess), fill_repository_life };

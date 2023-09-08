@@ -48,6 +48,7 @@ DLT698_45 data choice 变化部分报文解析
 #include "p2_oi.h"
 #include "p2_oad.h"
 #include "p2_road.h"
+#include "p2_ti.h"
 #include "p2_tsa.h"
 #include "p2_rn.h"
 
@@ -69,7 +70,7 @@ int P2DataChoiceWholeSize(const char *whole)
 		return 0;
 	}
 
-	const int size = PcutIxLen(&dc.choice.base, kPcutIxAll, whole);
+	const int size = PcutIxLen(&dc.choice.base, 0, kPcutIxAll, whole);
 	ifed(P2DataChoicePcutClose(&dc));
 	return size;
 }
@@ -127,8 +128,8 @@ date 26 octet-string（SIZE（5））
 	{ kDlt698DataTypeRoad, "road" },		// ROAD 82 见 0
 /*
 OMD 83 见 0
-TI 84 见 0
 */
+	{ kDlt698DataTypeTi, "ti" },	// TI 84 见 0
 	{ kDlt698DataTypeTsa, "tsa" },	// TSA 85 见 0
 	/*
 MAC 86 见 0
@@ -188,6 +189,7 @@ static const P2DatetimesPcut kP2DatetimesPcutVar = kP2DatetimesPcutDef;
 static const P2OiPcut kP2OiPcutVar = kP2OiPcutDef;
 static const P2OadPcut kP2OadPcutVar = kP2OadPcutDef;
 static const P2RoadPcut kP2RoadPcutVar = kP2RoadPcutDef;
+static const P2TiPcut kP2TiPcutVar = kP2TiPcutDef;
 static const P2TsaPcut kP2TsaPcutVar = kP2TsaPcutDef;
 static const P2RnPcut kP2RnPcutVar = kP2RnPcutDef;
 
@@ -241,8 +243,8 @@ Q/GDW XXXXX—XXXX
 15
 类型描述 标记 定义 数值范围
 OMD 83 见 0
-TI 84 见 0
 */
+	{ "ti", sizeof(kP2TiPcutVar), &kP2TiPcutVar, P2TiPcutOpenBase, P2TiPcutCloseBase },	// TI 84 见 0
 	{ "tsa", sizeof(kP2TsaPcutVar), &kP2TsaPcutVar, P2TsaPcutOpenBase, P2TsaPcutCloseBase },	// TSA 85 见 0
 /*
 MAC 86 见 0
@@ -261,6 +263,7 @@ RCSD 96 见 0
 VQDS 97 见 0
 保留 98-255
 */
+	// kPcutFactoryInfoDef("example"),			
 };
 //}}}
 

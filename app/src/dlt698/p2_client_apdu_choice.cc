@@ -107,7 +107,6 @@ static const P2ErrorResponsePcut kP2ErrorResponsePcutDefVar = kP2ErrorResponsePc
 
 static const PcutFactoryInfo kVarFactoryInfoList[kP2ClientApduChoiceNum] = {
 	// name		size	init	derive_open		derive_close
-
 	{ kP2ConnectRequestName, sizeof(P2ConnectRequestPcut), &kP2ConnectRequestPcutDefVar, P2ConnectRequestPcutOpenBase, P2ConnectRequestPcutCloseBase },	 // 建立应用连接请求 [2] CONNECT-Request，
 	{ kP2ReleaseRequestName, sizeof(P2ReleaseRequestPcut), &kP2ReleaseRequestPcutDefVar, P2ReleaseRequestPcutOpenBase, P2ReleaseRequestPcutCloseBase },	// 断开应用连接请求 [3] RELEASE-Request，
 	{ kP2GetRequestName, sizeof(P2GetRequestPcut), &kP2GetRequestPcutDefVar, P2GetRequestPcutOpenBase, P2GetRequestPcutCloseBase },	// 读取请求 [5] GET-Request，

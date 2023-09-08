@@ -113,7 +113,7 @@ static int InvalidIx(P2Link *m)
 }
 static int FrameSize(P2Link *m)
 {
-	return PcutIxLen(&m->pcut.base, kPcutIxAll, m->buf);
+	return PcutIxLen(&m->pcut.base, 0, kPcutIxAll, m->buf);
 }
 //}}}
 
@@ -152,7 +152,7 @@ void P2LinkFramePrint(P2Link *m)
 	dve(P2LinkFrameValid(m));
 
 	const char * const frame = P2LinkBuf(m);
-	PcutAllPrint(&m->pcut.base, 0, frame);
+	PcutAllPrint(&m->pcut.base, 0, 0, frame);
 	const uint8_t control = P2ControlInFrame(frame);
 
 	// 下面补充重要信息
@@ -205,7 +205,7 @@ static bool DiscardWhileUpdateOnce(P2Link *m)
 	for (int cut_ix = 0; cut_ix < kP2CutNum; ++cut_ix)
 	{
 		// 期望的长度
-		len_expect += PcutIxLen(&m->pcut.base, cut_ix, m->buf);
+		len_expect += PcutIxLen(&m->pcut.base, 0, cut_ix, m->buf);
 		// 接收的长度大于当前部分的期望长度，才能进行有效性判断
 		if (len_expect <= rx_size)
 		{

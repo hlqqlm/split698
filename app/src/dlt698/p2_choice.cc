@@ -143,7 +143,7 @@ static int LenVar(Pcut *cut, int ix, const char *whole)
 
 	dvb(NULL != p2cp->var_cut);
 	const char *mem = whole + kP2ChoiceVarOffset;
-	return PcutIxLen(p2cp->var_cut, kPcutIxAll, mem);
+	return PcutIxLen(p2cp->var_cut, 0, kPcutIxAll, mem);
 }
 static int OffsetVar(Pcut *cut, int ix, const char *whole) { return kP2ChoiceVarOffset; }
 static cp_t ValidVar(Pcut *cut, int ix, const char *whole) 

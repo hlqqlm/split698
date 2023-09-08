@@ -30,16 +30,16 @@ DLT698_45报文解析
 */
 #include <string.h>
 
-#include "qos/qcp.h"
-#include "qos/qtest.h"
+// var
 #include "p2_get_request_normal.h"
 #include "p2_get_request_normal_list.h"
+#include "p2_get_request_record.h"
+
 #include "p2_get_request.h"
 #include "p2_get_request.xcp.h"
-//#define this_file_id	0x08d887d6	// echo -n dlt698_45_get_request.c | rhash --simple -
 
 
-#define TEST_EN				(0)
+#define TEST_EN					(0)
 #define PRINT_FILL_IN_TEST_EN	(0)
 
  
@@ -82,18 +82,29 @@ uint8_t P2GetRequestChoice(const char *whole)
 //{{{ cut
 static const P2GetRequestNormalPcut kGetRequestNormalPcutDefVar = kP2GetRequestNormalPcutDef;
 static const P2GetRequestNormalListPcut kGetRequestNormalListPcutDefVar = kP2GetRequestNormalListPcutDef;
-static const PcutFactoryInfo kVarFactoryInfoList[kP2GetRequestChoiceNum] = {
-	{ kP2GetRequestNormalName, sizeof(P2GetRequestNormalPcut), &kGetRequestNormalPcutDefVar
-		, P2GetRequestNormalPcutOpenBase, P2GetRequestNormalPcutCloseBase }, // 请求读取一个对象属性 [1] GetRequestNormal，
-	{ kP2GetRequestNormalListName, sizeof(P2GetRequestNormalListPcut), &kGetRequestNormalListPcutDefVar
-		, P2GetRequestNormalListPcutOpenBase, P2GetRequestNormalListPcutCloseBase }, // 请求读取若干个对象属性 [2] GetRequestNormalList，
-	// PcutFactoryInfoDef, 
+static const P2GetRequestRecordPcut kP2GetRequestRecordPcutDefVar = kP2GetRequestRecordPcutDef;
 
-	kPcutFactoryInfoDef("GetRequestRecord"), // 请求读取一个记录型对象属性 [3] GetRequestRecord，
+static const PcutFactoryInfo kVarFactoryInfoList[kP2GetRequestChoiceNum] = {
+	{ kP2GetRequestNormalName
+		, sizeof(P2GetRequestNormalPcut), &kGetRequestNormalPcutDefVar
+		, P2GetRequestNormalPcutOpenBase, P2GetRequestNormalPcutCloseBase }, 
+	// 请求读取一个对象属性 [1] GetRequestNormal，
+
+	{ kP2GetRequestNormalListName
+		, sizeof(P2GetRequestNormalListPcut), &kGetRequestNormalListPcutDefVar
+		, P2GetRequestNormalListPcutOpenBase, P2GetRequestNormalListPcutCloseBase }, 
+	// 请求读取若干个对象属性 [2] GetRequestNormalList，
+
+	{ kP2GetRequestRecordName
+		, sizeof(P2GetRequestRecordPcut), &kP2GetRequestRecordPcutDefVar
+			, P2GetRequestRecordPcutOpenBase, P2GetRequestRecordPcutCloseBase },	
+	// 请求读取一个记录型对象属性 [3] GetRequestRecord，
+
 	kPcutFactoryInfoDef("GetRequestRecordList"), // 请求读取若干个记录型对象属性 [4] GetRequestRecordList，
 	kPcutFactoryInfoDef("GetRequestNext"), // 请求读取分帧传输的下一帧 [5] GetRequestNext，
 	kPcutFactoryInfoDef("GetRequestMD5"), // 请求读取一个对象属性的 MD5 值 [6] GetRequestMD5，
 	kPcutFactoryInfoDef("GetRequestSimplifyRecord"), // 读取一个精简的记录型对象属性请求 [23] GetRequestSimplifyRecord
+	// kPcutFactoryInfoDef("example"), // 
 };
 cp_t P2GetRequestPcutOpen(P2GetRequestPcut *m)
 {

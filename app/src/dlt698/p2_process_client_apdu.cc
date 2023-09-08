@@ -273,7 +273,7 @@ static cp_t PdoGetRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, cons
 	dvb(grn == (void*)PcutFindSubRecursionDepth(&gr->choice.base, kP2GetRequestNormalName));
 
 	const char * const grn_mem = PcutIxPtrConst(&gr->choice.base, ix, whole);
-	const int grn_mem_len = PcutIxLen(&gr->choice.base, ix, whole);
+	const int grn_mem_len = PcutIxLen(&gr->choice.base, 0, ix, whole);
 
 	//qos_printf("grn_mem_len=%d\n", grn_mem_len);
 	//printf_hex(grn_mem, grn_mem_len, " ");
@@ -410,7 +410,7 @@ static cp_t PdoGetRequestNormalListProcess(struct PdoS *doa, Pcut *cut, int ix, 
 	dvb(grnl == (void*)PcutFindSubRecursionDepth(&gr->choice.base, kP2GetRequestNormalListName));
 
 	const char * const grnl_mem = PcutIxPtrConst(&gr->choice.base, ix, whole);
-	const int grnl_mem_len = PcutIxLen(&gr->choice.base, ix, whole);
+	const int grnl_mem_len = PcutIxLen(&gr->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("get_request_normal_list_mem: ", "\n", grnl_mem, grnl_mem_len, "");
@@ -501,7 +501,7 @@ static cp_t PdoConnectRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const 
 	dvb(cr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2ConnectRequestName));
 
 	const char * const connect_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
-	const int connect_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
+	const int connect_request_mem_len = PcutIxLen(&cac->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("connect_request_mem: ", "\n", connect_request_mem, connect_request_mem_len, "");
@@ -545,7 +545,7 @@ static cp_t PdoGetRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char
 	dvb(gr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2GetRequestName));
 
 	const char * const get_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
-	const int get_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
+	const int get_request_mem_len = PcutIxLen(&cac->choice.base, 0, ix, whole);
 
 	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按get_request来解析+执行get_request_mem.
@@ -592,7 +592,7 @@ static cp_t PdoSetRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, cons
 	dvb(srn == (void*)PcutFindSubRecursionDepth(&sr->choice.base, kP2SetRequestNormalName));
 
 	const char * const srn_mem = PcutIxPtrConst(&sr->choice.base, ix, whole);
-	const int srn_mem_len = PcutIxLen(&sr->choice.base, ix, whole);
+	const int srn_mem_len = PcutIxLen(&sr->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("set_request_normal_mem: ", "\n", srn_mem, srn_mem_len, "");
@@ -636,7 +636,7 @@ static cp_t PdoSetRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const char
 	dvb(sr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2SetRequestName));
 
 	const char * const set_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
-	const int set_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
+	const int set_request_mem_len = PcutIxLen(&cac->choice.base, 0, ix, whole);
 
 	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按get_request来解析+执行get_request_mem.
@@ -677,7 +677,7 @@ static cp_t PdoActionRequestNormalProcess(struct PdoS *doa, Pcut *cut, int ix, c
 	dvb(arn == (void*)PcutFindSubRecursionDepth(&ar->choice.base, kP2ActionRequestNormalName));
 
 	const char * const arn_mem = PcutIxPtrConst(&ar->choice.base, ix, whole);
-	const int arn_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
+	const int arn_mem_len = PcutIxLen(&ar->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("action_request_normal_mem: ", "\n", arn_mem, arn_mem_len, "");
@@ -708,7 +708,7 @@ static cp_t PdoActionRequestNormalListProcess(struct PdoS *doa, Pcut *cut, int i
 	dvb(arnl == (void*)PcutFindSubRecursionDepth(&ar->choice.base, kP2ActionRequestNormalListName));
 
 	const char * const arnl_mem = PcutIxPtrConst(&ar->choice.base, ix, whole);
-	const int arnl_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
+	const int arnl_mem_len = PcutIxLen(&ar->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("action_request_normal_list_mem: ", "\n", arnl_mem, arnl_mem_len, "");
@@ -739,7 +739,7 @@ static cp_t PdoActionThenGetRequestNormalListProcess(struct PdoS *doa, Pcut *cut
 	dvb(atgrnl == (void*)PcutFindSubRecursionDepth(&ar->choice.base, kP2ActionThenGetRequestNormalListName));
 
 	const char * const atgrnl_mem = PcutIxPtrConst(&ar->choice.base, ix, whole);
-	const int atgrnl_mem_len = PcutIxLen(&ar->choice.base, ix, whole);
+	const int atgrnl_mem_len = PcutIxLen(&ar->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("action_then_get_request_normal_list_mem: ", "\n", atgrnl_mem, atgrnl_mem_len, "");
@@ -783,7 +783,7 @@ static cp_t PdoActionRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const c
 	dvb(ar == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2ActionRequestName));
 
 	const char * const action_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
-	const int action_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
+	const int action_request_mem_len = PcutIxLen(&cac->choice.base, 0, ix, whole);
 
 	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按get_request来解析+执行get_request_mem.
@@ -828,7 +828,7 @@ static cp_t PdoReportResponseRecordListProcess(struct PdoS *doa, Pcut *cut, int 
 	dvb(rrrl == (void*)PcutFindSubRecursionDepth(&rr->choice.base, kP2ReportResponseRecordListName));
 
 	const char * const rrrl_mem = PcutIxPtrConst(&rr->choice.base, ix, whole);
-	const int rrrl_mem_len = PcutIxLen(&rr->choice.base, ix, whole);
+	const int rrrl_mem_len = PcutIxLen(&rr->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("report_response.record_list mem: ", "\n", rrrl_mem, rrrl_mem_len, "");
@@ -872,7 +872,7 @@ static cp_t PdoReportResponseProcess(struct PdoS *doa, Pcut *cut, int ix, const 
 	dvb(rr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2ReportResponseName));
 
 	const char * const report_response_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
-	const int report_response_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
+	const int report_response_mem_len = PcutIxLen(&cac->choice.base, 0, ix, whole);
 
 	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按get_request来解析+执行get_request_mem.
@@ -915,7 +915,7 @@ static cp_t PdoProxyRequestTransCommandRequestProcess(struct PdoS *doa, Pcut *cu
 	dvb(prtcr == (void*)PcutFindSubRecursionDepth(&pr->choice.base, kP2ProxyRequestTransCommandRequestName));
 
 	const char * const prtcr_mem = PcutIxPtrConst(&pr->choice.base, ix, whole);
-	const int prtcr_mem_len = PcutIxLen(&pr->choice.base, ix, whole);
+	const int prtcr_mem_len = PcutIxLen(&pr->choice.base, 0, ix, whole);
 
 	if (kPrintPartEn)
 		printf_hex_ex("proxy_request.trans_command_request_mem: ", "\n", prtcr_mem, prtcr_mem_len, "");
@@ -958,7 +958,7 @@ static cp_t PdoProxyRequestProcess(struct PdoS *doa, Pcut *cut, int ix, const ch
 	dvb(pr == (void*)PcutFindSubRecursionDepth(&cac->choice.base, kP2ProxyRequestName));
 
 	const char * const proxy_request_mem = PcutIxPtrConst(&cac->choice.base, ix, whole);
-	const int proxy_request_mem_len = PcutIxLen(&cac->choice.base, ix, whole);
+	const int proxy_request_mem_len = PcutIxLen(&cac->choice.base, 0, ix, whole);
 
 	//printf_hex_ex("get_request_mem: ", "\n", get_request_mem, get_request_mem_len, "");
 	// 再按get_request来解析+执行get_request_mem.
@@ -1002,8 +1002,8 @@ cp_t P2ProcessClientApdu(PfillRepository *fill_repository_life, const char *apdu
 	P2ClientApduPcut ca = kP2ClientApduPcutDef;
 
 	ifer(P2ClientApduPcutOpen(&ca));
-	printf_hex_ex("\nclient_apdu mem: ", "\n", apdu, apdu_size, "");
-	PcutAllPrint(&ca.base, 0, apdu);
+	printf_hex_ex(LINEND "client_apdu mem: ", LINEND, apdu, apdu_size, "");
+	PcutAllPrint(&ca.base, 0, 0, apdu);
 
 	PdoConnectRequest do_connect_request = { PDO_INIT(PdoConnectRequestProcess), fill_repository_life };
 	PdoGetRequest do_get_request = { PDO_INIT(PdoGetRequestProcess), fill_repository_life };

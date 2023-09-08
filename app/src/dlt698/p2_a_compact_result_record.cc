@@ -71,8 +71,15 @@ static const P2DarPcut kP2DarPcutDefVar = kP2DarPcutDef;
 static const P2SequenceOfARecordRowPcut kP2SequenceOfARecordRowPcutDefVar = kP2SequenceOfARecordRowPcutDef;
 static const PcutFactoryInfo kVarFactoryInfoList[kChoiceNum] = {
 	// name		size	init	derive_open		derive_close
-	{ kP2DarName, sizeof(P2DarPcut), &kP2DarPcutDefVar, P2DarPcutOpenBase, P2DarPcutCloseBase },	// 错误信息 [0] DAR，
-	{ kP2SequenceOfARecordRowName, sizeof(P2SequenceOfARecordRowPcut), &kP2SequenceOfARecordRowPcutDefVar, P2SequenceOfARecordRowPcutOpenBase, P2SequenceOfARecordRowPcutCloseBase },	// M 条记录 [1] SEQUENCE OF A-RecordRo
+	{ kP2DarName
+		, sizeof(P2DarPcut), &kP2DarPcutDefVar
+		, P2DarPcutOpenBase, P2DarPcutCloseBase },	
+	// 错误信息 [0] DAR，
+
+	{ kP2SequenceOfARecordRowName
+		, sizeof(P2SequenceOfARecordRowPcut), &kP2SequenceOfARecordRowPcutDefVar
+			, P2SequenceOfARecordRowPcutOpenBase, P2SequenceOfARecordRowPcutCloseBase },	
+	// M 条记录 [1] SEQUENCE OF A-RecordRo
 };
 //}}}
 

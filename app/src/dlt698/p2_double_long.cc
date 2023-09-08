@@ -204,8 +204,8 @@ static cp_t TestPcut(void)
 	Pcut *m = &dwc.base;
 
 	ifbr(5 == whole_size);
-	ifbr(5 == PcutIxLen(m, kPcutIxAll, whole));
-	ifbr(5 == PcutIxOffset(m, kPcutIxAll, whole));
+	ifbr(5 == PcutIxLen(m, 0, kPcutIxAll, whole));
+	ifbr(5 == PcutIxOffset(m, 0, kPcutIxAll, whole));
 	ifer(PcutIxValid(m, kPcutIxAll, whole));
 
 	ifer(P2DoubleLongPcutClose(&lu));

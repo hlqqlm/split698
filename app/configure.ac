@@ -20,7 +20,8 @@ AC_LANG_POP([C++])
 # GCC specific configuration (optional)
 GCC_WARN_CXXFLAGS="-fdiagnostics-color=auto -Wall -Wextra -Wpedantic -Wfatal-errors"
 GCC_WARN_CXXFLAGS_EXTRA="-Wcast-align -Wcast-qual -Wformat -Wpointer-arith -Wwrite-strings"
-GCC_DEBUG_CXXFLAGS="-g -O0 -fno-omit-frame-pointer -fno-inline"
+# GCC_DEBUG_CXXFLAGS="-g -O0 -fno-omit-frame-pointer -fno-inline"
+GCC_DEBUG_CXXFLAGS="-ggdb -O0 -fno-omit-frame-pointer -fno-inline"
 
 # Check for GCC warning flags (optional)
 AC_MSG_CHECKING([whether to enable the GCC warnings])
