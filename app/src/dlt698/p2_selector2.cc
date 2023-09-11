@@ -25,7 +25,7 @@ DLT698_45报文解析
 */
 #include <string.h>
 
-#include "qstr.h"
+#include "qos/qstr.h"
 
 #include "p2_selector2.h"
 #include "p2_selector2.xcp.h"

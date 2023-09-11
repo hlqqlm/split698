@@ -61,22 +61,22 @@ static cp_t TestPcut(void)
 	// 45 01 23 45 67 89 0a 00
 	// (0)45  (1)   (2)01 23 45 67 89 0a     (3)00
 	const char whole[] = "\x45\x01\x23\x45\x67\x89\x0a\x00";
-	ifbr(1 ==  PcutIxLen(m, kP2AddrCutIxFeature, whole));
-	ifbr(0 ==  PcutIxLen(m, kP2AddrCutIxExternLogic, whole));
-	ifbr(6 ==  PcutIxLen(m, kP2AddrCutIxSaNaked, whole));
-	ifbr(1 ==  PcutIxLen(m, kP2AddrCutIxCa, whole));
-	ifbr(8 ==  PcutIxLen(m, kPcutIxAll, whole));
+	ifbr(1 ==  PcutIxLen(m, 0, kP2AddrCutIxFeature, whole));
+	ifbr(0 ==  PcutIxLen(m, 0, kP2AddrCutIxExternLogic, whole));
+	ifbr(6 ==  PcutIxLen(m, 0, kP2AddrCutIxSaNaked, whole));
+	ifbr(1 ==  PcutIxLen(m, 0, kP2AddrCutIxCa, whole));
+	ifbr(8 ==  PcutIxLen(m, 0, kPcutIxAll, whole));
 	
-	ifbr(1 == PcutRangeLen(m, kP2AddrCutIxFeature, kP2AddrCutIxExternLogic, whole));
-	ifbr(1 == PcutRangeLen(m, kP2AddrCutIxFeature, kP2AddrCutIxSaNaked, whole));
-	ifbr(7 == PcutRangeLen(m, kP2AddrCutIxFeature, kP2AddrCutIxCa, whole));
-	ifbr(8 == PcutRangeLen(m, 0, kP2AddrCutNum, whole));
+	ifbr(1 == PcutRangeLen(m, 0, kP2AddrCutIxFeature, kP2AddrCutIxExternLogic, whole));
+	ifbr(1 == PcutRangeLen(m, 0, kP2AddrCutIxFeature, kP2AddrCutIxSaNaked, whole));
+	ifbr(7 == PcutRangeLen(m, 0, kP2AddrCutIxFeature, kP2AddrCutIxCa, whole));
+	ifbr(8 == PcutRangeLen(m, 0, 0, kP2AddrCutNum, whole));
 
-	ifbr(0 == PcutIxOffset(m, kP2AddrCutIxFeature, whole));
-	ifbr(1 == PcutIxOffset(m, kP2AddrCutIxExternLogic, whole));
-	ifbr(1 == PcutIxOffset(m, kP2AddrCutIxSaNaked, whole));
-	ifbr(7 == PcutIxOffset(m, kP2AddrCutIxCa, whole));
-	ifbr(8 == PcutIxOffset(m, kPcutIxAll, whole));
+	ifbr(0 == PcutIxOffset(m, 0, kP2AddrCutIxFeature, whole));
+	ifbr(1 == PcutIxOffset(m, 0, kP2AddrCutIxExternLogic, whole));
+	ifbr(1 == PcutIxOffset(m, 0, kP2AddrCutIxSaNaked, whole));
+	ifbr(7 == PcutIxOffset(m, 0, kP2AddrCutIxCa, whole));
+	ifbr(8 == PcutIxOffset(m, 0, kPcutIxAll, whole));
 
 	ifbr(whole + 0 == PcutIxPtrConst(m, kP2AddrCutIxFeature, whole));
 	ifbr(whole + 1 == PcutIxPtrConst(m, kP2AddrCutIxExternLogic, whole));
