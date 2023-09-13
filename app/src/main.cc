@@ -25,9 +25,11 @@ Huanglin创建.
 #define PRINT_FILEID_TABLE_EN		(0)
 #define P2_PROCESS_EN				(1)
 
+#include <csignal>
 #include <iostream>
 
 #include "cli11/CLI11.hpp"
+#include "rang/rang.hpp"
 
 #include "qos/qlibc.h"
 #include "qos/fileid.h"
@@ -69,6 +71,14 @@ static std::string Filter(const std::string &to)
 }
 
 
+
+void signal_handler(int s) 
+{
+	std::cout << std::endl << rang::style::reset << rang::fg::red << rang::style::bold;
+	std::cout << "Control-C detected, exiting..." << rang::style::reset << std::endl;
+	std::exit(1); // will call the correct exit func, no unwinding of the stack though
+}
+
 int main(int argc, char **argv)
 {
 	cp_t cp = 0;
@@ -90,6 +100,13 @@ int main(int argc, char **argv)
 	// app.add_option("--vs",v1);
 
 	CLI11_PARSE(app, argc, argv);
+
+	// Nice Control-C
+	struct sigaction sig_int_handler;
+	sig_int_handler.sa_handler = signal_handler;
+	sigemptyset(&sig_int_handler.sa_mask);
+	sig_int_handler.sa_flags = 0;
+	sigaction(SIGINT, &sig_int_handler, nullptr);
 
 	// app.count("--file");
 

@@ -72,6 +72,7 @@ nobase_include_HEADERS = $(CC_TO_H) \
 	protocol/pcut.h protocol/pdo.h protocol/pfill.h protocol/pfill_repository.h 	\
 	qos/app.h qos/time64_config.h qos/time64_limits.h \
 	cli11/CLI11.hpp	\
+	rang/rang.hpp	\
 	dlt698/p2_config.h
 
 
