@@ -71,7 +71,9 @@ CC_TO_H := $(patsubst %.cc,%.h,$(NO_MAIN_SOURCES))
 nobase_include_HEADERS = $(CC_TO_H) \
 	protocol/pcut.h protocol/pdo.h protocol/pfill.h protocol/pfill_repository.h 	\
 	qos/app.h qos/time64_config.h qos/time64_limits.h \
+	cli11/CLI11.hpp	\
 	dlt698/p2_config.h
+
 
 #nobase_include_HEADERS = \
 #	qos/qlibc.h qos/app.h qos/time64_config.h qos/time64_limits.h qos/fileid.h qos/qcp.h qos/qstr.h qos/qtime.h qos/time64.h qos/qbit.h qos/qtest.h qos/qmem.h qos/qarray.h qos/qmemtable.h qos/qtimeout.h qos/qbuf.h	\

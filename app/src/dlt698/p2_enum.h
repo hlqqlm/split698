@@ -36,6 +36,29 @@ uint8_t P2EnumValue(const char *whole);
 //}}}
 
 
+#if 0
+//{{{ enum_class
+// 意义不大，未带来明显好处，暂时不实现
+// 用类的形式，实现上述功能
+typedef struct
+{
+	const P2Enum *list;
+	int num;
+} P2EnumClass;
+#define kP2EnumClassDef { NULL, 0 }
+cp_t P2EnumClassOpen(P2EnumClass *ec, const P2Enum list[], int num);
+cp_t P2EnumClassClose(P2EnumClass *ec);
+cp_t P2EnumClassValid(const P2EnumClass *ec);
+
+int P2EnumClass2Ix(const P2EnumClass *ec, uint8_t enumv);
+uint8_t P2EnumClassIx2Value(const P2EnumClass *ec, int enum_ix);
+cp_t P2EnumClassIxValid(const P2EnumClass *ec, int enum_ix);
+cp_t P2EnumClassValueValid(const P2EnumClass *ec, uint8_t enumv);
+const char *P2EnumClassStr(const P2EnumClass *ec, uint8_t enumv);
+//}}}
+#endif
+
+
 //{{{ cut
 typedef enum
 {
@@ -56,6 +79,7 @@ typedef struct
 	
 	const P2Enum *enum_list; 
 	int enum_num;
+	// P2EnumClass ec;
 
 	// uint16_t last_enum_value;					// 最后一次解析，对应的enum值
 												// 正常范围0~0xff，定义为16位，可以描述invalid enum

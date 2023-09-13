@@ -27,6 +27,8 @@ Huanglin创建.
 
 #include <iostream>
 
+#include "cli11/CLI11.hpp"
+
 #include "qos/qlibc.h"
 #include "qos/fileid.h"
 #include "qos/qcp.h"
@@ -67,11 +69,32 @@ static std::string Filter(const std::string &to)
 }
 
 
-int main()
+int main(int argc, char **argv)
 {
 	cp_t cp = 0;
 
-	if (PRINT_FILEID_TABLE_EN) {
+	CLI::App app{"App description"};
+
+	//std::string filename = "default";
+	//app.add_option("-f,--file", filename, "A help string");
+
+	bool fileid_table_en = false;
+	//app.add_option("-f,--fileid_table_en", fileid_table_en, "Print fileid table");
+	app.add_flag("-f,--fileid_table,!--no_fileid_table", fileid_table_en, "Print fileid table");
+
+	bool count_en = false;
+	app.add_flag("-c,--count,!--no_count", count_en, "Print frame count");
+
+	// std::vector<double> v1;
+	//app.add_option(std::vector<double>,int>("--vs",v1);
+	// app.add_option("--vs",v1);
+
+	CLI11_PARSE(app, argc, argv);
+
+	// app.count("--file");
+
+	// if (PRINT_FILEID_TABLE_EN) {
+	if (fileid_table_en) {
 		FileidTablePrint(kFileidItems, kFileidNum);
 	}
 
